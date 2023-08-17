@@ -1,10 +1,15 @@
-#include <iostream> //BIBLIOTECAS UTILIZADA
+#include <iostream> //BIBLIOTECAS UTILIZADAS
 #include <tchar.h>
 #include <windows.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#define  TAMCONJ 50
+
+#define  TAMCURSOS 10//CONSTANTES UTILIZADAS
+#define  TAMALUNOS 1000
+#define  TAMARMARIOS 800
+#define  TAMFUNCIONARIOS 5
+#define  TAMRESERVAS 800
 using namespace std;
 //Novas variáveis solicitadas
 
@@ -47,12 +52,12 @@ typedef struct {
 
 //variaveis globais utilizadas
 
-Funcionario funcionarios[TAMCONJ];
-Armario armarios[TAMCONJ];
-Reserva reservas[TAMCONJ];
-Curso cursos[TAMCONJ];
-Aluno_Curso a_cursos[TAMCONJ];
-Aluno aluno[TAMCONJ];
+Funcionario funcionarios[TAMFUNCIONARIOS];
+Armario armarios[TAMARMARIOS];
+Reserva reservas[TAMRESERVAS];
+Curso cursos[TAMCURSOS];
+Aluno_Curso a_cursos[TAMALUNOS];
+Aluno alunos[TAMALUNOS];
 int cont_funcionario, cont_armario, cont_reserva, cont_curso, cont_alunos;
 //Funções
 
@@ -98,6 +103,7 @@ gets(funcionarios[cont_funcionario].senha);
 
 void reservar_armario(){
     int cont;
+fflush(stdin);
 cout<<"\nInforme a matrícula do funcionário";
 gets(reservas[cont_reserva].mat_funcionario);
 cout<<"\nInforme a matrícula do aluno";
@@ -112,6 +118,40 @@ for(cont=0;cont<cont_alunos;cont++){
         reservas[cont_reserva].data_dev=a_cursos[cont].fim;
     }
  }
+ cout<<"\n\tARMÁRIO RESERVADO!!";
+}
+
+void escolher_curso(){
+    cout<<"LISTA DE CURSOS CADASTRADOS:";
+    exibir_curso();
+    cout<<"\nEscolha o COD correspondente:";
+    fflush(stdin);
+    gets(a_cursos[cont_alunos].cod_curso);
+}
+
+
+void cadastrar_aluno(){
+fflush(stdin);
+cout<<"\t---CADASTRO DE ALUNO---:";
+cout<<"\nNome:";
+gets(alunos[cont_alunos].nome);
+cout<<"\nMatrícula:";
+gets(alunos[cont_alunos].matricula_a);
+a_cursos[cont_alunos].matricula=alunos[cont_alunos].matricula_a;
+cout<<"\nTurma:";
+gets(alunos[cont_alunos].turma);
+cout<<"\nFone para contato:";
+gets(alunos[cont_alunos].fone);
+cout<<"\nE-mail:";
+gets(alunos[cont_alunos].e_mail);
+cout<<"\nAno de entrada no curso:";
+gets(a_cursos[cont_alunos].inicio.ano);
+cout<<"\nAno previsto de término do curso:";
+gets(a_cursos[cont_alunos].fim.ano);
+escolher_curso();
+cout<<"\nAno cursado";
+cin>>a_cursos[cont_alunos].ano;
+cout<<"\n\tALUNO CADASTRADO!!";
 }
 
 
@@ -119,10 +159,8 @@ for(cont=0;cont<cont_alunos;cont++){
 
 
 
-
-
 void menu(){
-    
+
 }
 
 
