@@ -1,0 +1,138 @@
+#include <iostream> //BIBLIOTECAS UTILIZADA
+#include <tchar.h>
+#include <windows.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
+#define  TAMCONJ 50
+using namespace std;
+//Novas variáveis solicitadas
+
+typedef struct {
+   int dia, mes, ano;
+} Data;
+
+typedef struct {
+   int horario, minuto;
+} Hora;
+
+typedef struct {
+   char	  nome[60], COD[6];
+} Curso;
+
+typedef struct {
+   char	  nome[60], matricula_a[10],e_mail[60], turma[20],fone[15];
+}Aluno;
+
+typedef struct {
+   char	  nome[60], matricula_f[10],e_mail[60], senha[30],fone[15], user[60];
+}Funcionario;
+
+typedef struct {
+   char	  cod_curso[6], matricula[10];
+   int ano;
+   Data inicio, fim;
+}Aluno_Curso;
+
+typedef struct {
+   char	  estado[100],disponivel[3];
+   int num_armario;
+} Armario;
+
+typedef struct {
+   char	  cod_reserva[10],mat_aluno[10],mat_funcionario[10];
+   int numero_armario;
+   Data data_rec, data_dev;
+} Reserva;
+
+//variaveis globais utilizadas
+
+Funcionario funcionarios[TAMCONJ];
+Armario armarios[TAMCONJ];
+Reserva reservas[TAMCONJ];
+Curso cursos[TAMCONJ];
+Aluno_Curso a_cursos[TAMCONJ];
+Aluno aluno[TAMCONJ];
+int cont_funcionario, cont_armario, cont_reserva, cont_curso, cont_alunos;
+//Funções
+
+void cadastrar_curso(){
+fflush(stdin);
+cout<<"\t---CADASTRO DE CURSO---:";
+cout<<"\nNome:";
+gets(cursos[cont_curso].nome);
+cout<<"\nCódigo:";
+gets(cursos[cont_curso].COD);
+   cout<<"\n\tCURSO CADASTRADO!!";
+}
+
+void cadastrar_armario(){
+fflush(stdin);
+cout<<"\t---CADASTRO DE ARMÁRIO---:";
+cout<<"\nEstado:";
+gets(armarios[cont_armario].estado);
+cout<<"\nDisponível?";
+gets(armarios[cont_armario].disponivel);
+cout<<"\nNúmero:";
+cin>>armarios[cont_armario].num_armario;
+   cout<<"\n\tARMÁRIO CADASTRADO!!";
+}
+
+void cadastrar_funcionario(){
+fflush(stdin);
+cout<<"\t---CADASTRO DE FUNCIONÁRIO---:";
+cout<<"\nNome:";
+gets(funcionarios[cont_funcionario].nome);
+cout<<"\nMatrícula:";
+gets(funcionarios[cont_funcionario].matricula_f);
+cout<<"\nUsuário:";
+gets(funcionarios[cont_funcionario].user);
+cout<<"\nE-mail:";
+gets(funcionarios[cont_funcionario].e_mail);
+cout<<"\nFone:";
+gets(funcionarios[cont_funcionario].fone);
+cout<<"\nSenha de acesso \tOBS:(Lembre-se da senha informada!)\t(Max:30 caracteres)\n";
+gets(funcionarios[cont_funcionario].senha);
+   cout<<"\n\tFUNCIONÁRIO CADASTRADO!!";
+}
+
+void reservar_armario(){
+    int cont;
+cout<<"\nInforme a matrícula do funcionário";
+gets(reservas[cont_reserva].mat_funcionario);
+cout<<"\nInforme a matrícula do aluno";
+gets(reservas[cont_reserva].mat_aluno);
+cout<<"\nQual o código dessa reserva";
+gets(reservas[cont_reserva].cod_reserva);
+cout<<"\nInforme o número do armário";
+cin>>reservas[cont_reserva].numero_armario;
+for(cont=0;cont<cont_alunos;cont++){
+    if(reservas[cont_reserva].mat_aluno==a_cursos[cont].matricula){
+        reservas[cont_reserva].data_rec=a_cursos[cont].inicio;
+        reservas[cont_reserva].data_dev=a_cursos[cont].fim;
+    }
+ }
+}
+
+
+
+
+
+
+
+
+void menu(){
+    
+}
+
+
+
+
+
+using namespace std;
+
+int main()
+{
+    cout << "Hello world!" << endl;
+    return 0;
+}
