@@ -22,7 +22,7 @@ typedef struct {
 } Hora;
 
 typedef struct {
-   char	  nome[60], COD[6];
+   char	  nome[60], COD[7];
 } Curso;
 
 typedef struct {
@@ -58,13 +58,13 @@ Reserva reservas[TAMRESERVAS];
 Curso cursos[TAMCURSOS];
 Aluno_Curso a_cursos[TAMALUNOS];
 Aluno alunos[TAMALUNOS];
-int cont_funcionario, cont_armario, cont_reserva, cont_curso=3, cont_alunos;
+int cont_funcionario, cont_armario, cont_reserva, cont_curso=0, cont_alunos;
 //Funções
 
 
 void cadastrar_curso(){
 fflush(stdin);
-cout<<"\t---CADASTRO DE CURSO---:";
+cout<<"\n\t---CADASTRO DE CURSO---:";
 cout<<"\nNome:";
 gets(cursos[cont_curso].nome);
 cout<<"\nCódigo:";
@@ -126,14 +126,14 @@ for(cont=0;cont<cont_alunos;cont++){
 
 void exibir_curso(){
     int cont;
-    for(cont=0;cont<cont_curso;cont++){
-        cout<<"\nNome:"<<cursos[cont].nome<<" \t COD:"<<cursos[cont].COD;
+for (cont = 0; cont < cont_curso; cont++){
+        cout << "\nNome: " << cursos[cont].nome;
+        cout<< " \t COD:" << cursos[cont].COD;
     }
 }
 
 void escolher_curso(){
-
-    cout<<"LISTA DE CURSOS CADASTRADOS:";
+    cout<<"\nLISTA DE CURSOS CADASTRADOS:";
      exibir_curso();
     cout<<"\nEscolha o COD correspondente:";
     fflush(stdin);
@@ -166,29 +166,130 @@ cout<<"\n\tALUNO CADASTRADO!!";
 }
 
 
-
-
-
-
-void menu(){
-
+void armarios_disponiveis() {
+    cout << "Armários disponíveis: \n";
+    for(int i = 0; i <= cont_armario; i++) {
+        cout << "Número: " << armarios[i].num_armario;
+        cout << "\nDisponível: " << armarios[i].disponivel;
+        cout << "\nEstado: " << armarios[i].estado;
+    }
 }
 
 
 
+void menuAluno() {
+    int opcao;
+    while(opcao != 4) {
+
+        cout << "\nBem vindo aluno\n";
+        cout << "O que você quer fazer? ";
+        cout << "\nVer armários disponíveis [1] \nTermo de compromisso [2] \nVer avisos [3] \nVoltar [4]\n";
+       scanf("%d", &opcao);
+       getchar();
+        switch(opcao) {
+        case 1:
+            system("cls");
+            armarios_disponiveis();
+            break;
+        case 2:
+            system("cls");
+            //termoCompromisso();
+            break;
+        case 3:
+            system("cls");
+            //verAvisos();
+            break;
+        case 4:
+            system("cls");
+            break;
+        default:
+            cout << "Opção inválida! ";
+            break;
+        }
+    }
+}
+
+void menuFuncionario() {
+    int opcao;
+    while(opcao != 9) {
+        system("cls");
+        cout << "Bem vindo funcionário\n";
+        cout << "\nO que você quer fazer? ";
+        cout << "\nCadastrar aluno [1] \nCadastrar funcionário [2]\nCadastrar armário [3] \nCadastrar curso [4]\n";
+        cout << "Excluir aluno [5] \nExcluir funcionário [6] \nExcluir armário [7] \nExcluir curso [8] \nVoltar [9]\n";
+       scanf("%d", &opcao);
+        switch(opcao) {
+        case 1:
+            cadastrar_aluno();
+            break;
+        case 2:
+            cadastrar_funcionario();
+            break;
+        case 3:
+            cadastrar_armario();
+            break;
+        case 4:
+            cadastrar_curso();
+            break;
+        case 5:
+            //excluir_aluno();
+            break;
+        case 6:
+            //excluir_funcionario();
+            break;
+        case 7:
+            //excluir_armario();
+            break;
+        case 8:
+            //excluir_curso();
+            break;
+        case 9:
+            cout << "Voltando ao menu principal...";
+            break;
+        default:
+            cout << "Opção inválida! ";
+            break;
+        }
+    }
+}
 
 
-using namespace std;
+void menu(){
+    int opcao;
+    while(opcao != 3) {
+        system("cls");
+        cout << "\nQuem está acessando? ";
+        cout << "\nAluno [1] \nFuncionário [2]\nSair [3] \n";
+       scanf("%d", &opcao);
+       //getchar();
+        switch(opcao) {
+        case 1:
+            system("cls");
+            menuAluno();
+            break;
+        case 2:
+            system("cls");
+            menuFuncionario();
+            break;
+        case 3:
+            cout << "Tchau";
+            break;
+        default:
+            cout << "Opção inválida! ";
+            break;
+        }
+    }
+}
+
+
+
 
 int main()
 {
  setlocale( LC_ALL, "portuguese" );
-    strcpy(cursos[0].nome,"Química");
-    strcpy(cursos[0].COD,"201801");
-    strcpy(cursos[1].nome,"Biologia");
-    strcpy(cursos[1].COD,"201802");
-      strcpy(cursos[2].nome,"INFORMÁTICA");
-    strcpy(cursos[2].COD,"201803");
-    exibir_curso();
+cadastrar_curso();
+cont_curso++;
+cadastrar_curso();
+cont_curso++;
+    escolher_curso();
 }
-
