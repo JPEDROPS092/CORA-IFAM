@@ -58,8 +58,9 @@ Reserva reservas[TAMRESERVAS];
 Curso cursos[TAMCURSOS];
 Aluno_Curso a_cursos[TAMALUNOS];
 Aluno alunos[TAMALUNOS];
-int cont_funcionario, cont_armario, cont_reserva, cont_curso, cont_alunos;
+int cont_funcionario, cont_armario, cont_reserva, cont_curso=3, cont_alunos;
 //Funções
+
 
 void cadastrar_curso(){
 fflush(stdin);
@@ -121,9 +122,19 @@ for(cont=0;cont<cont_alunos;cont++){
  cout<<"\n\tARMÁRIO RESERVADO!!";
 }
 
+
+
+void exibir_curso(){
+    int cont;
+    for(cont=0;cont<cont_curso;cont++){
+        cout<<"\nNome:"<<cursos[cont].nome<<" \t COD:"<<cursos[cont].COD;
+    }
+}
+
 void escolher_curso(){
+
     cout<<"LISTA DE CURSOS CADASTRADOS:";
-    exibir_curso();
+     exibir_curso();
     cout<<"\nEscolha o COD correspondente:";
     fflush(stdin);
     gets(a_cursos[cont_alunos].cod_curso);
@@ -137,7 +148,7 @@ cout<<"\nNome:";
 gets(alunos[cont_alunos].nome);
 cout<<"\nMatrícula:";
 gets(alunos[cont_alunos].matricula_a);
-a_cursos[cont_alunos].matricula=alunos[cont_alunos].matricula_a;
+strcpy(a_cursos[cont_alunos].matricula,alunos[cont_alunos].matricula_a);
 cout<<"\nTurma:";
 gets(alunos[cont_alunos].turma);
 cout<<"\nFone para contato:";
@@ -145,9 +156,9 @@ gets(alunos[cont_alunos].fone);
 cout<<"\nE-mail:";
 gets(alunos[cont_alunos].e_mail);
 cout<<"\nAno de entrada no curso:";
-gets(a_cursos[cont_alunos].inicio.ano);
+cin>>a_cursos[cont_alunos].inicio.ano;
 cout<<"\nAno previsto de término do curso:";
-gets(a_cursos[cont_alunos].fim.ano);
+cin>>a_cursos[cont_alunos].fim.ano;
 escolher_curso();
 cout<<"\nAno cursado";
 cin>>a_cursos[cont_alunos].ano;
@@ -171,6 +182,13 @@ using namespace std;
 
 int main()
 {
-    cout << "Hello world!" << endl;
-    return 0;
+ setlocale( LC_ALL, "portuguese" );
+    strcpy(cursos[0].nome,"Química");
+    strcpy(cursos[0].COD,"201801");
+    strcpy(cursos[1].nome,"Biologia");
+    strcpy(cursos[1].COD,"201802");
+      strcpy(cursos[2].nome,"INFORMÁTICA");
+    strcpy(cursos[2].COD,"201803");
+    exibir_curso();
 }
+
