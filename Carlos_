@@ -122,10 +122,66 @@ for(cont=0;cont<cont_alunos;cont++){
  cout<<"\n\tARMÁRIO RESERVADO!!";
 }
 
+int buscar(){
+    int opcao=0, arm_busc, contador;
+    char matricula_a_busc[10], matricula_f_busc[10], cod_busc[7];
+    while(opcao!=5){
+    cout<<"\n1-Funcionário\n2-Aluno\n3-Armário\n4-Curso\n5-Voltar\n:";
+    cin>>opcao;
+     switch(opcao){
+            case 1:
+                system("cls");
+                cout<<"\n\tInforme a matrícula  do funcionário\n:";
+                scanf(" %[^\n]",matricula_f_busc);
+                for(contador=0;contador<cont_funcionario;contador++){
+                    if(strcmp(funcionarios[contador].matricula_f, matricula_f_busc)==0){
+                        return contador;
+                    }
+                }
+            break;
+            case 2:
+                system("cls");
+                 cout<<"\n\tInforme a Matrícula do aluno\n:";
+                 scanf(" %[^\n]",matricula_a_busc);
+                 for(contador=0;contador<cont_alunos;contador++){
+                    if(strcmp(alunos[contador].matricula_a,matricula_a_busc)==0){
+                        return contador;
+                    }
+                }
+            break;
+            case 3:
+                system("cls");
+                 cout<<"\n\tInforme o número do armário\n:";
+                cin>>arm_busc;
+                for(contador=0;contador<cont_armario;contador++){
+                    if(armarios[contador].num_armario=arm_busc){
+                       return contador;
+                    }
+                }
+            break;
+            case 4:
+                system("cls");
+                 cout<<"\n\tInforme o Cod do curso\n:";
+                 scanf(" %[^\n]",cod_busc);
+                 for(contador=0;contador<cont_curso;contador++){
+                    if(strcmp(cursos[contador].COD,cod_busc)==0){
+                        return contador;
+                    }
+                }
+            break;
+            case 5:
+                system("cls");
+            break;
+            default:
+                cout << "Opção inválida! ";
+                system("pause");
+                system("cls");
+            break;
+     }
+    }
+}
 
-
-void exibir_curso(){
-    int cont;
+void exibir_curso(int cont){
 for (cont = 0; cont < cont_curso; cont++){
         cout << "\nNome: " << cursos[cont].nome;
         cout<< " \t COD:" << cursos[cont].COD;
@@ -134,7 +190,7 @@ for (cont = 0; cont < cont_curso; cont++){
 
 void escolher_curso(){
     cout<<"\nLISTA DE CURSOS CADASTRADOS:";
-     exibir_curso();
+     exibir_curso(cont_curso);
     cout<<"\nEscolha o COD correspondente:";
     fflush(stdin);
     gets(a_cursos[cont_alunos].cod_curso);
@@ -190,14 +246,17 @@ void menuAluno() {
         case 1:
             system("cls");
             armarios_disponiveis();
+            system("pause");
             break;
         case 2:
             system("cls");
             //termoCompromisso();
+            system("pause");
             break;
         case 3:
             system("cls");
             //verAvisos();
+            system("pause");
             break;
         case 4:
             system("cls");
@@ -220,28 +279,48 @@ void menuFuncionario() {
        scanf("%d", &opcao);
         switch(opcao) {
         case 1:
+            system("cls");
             cadastrar_aluno();
+            cont_alunos++;
+            system("pause");
             break;
         case 2:
+            system("cls");
             cadastrar_funcionario();
+            cont_funcionario++;
+            system("pause");
             break;
         case 3:
+            system("cls");
             cadastrar_armario();
+            cont_armario++;
+            system("pause");
             break;
         case 4:
+            system("cls");
             cadastrar_curso();
+            cont_curso++;
+            system("pause");
             break;
         case 5:
+            system("cls");
             //excluir_aluno();
+            system("pause");
             break;
         case 6:
+            system("cls");
             //excluir_funcionario();
+            system("pause");
             break;
         case 7:
+            system("cls");
             //excluir_armario();
+            system("pause");
             break;
         case 8:
+            system("cls");
             //excluir_curso();
+            system("pause");
             break;
         case 9:
             cout << "Voltando ao menu principal...";
@@ -287,9 +366,5 @@ void menu(){
 int main()
 {
  setlocale( LC_ALL, "portuguese" );
-cadastrar_curso();
-cont_curso++;
-cadastrar_curso();
-cont_curso++;
-    escolher_curso();
+ system("pause");
 }
