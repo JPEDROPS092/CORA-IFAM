@@ -208,7 +208,7 @@ void exibir_curso(){
 
 void exibir_funcionario() {
     if(cont_funcionario == 0) {
-        cout << "Não há funcionários cadastrados!";
+        cout << "Não há funcionários cadastrados!\n";
     } else {
         int cont;
         for (cont = 0; cont < cont_funcionario; cont++){
@@ -220,7 +220,7 @@ void exibir_funcionario() {
 
 void exibir_armario() {
     if(cont_armario == 0) {
-        cout << "Não há armários cadastrados!";
+        cout << "Não há armários cadastrados!\n";
     } else {
         int cont;
         for (cont = 0; cont < cont_armario; cont++){
@@ -233,7 +233,7 @@ void exibir_armario() {
 
 void exibir_aluno() {
     if(cont_alunos == 0) {
-        cout << "Não há alunos cadastrados!";
+        cout << "Não há alunos cadastrados!\n";
     } else {
         int cont;
         for (cont = 0; cont < cont_alunos; cont++){
@@ -326,20 +326,25 @@ void menuAluno() {
         case 1:
             system("cls");
             armarios_disponiveis();
+            system("pause");
             break;
         case 2:
             system("cls");
             exibir_termo_compromisso();
+            system("pause");
             break;
         case 3:
             system("cls");
             //verAvisos();
+            system("pause");
             break;
         case 4:
             system("cls");
+            system("pause");
             break;
         default:
             cout << "Opção inválida! ";
+            system("pause");
             break;
         }
     }
@@ -347,54 +352,100 @@ void menuAluno() {
 
 void menuFuncionario() {
     int opcao;
-    while(opcao != 13) {
+    while(opcao != 0) {
         system("cls");
         cout << "Bem vindo funcionário\n";
         cout << "\nO que você quer fazer? ";
-        cout << "\nCadastrar aluno [1] \nCadastrar funcionário [2]\nCadastrar armário [3] \nCadastrar curso [4]\n";
+        cout << "\nVoltar [0] \nCadastrar aluno [1] \nCadastrar funcionário [2]\nCadastrar armário [3] \nCadastrar curso [4]\n";
         cout << "Excluir aluno [5] \nExcluir funcionário [6] \nExcluir armário [7] \nExcluir curso [8] ";
-        cout << "Editar aluno [9] \nEditar funcionário [10] \nEditar armário [11] \nEditar curso [12] \nVoltar [13]\n";
+        cout << "Editar aluno [9] \nEditar funcionário [10] \nEditar armário [11] \nEditar curso [12] \n";
+        cout << "Exibir alunos [13] \nExibir funcionários [14] \nExibir armários [15] \nExibir cursos [16] \n";
        scanf("%d", &opcao);
         switch(opcao) {
+        case 0:
+            system("cls");
+            cout << "Voltando ao menu principal...\n";
+            system("pause");
+            break;
         case 1:
+            system("cls");
             cadastrar_aluno();
+            system("pause");
             break;
         case 2:
+            system("cls");
             cadastrar_funcionario();
+            system("pause");
             break;
         case 3:
+            system("cls");
             cadastrar_armario();
+            system("pause");
             break;
         case 4:
+            system("cls");
             cadastrar_curso();
+            system("pause");
             break;
         case 5:
-            buscar();
+            system("cls");
             //excluir_aluno();
+            system("pause");
             break;
         case 6:
+            system("cls");
             //excluir_funcionario();
+            system("pause");
             break;
         case 7:
+            system("cls");
             //excluir_armario();
+            system("pause");
             break;
         case 8:
+            system("cls");
             //excluir_curso();
+            system("pause");
             break;
         case 9:
+            system("cls");
             //editar_aluno();
+            system("pause");
             break;
         case 10:
+            system("cls");
             //editar_funcionario();
+            system("pause");
             break;
         case 11:
+            system("cls");
             //editar_armario();
+            system("pause");
             break;
         case 12:
+            system("cls");
             //editar_curso();
+            system("pause");
             break;
         case 13:
-            cout << "Voltando ao menu principal...";
+            system("cls");
+            exibir_aluno();
+            system("pause");
+            break;
+        case 14:
+            system("cls");
+            exibir_funcionario();
+            system("pause");
+            break;
+        case 15:
+            system("cls");
+            exibir_armario();
+            system("pause");
+            break;
+        case 16:
+            system("cls");
+            exibir_curso();
+            system("pause");
             break;
         default:
             cout << "Opção inválida! ";
