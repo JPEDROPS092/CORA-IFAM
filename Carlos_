@@ -211,7 +211,7 @@ void exibir_funcionario(int pos) {
     if(cont_funcionario == 0) {
         cout << "Não há funcionários cadastrados!\n";
     } else {
-            cout<< " \nMatrícula: " << funcionario[pos].matricula_f;
+            cout<< " \nMatrícula: " << funcionarios[pos].matricula_f;
             cout << "\nNome: " << funcionarios[pos].nome;
             cout << "\nUser: " << funcionarios[pos].user;
             cout << "\nE-mail: " << funcionarios[pos].e_mail;
@@ -243,7 +243,7 @@ void exibir_aluno(int pos) {
 
 void escolher_curso(){
     cout<<"\nLISTA DE CURSOS CADASTRADOS:";
-    exibir_curso();
+    exibir_curso(buscar());
     cout<<"\nEscolha o COD correspondente:";
     fflush(stdin);
     gets(a_cursos[cont_alunos].cod_curso);
@@ -349,7 +349,7 @@ void menuAluno() {
 
 void excluir_aluno() {
     char mat[10];
-    exibir_aluno();
+    exibir_aluno(buscar());
     cout << "\nQual a matrícula do aluno que você quer excluir? ";
     scanf("%s", mat);
     for(int i = 0; i < cont_alunos; i++) {
@@ -362,12 +362,12 @@ void excluir_aluno() {
         }
     }
     cout << "Aluno excluído com sucesso!";
-    exibir_aluno();
+    exibir_aluno(buscar());
 }
 void excluir_funcionario() {
 
     char mat[10];
-    exibir_funcionario();
+    exibir_funcionario(buscar());
     cout << "\nQual a matrícula do funcionário que você quer excluir? ";
     scanf("%s", mat);
     for(int i = 0; i < cont_funcionario; i++) {
@@ -384,7 +384,7 @@ void excluir_funcionario() {
         }
     }
     cout << "Funcionário excluído com sucesso!";
-    exibir_funcionario();
+    exibir_funcionario(buscar());
 }
 
 void menuFuncionario() {
@@ -478,25 +478,25 @@ void menuFuncionario() {
             break;
         case 13:
             system("cls");
-            exibir_aluno();
+            exibir_aluno(buscar());
             cout << "\n";
             system("pause");
             break;
         case 14:
             system("cls");
-            exibir_funcionario();
+            exibir_funcionario(buscar());
             cout << "\n";
             system("pause");
             break;
         case 15:
             system("cls");
-            exibir_armario();
+            exibir_armario(buscar());
             cout << "\n";
             system("pause");
             break;
         case 16:
             system("cls");
-            exibir_curso();
+            exibir_curso(buscar());
             cout << "\n";
             system("pause");
             break;
