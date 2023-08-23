@@ -128,7 +128,7 @@ void reservar_armario(){
 int pergunta(){
     int op, para;
     while(para!=5) {
-    cout<<"\n1-Funcionário\n2-Aluno\n3-Armário\n4-Curso\n5-Voltar\n: ";
+    cout<<"\n1-Funcionário\n2-Aluno\n3-Armário\n4-Curso\n5-Voltar\n:";
     cin >> op;
             switch(op){
             case 1:
@@ -164,7 +164,6 @@ int buscar(int opcao) {
         switch(opcao){
             case 1:
                 system("cls");
-
                 cout<<"\n\tInforme a matrícula  do funcionário\n: ";
                 scanf(" %[^\n]",matricula_f_busc);
                 for(contador = 0; contador <= cont_funcionario; contador++){
@@ -611,7 +610,7 @@ void menuFuncionario() {
         system("cls");
         cout << "Bem vindo funcionário\n";
         cout << "\nO que você quer fazer? ";
-        cout << "\nVoltar [0] \nCadastrar[1]\nExcluir [2]\nAlterar[3]\nExibir[4]";
+        cout << "\nVoltar [0] \nCadastrar[1]\nExcluir [2]\nAlterar[3]\nExibir[4]\n:";
        scanf("%d", &opcao);
         switch(opcao) {
         case 0:
@@ -621,24 +620,28 @@ void menuFuncionario() {
             break;
         case 1:
             system("cls");
+            cout<<"\n\tO que quer cadastrar?";
             cadastrar(pergunta());
             cout << "\n";
             system("pause");
             break;
         case 2:
             system("cls");
+            cout<<"\n\tO que quer excluir?";
             excluir(pergunta());
             cout << "\n";
             system("pause");
             break;
         case 3:
             system("cls");
+            cout<<"\n\tO que quer alterar?";
             alterar(pergunta());
             cout << "\n";
             system("pause");
             break;
         case 4:
             system("cls");
+            cout<<"\n\tO que quer exibir?";
             exibir(pergunta());
             cout << "\n";
             system("pause");
@@ -656,7 +659,7 @@ void menu(){
     while(opcao != 3) {
         system("cls");
         cout << "\nQuem está acessando? ";
-        cout << "\nAluno [1] \nFuncionário [2]\nSair [3] \n";
+        cout << "\nAluno [1] \nFuncionário [2]\nSair [3]\n:";
        scanf("%d", &opcao);
        //getchar();
         switch(opcao) {
@@ -682,3 +685,4 @@ int main() {
     setlocale( LC_ALL, "portuguese" );
     menu();
 }
+
