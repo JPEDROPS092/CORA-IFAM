@@ -62,29 +62,6 @@ int cont_funcionario, cont_armario, cont_reserva, cont_curso, cont_aluno;
 //Funções
 
 
-void gravar_aluno_arquivo(int pos) {
-    //Criando uma variável ponteiro para o arquivo
-    FILE *pont_arq;
-    int tamString, i;
-    pont_arq = fopen("aluno.txt", "a");
-    if(pont_arq) {
-        tamString = strlen(alunos[pos].nome);
-        for(i = 0; i < tamString; i++) {
-            if(alunos[pos].nome[i] == ' ') {
-                alunos[pos].nome[i] = '_';
-            }
-        }
-        fprintf(pont_arq, "%s \n", alunos[pos].nome);
-        fprintf(pont_arq, "%s \n", alunos[pos].matricula_a);
-        fprintf(pont_arq, "%s \n", alunos[pos].e_mail);
-        fprintf(pont_arq, "%s \n", alunos[pos].turma);
-        fprintf(pont_arq, "%s \n", alunos[pos].fone);
-        fclose(pont_arq);
-    } else {
-        printf("\nERRO ao abrir arquivo!\n");
-    }
-}
-
 void cadastrar_curso(){
     fflush(stdin);
     cout<<"\n\t---CADASTRO DE CURSO---:";
@@ -660,6 +637,196 @@ void alterar(int escolha){
 }
 
 
+void gravar_aluno_arquivo(int pos) {
+    //Criando uma variável ponteiro para o arquivo
+    FILE *pont_arq;
+    int tamString, i;
+    pont_arq = fopen("aluno.txt", "a");
+    if(pont_arq) {
+        tamString = strlen(alunos[pos].nome);
+        for(i = 0; i < tamString; i++) {
+            if(alunos[pos].nome[i] == ' ') {
+                alunos[pos].nome[i] = '_';
+            }
+        }
+        fprintf(pont_arq, "%s \n", alunos[pos].nome);
+        fprintf(pont_arq, "%s \n", alunos[pos].matricula_a);
+        fprintf(pont_arq, "%s \n", alunos[pos].e_mail);
+        fprintf(pont_arq, "%s \n", alunos[pos].turma);
+        fprintf(pont_arq, "%s \n", alunos[pos].fone);
+        fclose(pont_arq);
+    } else {
+        printf("\nERRO ao abrir arquivo!\n");
+    }
+}
+
+void ler_aluno_arquivo(int pos) {
+    FILE *pont_arq;
+    int tamString, i, cont = 0;
+    pont_arq = fopen("aluno.txt", "r");
+    if(pont_arq){
+        printf("\tDados lidos do arquivo:\n");
+        while(fscanf(pont_arq, "%s%s%s%s%s", alunos[pos].nome, alunos[pos].matricula_a, alunos[pos].e_mail, alunos[pos].turma, alunos[pos].fone) != EOF) {
+            for(i = 0; i <= tamString; i++) {
+                if(alunos[pos].nome[i] == '_') {
+                    alunos[pos].nome[i] = ' ';
+                }
+            }
+            strcpy(alunos[cont].fone, alunos[pos].fone);
+            strcpy(alunos[cont].e_mail, alunos[pos].e_mail);
+            strcpy(alunos[cont].matricula_a, alunos[pos].matricula_a);
+            strcpy(alunos[cont].turma, alunos[pos].turma);
+            strcpy(alunos[cont].nome, alunos[pos].nome);
+            //printf("\nNome: %s\nMatrícula: %s \nE_mail: %s \nTurma: %s \nFone: %s\n", alunos[pos].nome, alunos[pos].matricula_a, alunos[pos].e_mail, alunos[pos].turma, alunos[pos].fone);
+            cont++;
+        }
+        fclose(pont_arq);
+    }
+    else
+        printf("\nERRO ao abrir arquivo!\n");
+}
+
+void gravar_funcionario_arquivo(int pos) {
+    //Criando uma variável ponteiro para o arquivo
+    FILE *pont_arq;
+    int tamString, i;
+    pont_arq = fopen("funcionario.txt", "a");
+    if(pont_arq) {
+        tamString = strlen(funcionarios[pos].nome);
+        for(i = 0; i < tamString; i++) {
+            if(funcionarios[pos].nome[i] == ' ') {
+                funcionarios[pos].nome[i] = '_';
+            }
+        }
+        fprintf(pont_arq, "%s \n", funcionarios[pos].nome);
+        fprintf(pont_arq, "%s \n", funcionarios[pos].matricula_f);
+        fprintf(pont_arq, "%s \n", funcionarios[pos].e_mail);
+        fprintf(pont_arq, "%s \n", funcionarios[pos].senha);
+        fprintf(pont_arq, "%s \n", funcionarios[pos].fone);
+        fprintf(pont_arq, "%s \n", funcionarios[pos].user);
+        fclose(pont_arq);
+    } else {
+        printf("\nERRO ao abrir arquivo!\n");
+    }
+}
+
+void ler_funcionario_arquivo(int pos) {
+    FILE *pont_arq;
+    int tamString, i, cont = 0;
+    pont_arq = fopen("funcionario.txt", "r");
+    if(pont_arq){
+        printf("\tDados lidos do arquivo:\n");
+        while(fscanf(pont_arq, "%s%s%s%s%s%s", funcionarios[pos].nome, funcionarios[pos].matricula_f, funcionarios[pos].e_mail, funcionarios[pos].senha, funcionarios[pos].fone, funcionarios[pos].user) != EOF) {
+            for(i = 0; i <= tamString; i++) {
+                if(funcionarios[pos].nome[i] == '_') {
+                    funcionarios[pos].nome[i] = ' ';
+                }
+            }
+            strcpy(funcionarios[cont].nome, funcionarios[pos].nome);
+            strcpy(funcionarios[cont].matricula_f, funcionarios[pos].matricula_f);
+            strcpy(funcionarios[cont].e_mail, funcionarios[pos].e_mail);
+            strcpy(funcionarios[cont].senha, funcionarios[pos].senha);
+            strcpy(funcionarios[cont].fone, funcionarios[pos].fone);
+            strcpy(funcionarios[cont].user, funcionarios[pos].user);
+            cont_funcionario++;
+            /*
+            printf("\nnome: %s", funcionarios[pos].nome);
+            printf("\nmat: %s", funcionarios[pos].matricula_f);
+            printf("\nemail: %s", funcionarios[pos].e_mail);
+            printf("\nsenha: %s", funcionarios[pos].senha);
+            printf("\nfone: %s", funcionarios[pos].fone);
+            printf("\nuser: %s", funcionarios[pos].user);
+            */
+            cont++;
+        }
+        fclose(pont_arq);
+    }
+    else
+        printf("\nERRO ao abrir arquivo!\n");
+}
+
+void gravar_armario_arquivo(int pos) {
+    //Criando uma variável ponteiro para o arquivo
+    FILE *pont_arq;
+    int i;
+    pont_arq = fopen("armario.txt", "a");
+    if(pont_arq) {
+        fprintf(pont_arq, "%s \n", armarios[pos].estado);
+        fprintf(pont_arq, "%s \n", armarios[pos].disponivel);
+        fprintf(pont_arq, "%d \n", armarios[pos].num_armario);
+        fclose(pont_arq);
+    } else {
+        printf("\nERRO ao abrir arquivo!\n");
+    }
+}
+
+void ler_armario_arquivo(int pos) {
+    FILE *pont_arq;
+    int cont = 0, i;
+    pont_arq = fopen("armario.txt", "r");
+    if(pont_arq){
+        printf("\tDados lidos do arquivo:\n");
+        while(fscanf(pont_arq, "%s%s%i", armarios[pos].estado, armarios[pos].disponivel, &armarios[pos].num_armario) != EOF) {
+
+            strcpy(armarios[cont].estado, armarios[pos].estado);
+            strcpy(armarios[cont].disponivel, armarios[pos].disponivel);
+            armarios[cont].num_armario = armarios[pos].num_armario;
+            cont_armario++;
+            /*
+            printf("\nEstado: %s", armarios[pos].estado);
+            printf("\nDisponivel: %s", armarios[pos].disponivel);
+            printf("\nNumero: %d", armarios[pos].num_armario);
+
+            */
+            cont++;
+        }
+        fclose(pont_arq);
+    }
+    else
+        printf("\nERRO ao abrir arquivo!\n");
+}
+
+void gravar_curso_arquivo(int pos) {
+    //Criando uma variável ponteiro para o arquivo
+    FILE *pont_arq;
+    int tamString, i;
+    pont_arq = fopen("curso.txt", "a");
+    if(pont_arq) {
+        tamString = strlen(cursos[pos].nome);
+        for(i = 0; i < tamString; i++) {
+            if(cursos[pos].nome[i] == ' ') {
+                cursos[pos].nome[i] = '_';
+            }
+        }
+        fprintf(pont_arq, "%s \n", cursos[pos].nome);
+        fprintf(pont_arq, "%s \n", cursos[pos].COD);
+        fclose(pont_arq);
+    } else {
+        printf("\nERRO ao abrir arquivo!\n");
+    }
+}
+
+void ler_curso_arquivo(int pos) {
+    FILE *pont_arq;
+    int cont = 0, i;
+    pont_arq = fopen("curso.txt", "r");
+    if(pont_arq){
+        printf("\tDados lidos do arquivo:\n");
+        while(fscanf(pont_arq, "%s%s", cursos[pos].nome, cursos[pos].COD) != EOF) {
+
+            strcpy(cursos[cont].nome, cursos[pos].nome);
+            strcpy(cursos[cont].COD, cursos[pos].COD);
+            cont_curso++;
+
+            printf("\nNome: %s", cursos[pos].nome);
+            printf("\nCOD: %s", cursos[pos].COD);
+            cont++;
+        }
+        fclose(pont_arq);
+    }
+    else
+        printf("\nERRO ao abrir arquivo!\n");
+}
 
 void menuFuncionario() {
     int opcao;
@@ -710,7 +877,6 @@ void menuFuncionario() {
     }
 }
 
-
 void menu(){
     int opcao;
     while(opcao != 3) {
@@ -736,35 +902,6 @@ void menu(){
             break;
         }
     }
-}
-
-
-void ler_aluno_arquivo(int pos) {
-    FILE *pont_arq;
-    int tamString, i;
-    int cont = 0;
-    pont_arq = fopen("aluno.txt", "r");
-    if(pont_arq){
-        printf("\tDados lidos do arquivo:\n");
-        while(fscanf(pont_arq, "%s%s%s%s%s", alunos[pos].nome, alunos[pos].matricula_a, alunos[pos].e_mail, alunos[pos].turma, alunos[pos].fone) != EOF) {
-            for(i = 0; i <= tamString; i++) {
-                if(alunos[pos].nome[i] == '_') {
-                    //strcpy(nome[i], espaco);
-                    alunos[pos].nome[i] = ' ';
-                }
-            }
-            strcpy(alunos[cont].fone, alunos[pos].fone);
-            strcpy(alunos[cont].e_mail, alunos[pos].e_mail);
-            strcpy(alunos[cont].matricula_a, alunos[pos].matricula_a);
-            strcpy(alunos[cont].turma, alunos[pos].turma);
-            strcpy(alunos[cont].nome, alunos[pos].nome);
-            printf("\nNome: %s\nMatrícula: %s \nE_mail: %s \nTurma: %s \nFone: %s\n", alunos[pos].nome, alunos[pos].matricula_a, alunos[pos].e_mail, alunos[pos].turma, alunos[pos].fone);
-            cont++;
-        }
-        fclose(pont_arq);
-    }
-    else
-        printf("\nERRO ao abrir arquivo!\n");
 }
 
 
