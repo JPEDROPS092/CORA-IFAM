@@ -872,6 +872,7 @@ void alterar(int escolha){
         cout<<"\nSenha de acesso \tOBS:(Lembre-se da senha informada!)\t(Max:30 caracteres)\n";
         gets(funcionarios[pos].senha);
         cout<<"\n\tFUNCIONÁRIO RECADASTRADO!!";
+        sobrescrever_funcionario_arquivo();
           break;
         case 2:
             fflush(stdin);
@@ -899,6 +900,7 @@ void alterar(int escolha){
         cout<<"\nAno cursado: ";
         cin >>a_cursos[pos].ano;
         cout<<"\n\tALUNO RECADASTRADO!!";
+        sobrescrever_aluno_arquivo();
             break;
           case 3:
               fflush(stdin);
@@ -910,6 +912,7 @@ void alterar(int escolha){
         cout<<"\nNúmero: ";
         cin>>armarios[pos].num_armario;
         cout<<"\n\tARMÁRIO RECADASTRADO!!";
+        sobrescrever_armario_arquivo();
             break;
            case 4:
                 fflush(stdin);
@@ -919,6 +922,7 @@ void alterar(int escolha){
         cout<<"\nCódigo: ";
         gets(cursos[pos].COD);
         cout<<"\n\tCURSO RECADASTRADO!!";
+        sobrescrever_curso_arquivo();
             break;
         }
 }
