@@ -90,7 +90,7 @@ void ler_aluno_arquivo() {
         printf("\nERRO ao abrir arquivo!\n");
 }
 
-void sobrescrever_aluno_arquivo() {
+void gravar_aluno_arquivo() {
     //Criando uma variável ponteiro para o arquivo
     FILE *pont_arq;
     int i;
@@ -150,7 +150,7 @@ void ler_funcionario_arquivo() {
         printf("\nERRO ao abrir arquivo!\n");
 }
 
-void sobrescrever_funcionario_arquivo() {
+void gravar_funcionario_arquivo() {
     //Criando uma variável ponteiro para o arquivo
     FILE *pont_arq;
     int i;
@@ -202,7 +202,7 @@ void ler_armario_arquivo() {
         printf("\nERRO ao abrir arquivo!\n");
 }
 
-void sobrescrever_armario_arquivo() {
+void gravar_armario_arquivo() {
     //Criando uma variável ponteiro para o arquivo
     FILE *pont_arq;
     int i;
@@ -246,7 +246,7 @@ void ler_curso_arquivo() {
         printf("\nERRO ao abrir arquivo!\n");
 }
 
-void sobrescrever_curso_arquivo() {
+void gravar_curso_arquivo() {
     //Criando uma variável ponteiro para o arquivo
     FILE *pont_arq;
     int i;
@@ -271,11 +271,10 @@ void cadastrar_curso(){
     fflush(stdin);
     cout<<"\n\t---CADASTRO DE CURSO---:";
     cout<<"\nNome: ";
-    gets(cursos[cont_curso].nome);
+     scanf(" %[^\n]",cursos[cont_curso].nome);
     cout<<"\nCódigo: ";
-    gets(cursos[cont_curso].COD);
+     scanf(" %[^\n]",cursos[cont_curso].COD);
     cout<<"\n\tCURSO CADASTRADO!!";
-    sobrescrever_curso_arquivo();
     cont_curso++;
 
 }
@@ -284,13 +283,12 @@ void cadastrar_armario(){
     fflush(stdin);
     cout<<"\t---CADASTRO DE ARMÁRIO---: ";
     cout<<"\nEstado: ";
-    gets(armarios[cont_armario].estado);
+    scanf(" %[^\n]",armarios[cont_armario].estado);
     cout<<"\nDisponível? [S] Sim [N] Não\n";
-    gets(armarios[cont_armario].disponivel);
+    scanf(" %[^\n]",armarios[cont_armario].disponivel);
     cout<<"\nNúmero: ";
     cin>>armarios[cont_armario].num_armario;
     cout<<"\n\tARMÁRIO CADASTRADO!!";
-    sobrescrever_armario_arquivo();
     cont_armario++;
 
 }
@@ -299,19 +297,18 @@ void cadastrar_funcionario(){
     fflush(stdin);
     cout<<"\t---CADASTRO DE FUNCIONÁRIO---:";
     cout<<"\nNome: ";
-    gets(funcionarios[cont_funcionario].nome);
+    scanf(" %[^\n]",funcionarios[cont_funcionario].nome);
     cout<<"\nMatrícula: ";
-    gets(funcionarios[cont_funcionario].matricula_f);
+    scanf(" %[^\n]",funcionarios[cont_funcionario].matricula_f);
     cout<<"\nUsuário: ";
-    gets(funcionarios[cont_funcionario].user);
+    scanf(" %[^\n]",funcionarios[cont_funcionario].user);
     cout<<"\nE-mail: ";
-    gets(funcionarios[cont_funcionario].e_mail);
+    scanf(" %[^\n]",funcionarios[cont_funcionario].e_mail);
     cout<<"\nFone: ";
-    gets(funcionarios[cont_funcionario].fone);
+    scanf(" %[^\n]",funcionarios[cont_funcionario].fone);
     cout<<"\nSenha de acesso \tOBS:(Lembre-se da senha informada!)\t(Max:30 caracteres)\n";
-    gets(funcionarios[cont_funcionario].senha);
+    scanf(" %[^\n]",funcionarios[cont_funcionario].senha);
     cout<<"\n\tFUNCIONÁRIO CADASTRADO!!";
-    sobrescrever_funcionario_arquivo();
     cont_funcionario++;
 
 }
@@ -339,7 +336,7 @@ void reservar_armario(){
 
 int pergunta(){
     int op, para;
-    do {
+    while(op != 5){
         cout<<"\n1-Funcionário\n2-Aluno\n3-Armário\n4-Curso\n5-Voltar\n:";
         cin >> op;
         switch(op){
@@ -347,7 +344,7 @@ int pergunta(){
                 return op;
                 break;
             case 2:
-                return op;;
+                return op;
                 break;
             case 3:
                 return op;
@@ -364,7 +361,7 @@ int pergunta(){
                 system("pause");
             break;
             }
-    } while(op != 5);
+    }
 }
 
 
@@ -563,16 +560,16 @@ void cadastrar_aluno(){
     fflush(stdin);
     cout<<"\t---CADASTRO DE ALUNO---: ";
     cout<<"\nNome:";
-    gets(alunos[cont_aluno].nome);
+    scanf(" %[^\n]",alunos[cont_aluno].nome);
     cout<<"\nMatrícula: ";
-    gets(alunos[cont_aluno].matricula_a);
+    scanf(" %[^\n]",alunos[cont_aluno].matricula_a);
     strcpy(a_cursos[cont_aluno].matricula,alunos[cont_aluno].matricula_a);
     cout<<"\nTurma:";
-    gets(alunos[cont_aluno].turma);
+    scanf(" %[^\n]",alunos[cont_aluno].turma);
     cout<<"\nFone para contato: ";
-    gets(alunos[cont_aluno].fone);
+    scanf(" %[^\n]",alunos[cont_aluno].fone);
     cout<<"\nE-mail: ";
-    gets(alunos[cont_aluno].e_mail);
+    scanf(" %[^\n]",alunos[cont_aluno].e_mail);
     cout<<"\nAno de entrada no curso: ";
     cin>>a_cursos[cont_aluno].inicio.ano;
     cout<<"\nAno previsto de término do curso:";
@@ -585,7 +582,6 @@ void cadastrar_aluno(){
     cout<<"\nAno cursado: ";
     cin >>a_cursos[cont_aluno].ano;
     cout<<"\n\tALUNO CADASTRADO!!";
-    sobrescrever_aluno_arquivo();
     cont_aluno++;
 
 }
@@ -696,7 +692,6 @@ void excluir_armario(int pos) {
     }
     cout << "Armário excluído com sucesso!";
     cont_armario--;
-    sobrescrever_armario_arquivo();
 }
 
 void excluir_curso(int pos) {
@@ -711,8 +706,6 @@ void excluir_curso(int pos) {
         }
     }
     cout << "Curso excluído com sucesso!";
-    cont_curso--;
-    sobrescrever_curso_arquivo();
 }
 
 void excluir_aluno(int pos) {
@@ -731,7 +724,6 @@ void excluir_aluno(int pos) {
     }
     cout << "Aluno excluído com sucesso!";
     cont_aluno--;
-    sobrescrever_aluno_arquivo();
 }
 
 void excluir_funcionario(int pos) {
@@ -750,7 +742,6 @@ void excluir_funcionario(int pos) {
     }
     cout << "Funcionário excluído com sucesso!";
     cont_funcionario--;
-    sobrescrever_funcionario_arquivo();
 }
 
 void excluir(int escolha){
@@ -772,7 +763,8 @@ void excluir(int escolha){
     case 4:
         excluir_curso(buscar(op));
         escolha=5;
-     break;
+         break;
+
     }
   }
 }
@@ -797,7 +789,6 @@ void alterar(int escolha){
         cout<<"\nSenha de acesso \tOBS:(Lembre-se da senha informada!)\t(Max:30 caracteres)\n";
         gets(funcionarios[pos].senha);
         cout<<"\n\tFUNCIONÁRIO RECADASTRADO!!";
-        sobrescrever_funcionario_arquivo();
           break;
         case 2:
             fflush(stdin);
@@ -819,13 +810,11 @@ void alterar(int escolha){
         cin>>a_cursos[pos].fim.ano;
         if(cont_curso == 0) {
             printf("\nAinda não existem cursos cadastrados, cadastre um novo curso \n");
-            cadastrar_curso();
         }
         escolher_curso();
         cout<<"\nAno cursado: ";
         cin >>a_cursos[pos].ano;
         cout<<"\n\tALUNO RECADASTRADO!!";
-        sobrescrever_aluno_arquivo();
             break;
           case 3:
               fflush(stdin);
@@ -837,7 +826,6 @@ void alterar(int escolha){
         cout<<"\nNúmero: ";
         cin>>armarios[pos].num_armario;
         cout<<"\n\tARMÁRIO RECADASTRADO!!";
-        sobrescrever_armario_arquivo();
             break;
            case 4:
                 fflush(stdin);
@@ -847,7 +835,7 @@ void alterar(int escolha){
         cout<<"\nCódigo: ";
         gets(cursos[pos].COD);
         cout<<"\n\tCURSO RECADASTRADO!!";
-        sobrescrever_curso_arquivo();
+        gravar_curso_arquivo();
             break;
         }
 }
@@ -936,5 +924,8 @@ int main() {
     ler_armario_arquivo();
     ler_curso_arquivo();
     menu();
-
+    gravar_aluno_arquivo();
+    gravar_armario_arquivo();
+    gravar_curso_arquivo();
+    gravar_funcionario_arquivo();
 }
