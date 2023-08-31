@@ -72,8 +72,8 @@ void gravar_aluno_arquivo(int pos) {
                 alunos[pos].nome[i] = '_';
             }
         }
-        fprintf(pont_arq, "%s \n", alunos[pos].nome);
         fprintf(pont_arq, "%s \n", alunos[pos].matricula_a);
+        fprintf(pont_arq, "%s \n", alunos[pos].nome);
         fprintf(pont_arq, "%s \n", alunos[pos].e_mail);
         fprintf(pont_arq, "%s \n", alunos[pos].turma);
         fprintf(pont_arq, "%s \n", alunos[pos].fone);
@@ -85,29 +85,39 @@ void gravar_aluno_arquivo(int pos) {
 
 void ler_aluno_arquivo() {
     FILE *pont_arq;
-    int tamString, i, cont = 0;
+    int i = 0, cont = 0;
     pont_arq = fopen("aluno.txt", "r");
-    if(pont_arq){
-         //printf("\nDados lidos do arquivo aluno.txt:\n");
-        while(fscanf(pont_arq, "%s%s%s%s%s", alunos[cont].nome, alunos[cont].matricula_a, alunos[cont].e_mail, alunos[cont].turma, alunos[cont].fone) != EOF) {
-            for(i = 0; i <= strlen(alunos[cont].nome); i++) {
-                if(alunos[cont].nome[i] == '_') {
-                    alunos[cont].nome[i] = ' ';
-                }
+    char linha[255];
+    if(pont_arq) {
+        while(fgets(linha, sizeof(linha), pont_arq)) {
+            if(i == 0) {
+                cont_aluno++;
+                //cout << "Registro: " << cont << " " << linha << endl;
+                strcpy(alunos[cont].matricula_a, linha);
             }
-            strcpy(alunos[cont].fone, alunos[cont].fone);
-            strcpy(alunos[cont].e_mail, alunos[cont].e_mail);
-            strcpy(alunos[cont].matricula_a, alunos[cont].matricula_a);
-            strcpy(alunos[cont].turma, alunos[cont].turma);
-            strcpy(alunos[cont].nome, alunos[cont].nome);
+            if(i == 1) {
+                //cout << "Registro: " << cont << " " << linha << endl;
+                strcpy(alunos[cont].nome, linha);
+            }
+            if(i == 2) {
+                //cout << "Registro: " << cont << " " << linha << endl;
+                strcpy(alunos[cont].e_mail, linha);
+            }
+            if(i == 3) {
+                //cout << "Registro: " << cont << " " << linha << endl;
+                strcpy(alunos[cont].turma, linha);
+            }
+            if(i == 4) {
+                //cout << "Registro: " << cont << " " << linha << endl;
+                strcpy(alunos[cont].fone, linha);
+                i = -1;
+                cont++;
+            }
+            i++;
 
-            //printf("\nNome: %s\nMatrícula: %s \nE_mail: %s \nTurma: %s \nFone: %s\n", alunos[cont].nome, alunos[cont].matricula_a, alunos[cont].e_mail, alunos[cont].turma, alunos[cont].fone);
-            cont++;
-            cont_aluno++;
         }
-        fclose(pont_arq);
-    }
-    else
+        fclose(pont_arq); /* fechar o arquivo */
+    } else
         printf("\nERRO ao abrir arquivo!\n");
 }
 
@@ -141,13 +151,8 @@ void gravar_funcionario_arquivo(int pos) {
     int i;
     pont_arq = fopen("funcionario.txt", "a");
     if(pont_arq) {
-        for(i = 0; i <= strlen(funcionarios[pos].nome); i++) {
-            if(funcionarios[pos].nome[i] == ' ') {
-                funcionarios[pos].nome[i] = '_';
-            }
-        }
-        fprintf(pont_arq, "%s \n", funcionarios[pos].nome);
         fprintf(pont_arq, "%s \n", funcionarios[pos].matricula_f);
+        fprintf(pont_arq, "%s \n", funcionarios[pos].nome);
         fprintf(pont_arq, "%s \n", funcionarios[pos].e_mail);
         fprintf(pont_arq, "%s \n", funcionarios[pos].senha);
         fprintf(pont_arq, "%s \n", funcionarios[pos].fone);
@@ -161,31 +166,33 @@ void gravar_funcionario_arquivo(int pos) {
 void ler_funcionario_arquivo() {
     FILE *pont_arq;
     int i, cont = 0;
+    char linha[255];
     pont_arq = fopen("funcionario.txt", "r");
     if(pont_arq){
         //printf("\nDados lidos do arquivo funcionario.txt:\n");
-        while(fscanf(pont_arq, "%s%s%s%s%s%s", funcionarios[cont].nome, funcionarios[cont].matricula_f, funcionarios[cont].e_mail, funcionarios[cont].senha, funcionarios[cont].fone, funcionarios[cont].user) != EOF) {
-            for(i = 0; i <= strlen(funcionarios[cont].nome); i++) {
-                if(funcionarios[cont].nome[i] == '_') {
-                    funcionarios[cont].nome[i] = ' ';
-                }
+        while(fgets(linha, sizeof(linha), pont_arq)) {
+            if(i == 0) {
+                strcpy(funcionarios[cont].matricula_f, linha);
             }
-            strcpy(funcionarios[cont].nome, funcionarios[cont].nome);
-            strcpy(funcionarios[cont].matricula_f, funcionarios[cont].matricula_f);
-            strcpy(funcionarios[cont].e_mail, funcionarios[cont].e_mail);
-            strcpy(funcionarios[cont].senha, funcionarios[cont].senha);
-            strcpy(funcionarios[cont].fone, funcionarios[cont].fone);
-            strcpy(funcionarios[cont].user, funcionarios[cont].user);
-            cont_funcionario++;
-            /*
-            printf("\nnome: %s", funcionarios[cont].nome);
-            printf("\nmat: %s", funcionarios[cont].matricula_f);
-            printf("\nemail: %s", funcionarios[cont].e_mail);
-            printf("\nsenha: %s", funcionarios[cont].senha);
-            printf("\nfone: %s", funcionarios[cont].fone);
-            printf("\nuser: %s", funcionarios[cont].user);
-            */
-            cont++;
+            if(i == 1) {
+                strcpy(funcionarios[cont].nome, linha);
+            }
+            if(i == 2) {
+                strcpy(funcionarios[cont].e_mail, linha);
+            }
+            if(i == 3) {
+                strcpy(funcionarios[cont].senha, linha);
+            }
+            if(i == 4) {
+                strcpy(funcionarios[cont].fone, linha);
+            }
+            if(i == 5) {
+                strcpy(funcionarios[cont].user, linha);
+                cont_funcionario++;
+                i = -1;
+                cont++;
+            }
+            i++;
         }
         fclose(pont_arq);
     }
@@ -224,9 +231,9 @@ void gravar_armario_arquivo(int pos) {
     int i;
     pont_arq = fopen("armario.txt", "a");
     if(pont_arq) {
+        fprintf(pont_arq, "%d \n", armarios[pos].num_armario);
         fprintf(pont_arq, "%s \n", armarios[pos].estado);
         fprintf(pont_arq, "%s \n", armarios[pos].disponivel);
-        fprintf(pont_arq, "%d \n", armarios[pos].num_armario);
         fclose(pont_arq);
     } else {
         printf("\nERRO ao abrir arquivo!\n");
@@ -235,27 +242,28 @@ void gravar_armario_arquivo(int pos) {
 
 void ler_armario_arquivo() {
     FILE *pont_arq;
-    int cont = 0, i;
+    int cont = 0, i = 0;
+    char linha[255];
     pont_arq = fopen("armario.txt", "r");
     if(pont_arq){
         //printf("\nDados lidos do arquivo armario.txt:\n");
-        while(fscanf(pont_arq, "%s%s%i", armarios[cont].estado, armarios[cont].disponivel, &armarios[cont].num_armario) != EOF) {
-            strcpy(armarios[cont].estado, armarios[cont].estado);
-            strcpy(armarios[cont].disponivel, armarios[cont].disponivel);
-            armarios[cont].num_armario = armarios[cont].num_armario;
-            cont_armario++;
-
-            /*
-            printf("\nEstado: %s", armarios[cont].estado);
-            printf("\nDisponivel: %s", armarios[cont].disponivel);
-            printf("\nNumero: %d", armarios[cont].num_armario);
-            */
-
-            cont++;
+        while(fgets(linha, sizeof(linha), pont_arq)) {
+            if(i == 0) {
+                armarios[cont].num_armario = atoi(linha);
+            }
+            if(i == 1) {
+                strcpy(armarios[cont].estado, linha);
+            }
+            if(i == 2) {
+                strcpy(armarios[cont].disponivel, linha);
+                cont_armario++;
+                i = -1;
+                cont++;
+            }
+            i++;
         }
         fclose(pont_arq);
-    }
-    else
+    } else
         printf("\nERRO ao abrir arquivo!\n");
 }
 
@@ -282,13 +290,8 @@ void gravar_curso_arquivo(int pos) {
     int i;
     pont_arq = fopen("curso.txt", "a");
     if(pont_arq) {
-        for(i = 0; i < strlen(cursos[pos].nome); i++) {
-            if(cursos[pos].nome[i] == ' ') {
-                cursos[pos].nome[i] = '_';
-            }
-        }
-        fprintf(pont_arq, "%s \n", cursos[pos].nome);
         fprintf(pont_arq, "%s \n", cursos[pos].COD);
+        fprintf(pont_arq, "%s \n", cursos[pos].nome);
         fclose(pont_arq);
     } else {
         printf("\nERRO ao abrir arquivo!\n");
@@ -297,23 +300,22 @@ void gravar_curso_arquivo(int pos) {
 
 void ler_curso_arquivo() {
     FILE *pont_arq;
-    int cont = 0, i;
+    int cont = 0, i = 0;
+    char linha[255];
     pont_arq = fopen("curso.txt", "r");
     if(pont_arq){
         //printf("\nDados lidos do arquivo curso.txt:\n");
-        while(fscanf(pont_arq, "%s%s", cursos[cont].nome, cursos[cont].COD) != EOF) {
-            for(i = 0; i <= strlen(cursos[cont].nome); i++) {
-                if(cursos[cont].nome[i] == '_') {
-                    cursos[cont].nome[i] = ' ';
-                }
+        while(fgets(linha, sizeof(linha), pont_arq)) {
+            if(i == 0) {
+                strcpy(cursos[cont].COD, linha);
             }
-            strcpy(cursos[cont].nome, cursos[cont].nome);
-            strcpy(cursos[cont].COD, cursos[cont].COD);
-            cont_curso++;
-
-            //printf("\nNome: %s", cursos[cont].nome);
-            //printf("\nCOD: %s", cursos[cont].COD);
-            cont++;
+            if(i == 1) {
+                strcpy(cursos[cont].nome, linha);
+                cont_curso++;
+                i = -1;
+                cont++;
+            }
+            i++;
         }
         fclose(pont_arq);
     }
@@ -367,7 +369,6 @@ void cadastrar_armario(){
     cout<<"\n\tARMÁRIO CADASTRADO!!";
     gravar_armario_arquivo(cont_armario);
     cont_armario++;
-
 }
 
 void cadastrar_funcionario(){
@@ -1013,5 +1014,4 @@ int main() {
     ler_curso_arquivo();
 
     menu();
-
 }
