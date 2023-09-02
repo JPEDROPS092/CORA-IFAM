@@ -11,6 +11,9 @@
 #define  TAMFUNCIONARIOS 5
 #define  TAMRESERVAS 800
 #define TAMPKEY 10
+#define TAMUSER 30
+#define TAMSENHA 30
+
 using namespace std;
 //Novas variáveis solicitadas
 
@@ -31,7 +34,7 @@ typedef struct {
 }Aluno;
 
 typedef struct {
-   char	  nome[60], matricula_f[TAMPKEY],e_mail[60], senha[30],fone[15], user[60];
+   char	  nome[60], matricula_f[TAMPKEY],e_mail[60], senha[TAMSENHA],fone[15], user[TAMUSER];
 }Funcionario;
 
 typedef struct {
@@ -316,8 +319,6 @@ void cadastrar_funcionario(){
             }
         }
     }
-    //cout<<"\nMatrícula: ";
-    //scanf(" %[^\n]",funcionarios[cont_funcionario].matricula_f);
     cout<<"\nNome: ";
     scanf(" %[^\n]",funcionarios[cont_funcionario].nome);
     cout<<"\nE-mail: ";
@@ -483,6 +484,7 @@ void exibir_funcionario(int pos) {
             cout<< " \nMatrícula: " << funcionarios[pos].matricula_f;
             cout << "\nNome: " << funcionarios[pos].nome;
             cout << "\nUser: " << funcionarios[pos].user;
+            cout << "\nSenha: " << funcionarios[pos].senha;
             cout << "\nE-mail: " << funcionarios[pos].e_mail;
             cout << "\nFone: " << funcionarios[pos].fone;
            cout<<"\n";
@@ -519,8 +521,8 @@ void exibir(int escolha){
     switch(escolha){
     case 1:
         while(tipo<1 || tipo>2){
-        cout<<"Como deseja exibir?\n\n1-TUDO\n2-SEPARADAMENTE\n:";
-        cin>>tipo;
+            cout<<"Como deseja exibir?\n\n1-TUDO\n2-SEPARADAMENTE\n:";
+            cin>>tipo;
         }
         if(tipo==1){
             for(contador=0;contador<cont_funcionario;contador++){
@@ -533,8 +535,8 @@ void exibir(int escolha){
         break;
     case 2:
         while(tipo<1 || tipo>2){
-        cout<<"Como deseja exibir?\n\n1-TUDO\n2-SEPARADAMENTE\n:";
-        cin>>tipo;
+            cout<<"Como deseja exibir?\n\n1-TUDO\n2-SEPARADAMENTE\n:";
+            cin>>tipo;
         }
         if(tipo==1){
             for(contador=0;contador<cont_aluno;contador++){
@@ -547,8 +549,8 @@ void exibir(int escolha){
         break;
     case 3:
          while(tipo<1 || tipo>2){
-          cout<<"Como deseja exibir?\n\n1-TUDO\n2-SEPARADAMENTE\n:";
-          cin>>tipo;
+              cout<<"Como deseja exibir?\n\n1-TUDO\n2-SEPARADAMENTE\n:";
+              cin>>tipo;
         }
         if(tipo==1){
             for(contador=0;contador<cont_armario;contador++){
@@ -561,8 +563,8 @@ void exibir(int escolha){
         break;
     case 4:
         while(tipo<1 || tipo>2){
-        cout<<"Como deseja exibir?\n\n1-TUDO\n2-SEPARADAMENTE\n:";
-        cin>>tipo;
+            cout<<"Como deseja exibir?\n\n1-TUDO\n2-SEPARADAMENTE\n:";
+            cin>>tipo;
         }
         if(tipo==1){
             for(contador=0;contador<cont_curso;contador++){
@@ -613,8 +615,6 @@ void cadastrar_aluno(){
     }
     cout<<"\nNome:";
     scanf(" %[^\n]",alunos[cont_aluno].nome);
-    //cout<<"\nMatrícula: ";
-    //scanf(" %[^\n]",alunos[cont_aluno].matricula_a);
     strcpy(a_cursos[cont_aluno].matricula,alunos[cont_aluno].matricula_a);
     cout<<"\nTurma:";
     scanf(" %[^\n]",alunos[cont_aluno].turma);
@@ -822,7 +822,33 @@ void excluir(int escolha){
 }
 
 void login() {
+    char usuario[TAMUSER], senha[TAMSENHA];
+    int sair = 0;
+    while(sair != 1) {
+        cout<<"\nUsuário: ";
+        scanf(" %[^\n]", usuario);
+        cout<<"\nSenha: ";
+        scanf(" %[^\n]", senha);
+        //Valida usuário
+        for(int contador = 0; contador <= cont_funcionario; contador++) {
+            if(strcmp(funcionarios[contador].user, usuario)==0){
+                //Valida senha
+                if(strcmp(funcionarios[contador].senha, senha)==0) {
+                    sair = 1;
+                    break;
+                } else {
+                    cout << "Senha inválida";
+                }
+                system("pause");
 
+            } else {
+                cout << "Usuário inválido";
+                system("pause");
+                sair = 0;
+                break;
+            }
+        }
+    }
 }
 
 void alterar(int escolha){
@@ -833,8 +859,8 @@ void alterar(int escolha){
         cout<<"\t---RECADASTRO DE FUNCIONÁRIO---:";
         cout<<"\nNome: ";
         scanf(" %[^\n]",funcionarios[pos].nome);
-        cout<<"\nMatrícula: ";
-        scanf(" %[^\n]",funcionarios[pos].matricula_f);
+        //cout<<"\nMatrícula: ";
+        //scanf(" %[^\n]",funcionarios[pos].matricula_f);
         cout<<"\nUsuário: ";
         scanf(" %[^\n]",funcionarios[pos].user);
         cout<<"\nE-mail: ";
@@ -897,7 +923,8 @@ void menuFuncionario() {
     int opcao;
     if(cont_funcionario == 0) {
         //cadastrar_funcionario();
-    }
+    } 
+    //login();
     while(opcao != 0) {
         system("cls");
         cout << "Bem vindo funcionário\n";
