@@ -238,10 +238,26 @@ void gravar_curso_arquivo() {
 
 void cadastrar_curso(){
     cout<<"\n\t---CADASTRO DE CURSO---:";
+    int sair = 0;
+    char pkey[TAMPKEY];
+    while(sair != 1) {
+        cout<<"\nCódigo: ";
+        scanf(" %[^\n]", pkey);
+        for(int contador = 0; contador <= cont_curso; contador++){
+            if(strcmp(cursos[contador].COD, pkey)!=0){
+                if(contador == cont_curso) {
+                   strcpy(cursos[contador].COD, pkey);
+                }
+                sair = 1;
+            } else {
+                cout << "Código já existe!";
+                sair = 0;
+                break;
+            }
+        }
+    }
     cout<<"\nNome: ";
-     scanf(" %[^\n]",cursos[cont_curso].nome);
-    cout<<"\nCódigo: ";
-     scanf(" %[^\n]",cursos[cont_curso].COD);
+    scanf(" %[^\n]",cursos[cont_curso].nome);
     cout<<"\n\tCURSO CADASTRADO!!";
     cont_curso++;
 
@@ -249,6 +265,26 @@ void cadastrar_curso(){
 
 void cadastrar_armario(){
     cout<<"\t---CADASTRO DE ARMÁRIO---: ";
+    /*
+    int sair = 0;
+    while(sair != 1) {
+        cout<<"\nNúmero: ";
+        int numAr;
+        cin >> numAr;
+        for(int contador = 0; contador <= cont_armario; contador++){
+            if(armarios[contador].num_armario != numAr) {
+                if(contador == cont_armario) {
+                   armarios[cont_armario].num_armario = numAr;
+                }
+                sair = 1;
+            } else {
+                cout << "Número já existe!";
+                sair = 0;
+                break;
+            }
+        }
+    }
+    */
     cout<<"\nNúmero: ";
     cin>>armarios[cont_armario].num_armario;
     cout<<"\nEstado: ";
@@ -262,8 +298,26 @@ void cadastrar_armario(){
 
 void cadastrar_funcionario(){
     cout<<"\t---CADASTRO DE FUNCIONÁRIO---:";
-    cout<<"\nMatrícula: ";
-    scanf(" %[^\n]",funcionarios[cont_funcionario].matricula_f);
+    int sair = 0;
+    char pkey[TAMPKEY];
+    while(sair != 1) {
+        cout<<"\nMatrícula: ";
+        scanf(" %[^\n]", pkey);
+        for(int contador = 0; contador <= cont_funcionario; contador++){
+            if(strcmp(funcionarios[contador].matricula_f, pkey)!=0){
+                if(contador == cont_funcionario) {
+                   strcpy(funcionarios[contador].matricula_f, pkey);
+                }
+                sair = 1;
+            } else {
+                cout << "Matrícula já existe!";
+                sair = 0;
+                break;
+            }
+        }
+    }
+    //cout<<"\nMatrícula: ";
+    //scanf(" %[^\n]",funcionarios[cont_funcionario].matricula_f);
     cout<<"\nNome: ";
     scanf(" %[^\n]",funcionarios[cont_funcionario].nome);
     cout<<"\nE-mail: ";
@@ -303,7 +357,8 @@ void reservar_armario(char matAluno[TAMPKEY], char matFunc[TAMPKEY]){
     int cont;
     strcpy(reservas[cont_reserva].mat_funcionario, matFunc);
     strcpy(reservas[cont_reserva].mat_aluno, matAluno);
-    cout<<"\nQual o código dessa reserva: ";
+
+    cout<<"\nQual o código dessa reserva: " << endl;
     gets(reservas[cont_reserva].cod_reserva);
     reservas[cont_reserva].numero_armario = cont_aluno;
     for(cont=0;cont<cont_aluno;cont++){
@@ -346,7 +401,7 @@ int pergunta(){
 }
 
 
-int buscar(int opcao) {
+int buscar(int opcao, char pkey[TAMPKEY] = "-1") {
     int arm_busc, contador;
     char matricula_a_busc[TAMPKEY], matricula_f_busc[TAMPKEY], cod_busc[TAMPKEY];
         switch(opcao){
@@ -356,10 +411,11 @@ int buscar(int opcao) {
                 scanf(" %[^\n]",matricula_f_busc);
                 for(contador = 0; contador <= cont_funcionario; contador++){
                     if(strcmp(funcionarios[contador].matricula_f, matricula_f_busc)==0){
-                       return contador;
+                        return contador;
                     } else {
                         system("cls");
                         cout << "Funcionário não encontrado!";
+                        return -1;
                     }
                 }
                 break;
@@ -373,6 +429,7 @@ int buscar(int opcao) {
                     } else {
                         system("cls");
                         cout << "Aluno não encontrado!";
+                        return -1;
                     }
                 }
                 break;
@@ -386,6 +443,7 @@ int buscar(int opcao) {
                     } else {
                         system("cls");
                         cout << "Armário não encontrado!";
+                        return -1;
                     }
                 }
                 break;
@@ -399,6 +457,7 @@ int buscar(int opcao) {
                     } else {
                         system("cls");
                         cout << "Curso não encontrado!";
+                        return -1;
                     }
                 }
                 break;
@@ -534,10 +593,28 @@ void escolher_curso(){
 
 void cadastrar_aluno(){
     cout<<"\t---CADASTRO DE ALUNO---: ";
+    int sair = 0;
+    char pkey[TAMPKEY];
+    while(sair != 1) {
+        cout<<"\nMatrícula: ";
+        scanf(" %[^\n]", pkey);
+        for(int contador = 0; contador <= cont_aluno; contador++){
+            if(strcmp(alunos[contador].matricula_a, pkey)!=0){
+                if(contador == cont_aluno) {
+                   strcpy(alunos[contador].matricula_a, pkey);
+                }
+                sair = 1;
+            } else {
+                cout << "Matrícula já existe!";
+                sair = 0;
+                break;
+            }
+        }
+    }
     cout<<"\nNome:";
     scanf(" %[^\n]",alunos[cont_aluno].nome);
-    cout<<"\nMatrícula: ";
-    scanf(" %[^\n]",alunos[cont_aluno].matricula_a);
+    //cout<<"\nMatrícula: ";
+    //scanf(" %[^\n]",alunos[cont_aluno].matricula_a);
     strcpy(a_cursos[cont_aluno].matricula,alunos[cont_aluno].matricula_a);
     cout<<"\nTurma:";
     scanf(" %[^\n]",alunos[cont_aluno].turma);
@@ -556,11 +633,9 @@ void cadastrar_aluno(){
     escolher_curso();
     cout<<"\nAno cursado: ";
     cin >>a_cursos[cont_aluno].ano;
-
     reservar_armario(alunos[cont_aluno].matricula_a, funcionarios[buscar(1)].matricula_f);
     cout<<"\n\tALUNO CADASTRADO!!";
     cont_aluno++;
-
 }
 
 void cadastrar(int op_c){
@@ -821,7 +896,7 @@ void alterar(int escolha){
 void menuFuncionario() {
     int opcao;
     if(cont_funcionario == 0) {
-        cadastrar_funcionario();
+        //cadastrar_funcionario();
     }
     while(opcao != 0) {
         system("cls");
