@@ -69,18 +69,13 @@ void ler_aluno_arquivo() {
     pont_arq = fopen("aluno.txt", "r");
     if(pont_arq){
          //printf("\nDados lidos do arquivo aluno.txt:\n");
-        while(fscanf(pont_arq, "%s%s%s%s%s", alunos[cont].nome, alunos[cont].matricula_a, alunos[cont].e_mail, alunos[cont].turma, alunos[cont].fone) != EOF) {
+        while(fscanf(pont_arq, "%s%s%s%s%s", alunos[cont].matricula_a, alunos[cont].nome, alunos[cont].e_mail, alunos[cont].turma, alunos[cont].fone) != EOF) {
             for(i = 0; i <= strlen(alunos[cont].nome); i++) {
                 if(alunos[cont].nome[i] == '_') {
                     alunos[cont].nome[i] = ' ';
                 }
             }
-            strcpy(alunos[cont].fone, alunos[cont].fone);
-            strcpy(alunos[cont].e_mail, alunos[cont].e_mail);
-            strcpy(alunos[cont].matricula_a, alunos[cont].matricula_a);
-            strcpy(alunos[cont].turma, alunos[cont].turma);
             strcpy(alunos[cont].nome, alunos[cont].nome);
-
             //printf("\nNome: %s\nMatrícula: %s \nE_mail: %s \nTurma: %s \nFone: %s\n", alunos[cont].nome, alunos[cont].matricula_a, alunos[cont].e_mail, alunos[cont].turma, alunos[cont].fone);
             cont++;
             cont_aluno++;
@@ -103,8 +98,8 @@ void gravar_aluno_arquivo() {
                     alunos[pos].nome[i] = '_';
                 }
             }
-            fprintf(pont_arq, "%s \n", alunos[pos].nome);
             fprintf(pont_arq, "%s \n", alunos[pos].matricula_a);
+            fprintf(pont_arq, "%s \n", alunos[pos].nome);
             fprintf(pont_arq, "%s \n", alunos[pos].e_mail);
             fprintf(pont_arq, "%s \n", alunos[pos].turma);
             fprintf(pont_arq, "%s \n", alunos[pos].fone);
@@ -122,18 +117,13 @@ void ler_funcionario_arquivo() {
     pont_arq = fopen("funcionario.txt", "r");
     if(pont_arq){
         //printf("\nDados lidos do arquivo funcionario.txt:\n");
-        while(fscanf(pont_arq, "%s%s%s%s%s%s", funcionarios[cont].nome, funcionarios[cont].matricula_f, funcionarios[cont].e_mail, funcionarios[cont].senha, funcionarios[cont].fone, funcionarios[cont].user) != EOF) {
+        while(fscanf(pont_arq, "%s%s%s%s%s%s", funcionarios[cont].matricula_f, funcionarios[cont].nome, funcionarios[cont].e_mail, funcionarios[cont].senha, funcionarios[cont].fone, funcionarios[cont].user) != EOF) {
             for(i = 0; i <= strlen(funcionarios[cont].nome); i++) {
                 if(funcionarios[cont].nome[i] == '_') {
                     funcionarios[cont].nome[i] = ' ';
                 }
             }
             strcpy(funcionarios[cont].nome, funcionarios[cont].nome);
-            strcpy(funcionarios[cont].matricula_f, funcionarios[cont].matricula_f);
-            strcpy(funcionarios[cont].e_mail, funcionarios[cont].e_mail);
-            strcpy(funcionarios[cont].senha, funcionarios[cont].senha);
-            strcpy(funcionarios[cont].fone, funcionarios[cont].fone);
-            strcpy(funcionarios[cont].user, funcionarios[cont].user);
             cont_funcionario++;
             cont++;
         }
@@ -155,8 +145,8 @@ void gravar_funcionario_arquivo() {
                     funcionarios[pos].nome[i] = '_';
                 }
             }
-            fprintf(pont_arq, "%s \n", funcionarios[pos].nome);
             fprintf(pont_arq, "%s \n", funcionarios[pos].matricula_f);
+            fprintf(pont_arq, "%s \n", funcionarios[pos].nome);
             fprintf(pont_arq, "%s \n", funcionarios[pos].e_mail);
             fprintf(pont_arq, "%s \n", funcionarios[pos].senha);
             fprintf(pont_arq, "%s \n", funcionarios[pos].fone);
@@ -175,10 +165,7 @@ void ler_armario_arquivo() {
     pont_arq = fopen("armario.txt", "r");
     if(pont_arq){
         //printf("\nDados lidos do arquivo armario.txt:\n");
-        while(fscanf(pont_arq, "%s%s%i", armarios[cont].estado, armarios[cont].disponivel, &armarios[cont].num_armario) != EOF) {
-            strcpy(armarios[cont].estado, armarios[cont].estado);
-            strcpy(armarios[cont].disponivel, armarios[cont].disponivel);
-            armarios[cont].num_armario = armarios[cont].num_armario;
+        while(fscanf(pont_arq, "%i%s%s", &armarios[cont].num_armario, armarios[cont].estado, armarios[cont].disponivel) != EOF) {
             cont_armario++;
             cont++;
         }
@@ -195,9 +182,9 @@ void gravar_armario_arquivo() {
     pont_arq = fopen("armario.txt", "w");
     if(pont_arq) {
         for(int pos = 0; pos <= cont_armario; pos++) {
+            fprintf(pont_arq, "%d \n", armarios[pos].num_armario);
             fprintf(pont_arq, "%s \n", armarios[pos].estado);
             fprintf(pont_arq, "%s \n", armarios[pos].disponivel);
-            fprintf(pont_arq, "%d \n", armarios[pos].num_armario);
         }
         fclose(pont_arq);
     } else {
@@ -212,14 +199,13 @@ void ler_curso_arquivo() {
     pont_arq = fopen("curso.txt", "r");
     if(pont_arq){
         //printf("\nDados lidos do arquivo curso.txt:\n");
-        while(fscanf(pont_arq, "%s%s", cursos[cont].nome, cursos[cont].COD) != EOF) {
+        while(fscanf(pont_arq, "%s%s", cursos[cont].COD, cursos[cont].nome) != EOF) {
             for(i = 0; i <= strlen(cursos[cont].nome); i++) {
                 if(cursos[cont].nome[i] == '_') {
                     cursos[cont].nome[i] = ' ';
                 }
             }
             strcpy(cursos[cont].nome, cursos[cont].nome);
-            strcpy(cursos[cont].COD, cursos[cont].COD);
             cont_curso++;
             cont++;
         }
@@ -241,8 +227,8 @@ void gravar_curso_arquivo() {
                     cursos[pos].nome[i] = '_';
                 }
             }
-            fprintf(pont_arq, "%s \n", cursos[pos].nome);
             fprintf(pont_arq, "%s \n", cursos[pos].COD);
+            fprintf(pont_arq, "%s \n", cursos[pos].nome);
         }
         fclose(pont_arq);
     } else {
@@ -263,12 +249,12 @@ void cadastrar_curso(){
 
 void cadastrar_armario(){
     cout<<"\t---CADASTRO DE ARMÁRIO---: ";
+    cout<<"\nNúmero: ";
+    cin>>armarios[cont_armario].num_armario;
     cout<<"\nEstado: ";
     scanf(" %[^\n]",armarios[cont_armario].estado);
     cout<<"\nDisponível? [S] Sim [N] Não\n";
     scanf(" %[^\n]",armarios[cont_armario].disponivel);
-    cout<<"\nNúmero: ";
-    cin>>armarios[cont_armario].num_armario;
     cout<<"\n\tARMÁRIO CADASTRADO!!";
     cont_armario++;
 
@@ -276,16 +262,16 @@ void cadastrar_armario(){
 
 void cadastrar_funcionario(){
     cout<<"\t---CADASTRO DE FUNCIONÁRIO---:";
-    cout<<"\nNome: ";
-    scanf(" %[^\n]",funcionarios[cont_funcionario].nome);
     cout<<"\nMatrícula: ";
     scanf(" %[^\n]",funcionarios[cont_funcionario].matricula_f);
-    cout<<"\nUsuário: ";
-    scanf(" %[^\n]",funcionarios[cont_funcionario].user);
+    cout<<"\nNome: ";
+    scanf(" %[^\n]",funcionarios[cont_funcionario].nome);
     cout<<"\nE-mail: ";
     scanf(" %[^\n]",funcionarios[cont_funcionario].e_mail);
     cout<<"\nFone: ";
     scanf(" %[^\n]",funcionarios[cont_funcionario].fone);
+    cout<<"\nUsuário: ";
+    scanf(" %[^\n]",funcionarios[cont_funcionario].user);
     cout<<"\nSenha de acesso \tOBS:(Lembre-se da senha informada!)\t(Max:30 caracteres)\n";
     scanf(" %[^\n]",funcionarios[cont_funcionario].senha);
     cout<<"\n\tFUNCIONÁRIO CADASTRADO!!";
@@ -362,7 +348,7 @@ int pergunta(){
 
 int buscar(int opcao) {
     int arm_busc, contador;
-    char matricula_a_busc[10], matricula_f_busc[10], cod_busc[7];
+    char matricula_a_busc[TAMPKEY], matricula_f_busc[TAMPKEY], cod_busc[TAMPKEY];
         switch(opcao){
             case 1:
                 system("cls");
@@ -672,7 +658,7 @@ void menuAluno() {
 void excluir_armario(int pos) {
     int i;
     for(int i = pos; i <=cont_armario; i++) {
-            if(i==799){
+            if(i==TAMARMARIOS){
             armarios[i].num_armario=0;
             strcpy(armarios[i].estado, "");
             strcpy(armarios[i].disponivel, "");
@@ -688,7 +674,7 @@ void excluir_armario(int pos) {
 void excluir_curso(int pos) {
     int i;
     for(int i = pos; i <= cont_curso; i++) {
-            if(i==9){
+            if(i==TAMCURSOS){
             strcpy(cursos[i].nome, "");
             strcpy(cursos[i].COD, "");
         }
@@ -702,7 +688,7 @@ void excluir_curso(int pos) {
 void excluir_aluno(int pos) {
     int i;
     for(int i = pos; i <= cont_aluno; i++) {
-            if(i==999){
+            if(i==TAMALUNOS){
             strcpy(alunos[i].matricula_a, "");
             strcpy(alunos[i].nome, "");
             strcpy(alunos[i].e_mail, "");
@@ -720,7 +706,7 @@ void excluir_aluno(int pos) {
 void excluir_funcionario(int pos) {
     int i;
     for(int i = pos; i <= cont_funcionario; i++) {
-            if(i==4){
+            if(i==TAMFUNCIONARIOS){
             strcpy(funcionarios[i].matricula_f, "");
             strcpy(funcionarios[i].nome, "");
             strcpy(funcionarios[i].e_mail, "");
@@ -758,6 +744,10 @@ void excluir(int escolha){
 
     }
   }
+}
+
+void login() {
+
 }
 
 void alterar(int escolha){
