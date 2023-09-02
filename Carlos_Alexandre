@@ -372,7 +372,7 @@ void reservar_armario(char matAluno[TAMPKEY], char matFunc[TAMPKEY]){
 }
 
 int pergunta(){
-    int op, para;
+    int op;
     while(op != 5){
         cout<<"\n1-Funcionário\n2-Aluno\n3-Armário\n4-Curso\n5-Voltar\n:";
         cin >> op;
@@ -402,9 +402,10 @@ int pergunta(){
 }
 
 
-int buscar(int opcao, char pkey[TAMPKEY] = "-1") {
-    int arm_busc, contador;
+int buscar(int opcao) {
+    int arm_busc, contador, para = 0;
     char matricula_a_busc[TAMPKEY], matricula_f_busc[TAMPKEY], cod_busc[TAMPKEY];
+    while(para != 1) {
         switch(opcao){
             case 1:
                 system("cls");
@@ -412,11 +413,10 @@ int buscar(int opcao, char pkey[TAMPKEY] = "-1") {
                 scanf(" %[^\n]",matricula_f_busc);
                 for(contador = 0; contador <= cont_funcionario; contador++){
                     if(strcmp(funcionarios[contador].matricula_f, matricula_f_busc)==0){
-                        return contador;
-                    } else {
+                        cout << "encontrado " << contador;
+                        para = 1;
                         system("cls");
-                        cout << "Funcionário não encontrado!";
-                        return -1;
+                        return contador;
                     }
                 }
                 break;
@@ -426,11 +426,8 @@ int buscar(int opcao, char pkey[TAMPKEY] = "-1") {
                  scanf(" %[^\n]",matricula_a_busc);
                  for(contador = 0; contador < cont_aluno; contador++){
                     if(strcmp(alunos[contador].matricula_a,matricula_a_busc)==0){
+                        para = 1;
                         return contador;
-                    } else {
-                        system("cls");
-                        cout << "Aluno não encontrado!";
-                        return -1;
                     }
                 }
                 break;
@@ -440,11 +437,8 @@ int buscar(int opcao, char pkey[TAMPKEY] = "-1") {
                 cin>>arm_busc;
                 for(contador = 0; contador < cont_armario; contador++){
                     if(armarios[contador].num_armario=arm_busc){
-                            return contador;
-                    } else {
-                        system("cls");
-                        cout << "Armário não encontrado!";
-                        return -1;
+                        para = 1;
+                        return contador;
                     }
                 }
                 break;
@@ -454,15 +448,13 @@ int buscar(int opcao, char pkey[TAMPKEY] = "-1") {
                  scanf(" %[^\n]",cod_busc);
                  for(contador = 0;contador < cont_curso; contador++){
                     if(strcmp(cursos[contador].COD,cod_busc)==0){
-                       return contador;
-                    } else {
-                        system("cls");
-                        cout << "Curso não encontrado!";
-                        return -1;
+                        para = 1;
+                        return contador;
                     }
                 }
-                break;
+            break;
         }
+    }
 }
 
 
@@ -801,18 +793,38 @@ void excluir(int escolha){
     while(escolha!=5){
     switch(escolha){
     case 1:
+        if(cont_funcionario == 0) {
+            cout << "Não existem funcionários cadastrados!";
+            escolha=5;
+            break;
+        }
         excluir_funcionario(buscar(op));
         escolha=5;
         break;
     case 2:
+        if(cont_aluno == 0) {
+            cout << "Não existem alunos cadastrados!";
+            escolha=5;
+            break;
+        }
         excluir_aluno(buscar(op));
         escolha=5;
         break;
     case 3:
+        if(cont_armario == 0) {
+            cout << "Não existem armáriss cadastrados!";
+            escolha=5;
+            break;
+        }
         excluir_armario(buscar(op));
         escolha=5;
         break;
     case 4:
+        if(cont_curso == 0) {
+            cout << "Não existem cursos cadastrados!";
+            escolha=5;
+            break;
+        }
         excluir_curso(buscar(op));
         escolha=5;
          break;
@@ -923,7 +935,7 @@ void menuFuncionario() {
     int opcao;
     if(cont_funcionario == 0) {
         //cadastrar_funcionario();
-    } 
+    }
     //login();
     while(opcao != 0) {
         system("cls");
