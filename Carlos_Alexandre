@@ -62,13 +62,13 @@ Reserva reservas[TAMRESERVAS];
 Curso cursos[TAMCURSOS];
 Aluno_Curso a_cursos[TAMALUNOS];
 Aluno alunos[TAMALUNOS];
-int cont_funcionario, cont_armario, cont_reserva, cont_curso, cont_aluno;
+int cont_funcionario, cont_armario, cont_reserva, cont_curso, cont_aluno, cont_alunoCurso;
 //Funções
 
 
 void ler_aluno_arquivo() {
     FILE *pont_arq;
-    int tamString, i, cont = 0;
+    int i, cont = 0;
     pont_arq = fopen("aluno.txt", "r");
     if(pont_arq){
          //printf("\nDados lidos do arquivo aluno.txt:\n");
@@ -88,6 +88,8 @@ void ler_aluno_arquivo() {
     else
         printf("\nERRO ao abrir arquivo!\n");
 }
+
+
 
 void gravar_aluno_arquivo() {
     //Criando uma variável ponteiro para o arquivo
@@ -113,6 +115,76 @@ void gravar_aluno_arquivo() {
     }
 }
 
+void ler_reserva_arquivo() {
+    FILE *pont_arq;
+    int i, cont = 0;
+    pont_arq = fopen("reserva.txt", "r");
+    if(pont_arq){
+         //printf("\nDados lidos do arquivo aluno.txt:\n");
+        while(fscanf(pont_arq, "%s%s%s%d%d%d", reservas[cont].cod_reserva, reservas[cont].mat_aluno, reservas[cont].mat_funcionario, reservas[cont].numero_armario, reservas[cont].data_rec.ano, reservas[cont].data_dev.ano) != EOF) {
+            cont++;
+            cont_reserva++;
+        }
+        fclose(pont_arq);
+    }
+    else
+        printf("\nERRO ao abrir arquivo!\n");
+}
+
+void gravar_reserva_arquivo() {
+    //Criando uma variável ponteiro para o arquivo
+    FILE *pont_arq;
+    int i;
+    pont_arq = fopen("reserva.txt", "w");
+    if(pont_arq) {
+        for(int pos = 0; pos <= cont_aluno; pos++) {
+            fprintf(pont_arq, "%s \n", reservas[pos].cod_reserva);
+            fprintf(pont_arq, "%s \n", reservas[pos].mat_aluno);
+            fprintf(pont_arq, "%s \n", reservas[pos].mat_funcionario);
+            fprintf(pont_arq, "%d \n", reservas[pos].numero_armario);
+            fprintf(pont_arq, "%d \n", reservas[pos].data_rec.ano);
+            fprintf(pont_arq, "%d \n", reservas[pos].data_dev.ano);
+        }
+        fclose(pont_arq);
+    } else {
+        printf("\nERRO ao abrir arquivo!\n");
+    }
+}
+
+void ler_alunoCurso_arquivo() {
+    FILE *pont_arq;
+    int i, cont = 0;
+    pont_arq = fopen("alunoCurso.txt", "r");
+    if(pont_arq){
+         //printf("\nDados lidos do arquivo aluno.txt:\n");
+        while(fscanf(pont_arq, "%s%s%d%d%d", a_cursos[cont].matricula, a_cursos[cont].cod_curso, a_cursos[cont].inicio.ano, a_cursos[cont].fim.ano, a_cursos[cont].ano) != EOF) {
+            cont++;
+            cont_alunoCurso++;
+        }
+        fclose(pont_arq);
+    }
+    else
+        printf("\nERRO ao abrir arquivo!\n");
+}
+
+void gravar_alunoCurso_arquivo() {
+    //Criando uma variável ponteiro para o arquivo
+    FILE *pont_arq;
+    int i;
+    pont_arq = fopen("alunoCurso.txt", "w");
+    if(pont_arq) {
+        for(int pos = 0; pos <= cont_aluno; pos++) {
+            fprintf(pont_arq, "%s \n", a_cursos[pos].matricula);
+            fprintf(pont_arq, "%s \n", a_cursos[pos].cod_curso);
+            fprintf(pont_arq, "%d \n", a_cursos[pos].inicio.ano);
+            fprintf(pont_arq, "%d \n", a_cursos[pos].fim.ano);
+            fprintf(pont_arq, "%d \n", a_cursos[pos].ano);
+        }
+        fclose(pont_arq);
+    } else {
+        printf("\nERRO ao abrir arquivo!\n");
+    }
+}
 
 void ler_funcionario_arquivo() {
     FILE *pont_arq;
@@ -1050,6 +1122,8 @@ int main() {
     ler_aluno_arquivo();
     ler_armario_arquivo();
     ler_curso_arquivo();
+    ler_reserva_arquivo();
+    ler_alunoCurso_arquivo();
     menu();
     gravar_aluno_arquivo();
     gravar_armario_arquivo();
