@@ -359,6 +359,7 @@ void reservar_armario(char matAluno[TAMPKEY], char matFunc[TAMPKEY]){
             reservas[cont_reserva].data_dev=a_cursos[cont].fim;
         }
      }
+    /*
      cout << "\nreserva: " << reservas[cont_reserva].cod_reserva;
     cout << "\nmat_aluno: " << reservas[cont_reserva].mat_aluno;
     cout << "\nmat_func: " << reservas[cont_reserva].mat_funcionario;
@@ -366,6 +367,7 @@ void reservar_armario(char matAluno[TAMPKEY], char matFunc[TAMPKEY]){
     cout << "\ndetarec: " << reservas[cont_reserva].data_rec.ano;
     cout << "\nnum armario: " << reservas[cont_reserva].numero_armario;
     system("pause");
+    */
     cout<<"\n\tARMÁRIO RESERVADO!!";
 }
 
