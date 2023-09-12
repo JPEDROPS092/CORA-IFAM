@@ -6,10 +6,10 @@
 #include <string.h>
 
 #define  TAMCURSOS 10//CONSTANTES UTILIZADAS
-#define  TAMALUNOS 1000
-#define  TAMARMARIOS 800
+#define  TAMALUNOS 10
+#define  TAMARMARIOS 50
 #define  TAMFUNCIONARIOS 5
-#define  TAMRESERVAS 800
+#define  TAMRESERVAS 50
 #define TAMPKEY 10
 #define TAMUSER 30
 #define TAMSENHA 30
@@ -841,6 +841,22 @@ void exibir(int escolha){
  }
 
 void escolher_curso(){
+    int contador;
+            gotoxy(80,2);
+            cout<<">Menu principal";
+            gotoxy(80,3);
+            cout<<">>Menu Funcionário\n";
+            gotoxy(80,4);
+            cout<<">>>Cadastrar";
+            gotoxy(80,5);
+            cout<<">>>>Aluno";
+            gotoxy(80,6);
+            cout<<">>>>>Escolhendo o curso";
+            gotoxy(2,1);
+            cabecalho_curso();
+    for(contador=0;contador<cont_curso;contador++){
+    exibir_curso(contador);
+    }
     cout<<"\nEscolha o COD correspondente\n:";
     fflush(stdin);
     gets(a_cursos[cont_aluno].cod_curso);
@@ -877,14 +893,20 @@ void cadastrar_aluno(){
     cout<<"\nE-mail: ";
     scanf(" %[^\n]",alunos[cont_aluno].e_mail);
     if(cont_curso == 0) {
+        system("cls");
+            gotoxy(80,2);
+            cout<<">Menu principal";
+            gotoxy(80,3);
+            cout<<">>Menu Funcionário\n";
+            gotoxy(80,4);
+            cout<<">>>Cadastrar";
+            gotoxy(80,5);
+            cout<<">>>>Aluno";
+            gotoxy(2,2);
         printf("\nAinda não existem cursos cadastrados, cadastre um novo curso \n");
         cadastrar_curso();
     }
     system("cls");
-    cabecalho_curso();
-    for(contador=0;contador<cont_curso;contador++){
-    exibir_curso(contador);
-    }
     escolher_curso();
     cout<<"\nAno cursado: ";
     cin >>alunos[cont_aluno].ano_aluno;
@@ -1142,18 +1164,12 @@ void excluir(int escolha){
     while(escolha!=5){
     switch(escolha){
     case 1:
-        if(cont_funcionario == 0) {
-            cout << "Não existem funcionários cadastrados!";
-            escolha=5;
-            break;
-        }
         excluir_funcionario(buscar(op));
         escolha=5;
         break;
     case 2:
         if(cont_aluno == 0) {
             cout << "Não existem alunos cadastrados!";
-            escolha=5;
             break;
         }
         excluir_aluno(buscar(op));
@@ -1162,11 +1178,9 @@ void excluir(int escolha){
     case 3:
         if(cont_armario == 0) {
             cout << "Não existem armários cadastrados!";
-            escolha=5;
             break;
         }
         excluir_armario(buscar(op));
-        escolha=5;
         break;
     case 4:
         if(cont_curso == 0) {
@@ -1175,7 +1189,6 @@ void excluir(int escolha){
             break;
         }
         excluir_curso(buscar(op));
-        escolha=5;
          break;
        default:
         break;
@@ -1284,7 +1297,7 @@ void alterar(int escolha){
 }
 
 void menuFuncionario() {
-    int opcao=1;
+    int opcao=1, exibe=0;
         while(opcao != 0) {
         system("cls");
             gotoxy(80,2);
@@ -1293,7 +1306,7 @@ void menuFuncionario() {
             cout<<">>Menu Funcionário\n";
         cout << "Bem vindo, "<<user_atual<<"\n";
         cout << "\nO que você quer fazer? ";
-        cout << "\nVoltar [0] \nCadastrar[1]\nExcluir [2]\nAlterar[3]\nExibir[4]\nReservar armário[5]: \n";
+        cout << "\nVoltar [0] \nCadastrar[1]\nExcluir [2]\nAlterar[3]\nExibir[4]\nReservar armário[5]\nRelatórios[6] \n";
        scanf("%d", &opcao);
         switch(opcao) {
         case 0:
@@ -1333,18 +1346,29 @@ void menuFuncionario() {
             break;
         case 4:
             system("cls");
+            gotoxy(80,2);
+            cout<<">Menu principal";
+            gotoxy(80,3);
+            cout<<">>Menu Funcionário";
             gotoxy(80,4);
-            cout<<">>>Exibir\n";
-            gotoxy(5,2);
+            cout<<">>>Exibir";
+            gotoxy(2,2);
             cout<<"O que quer exibir?\n";
-            exibir(pergunta());
+            cout<<"\n1-Funcionário\n2-Aluno\n3-Armário\n4-Curso\n5-Reservas\n6-Aluno-cursos\n7-Voltar:";
+            while(exibe<1 || exibe>7){
+            cin>>exibe;
+            }
+            exibir(exibe);
             cout << "\n";
             system("pause");
+              exibe=0;
             break;
         case 5:
             system("cls");
             reservar_armario();
             system("pause");
+            break;
+        case 6:
             break;
         default:
             cout << "Opção inválida!\n\n";
@@ -1352,6 +1376,7 @@ void menuFuncionario() {
             break;
         }
     }
+
 }
 
 void login() {
@@ -1415,6 +1440,11 @@ void menu(){
         case 2:
             system("cls");
             if(cont_funcionario==0){
+                    gotoxy(80,2);
+                    cout<<">Menu principal";
+                    gotoxy(80,3);
+                    cout<<">>Cadastrando primeiro funcinário";
+                    gotoxy(2,2);
                 cout<<"Não existe Funcionário cadastrado!\n";
                 cadastrar_funcionario();
             }
