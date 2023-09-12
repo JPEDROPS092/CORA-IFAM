@@ -384,8 +384,8 @@ void cadastrar_funcionario(){
 
 int pergunta(){
     int op;
-    while(op != 6){
-        cout<<"\n1-Funcionário\n2-Aluno\n3-Armário\n4-Curso\n5-Reserva\n6-Voltar\n:";
+    while(op != 7){
+        cout<<"\n1-Funcionário\n2-Aluno\n3-Armário\n4-Curso\n5-Reserva\n6-Aluno Curso\n7-Voltar:";
         cin >> op;
         switch(op){
             case 1:
@@ -404,6 +404,9 @@ int pergunta(){
                 return op;
                 break;
             case 6:
+                return op;
+                break;
+            case 7:
                 return op;
                 break;
             default:
@@ -472,6 +475,7 @@ int buscar(int opcao) {
 
 void exibir_curso(int pos){
     int a=4;
+
     gotoxy(5,a+cont_exibe);
     cout<< "|" << cursos[pos].COD;
     gotoxy(19,a+cont_exibe);
@@ -502,7 +506,6 @@ void exibir_funcionario(int pos) {
 
 void exibir_reserva(int pos) {
     int a=4;
-    cont_exibe = 1;
     gotoxy(5,cont_exibe+a);
     cout<< "| " << reservas[pos].cod_reserva;
     gotoxy(15,cont_exibe+a);
@@ -537,21 +540,41 @@ void exibir_armario(int pos) {
 
 void exibir_aluno(int pos) {
     int a=4;
-            gotoxy(5,a+cont_exibe);
-            cout << "| " << alunos[pos].matricula_a;
-            gotoxy(33,a+cont_exibe);
-            cout << "| " << alunos[pos].nome;
-            gotoxy(63,a+cont_exibe);
-            cout << "| " << alunos[pos].e_mail;
-            gotoxy(75,a+cont_exibe);
-            cout << "| " << alunos[pos].fone;
-            gotoxy(90,a+cont_exibe);
-            cout << "| " << alunos[pos].turma;
-            gotoxy(100,a+cont_exibe);
-            cout<<"|";
-            gotoxy(5,a+cont_exibe+1);
-            cout<<"------------------------------------------------------------------------------------------------";
-            cont_exibe=cont_exibe+2;
+    cont_exibe = 1;
+    gotoxy(5,a+cont_exibe);
+    cout << "| " << alunos[pos].matricula_a;
+    gotoxy(33,a+cont_exibe);
+    cout << "| " << alunos[pos].nome;
+    gotoxy(63,a+cont_exibe);
+    cout << "| " << alunos[pos].e_mail;
+    gotoxy(75,a+cont_exibe);
+    cout << "| " << alunos[pos].fone;
+    gotoxy(90,a+cont_exibe);
+    cout << "| " << alunos[pos].turma;
+    gotoxy(100,a+cont_exibe);
+    cout<<"|";
+    gotoxy(5,a+cont_exibe+1);
+    cout<<"------------------------------------------------------------------------------------------------";
+    cont_exibe=cont_exibe+2;
+}
+
+void exibir_alunoCurso(int pos) {
+    int a=4;
+    gotoxy(5,a+cont_exibe);
+    cout << "| " << a_cursos[pos].matricula;
+    gotoxy(25,a+cont_exibe);
+    cout << "| " << a_cursos[pos].cod_curso;
+    gotoxy(40,a+cont_exibe);
+    cout << "| " << a_cursos[pos].inicio.ano;
+    gotoxy(60,a+cont_exibe);
+    cout << "| " << a_cursos[pos].fim.ano;
+    gotoxy(80,a+cont_exibe);
+    cout << "| " << a_cursos[pos].ano;
+    gotoxy(95,a+cont_exibe);
+    cout<<"|";
+    gotoxy(5,a+cont_exibe+1);
+    cout<<"-------------------------------------------------------------------------------------------";
+    cont_exibe=cont_exibe+2;
 }
 
 void cabecalho_curso(){
@@ -626,6 +649,26 @@ void cabecalho_funcionario(){
     cout<<"-------------------------------------------------------------------------------------------";
 }
 
+void cabecalho_alunoCurso(){
+    cout<<"Lista de aluno-curso(s)";
+    gotoxy(5,2);
+    cout<<"-------------------------------------------------------------------------------------------";
+    gotoxy(5,3);
+    cout<<"| Matrícula aluno";
+    gotoxy(25,3);
+    cout<<"| COD curso";
+    gotoxy(40,3);
+    cout<<"| Data de inicio";
+    gotoxy(60,3);
+    cout<<"| Data de Fim";
+    gotoxy(80,3);
+    cout<<"| ano";
+    gotoxy(95,3);
+    cout<<"|";
+    gotoxy(5,4);
+    cout<<"-------------------------------------------------------------------------------------------";
+}
+
 void cabecalho_armario(){
  cout<<"Lista dos Armário(s)";
             gotoxy(5,2);
@@ -644,7 +687,7 @@ void cabecalho_armario(){
 
 void exibir(int escolha){
     int op=escolha, tipo=0, contador, i;
-    while(escolha!=6){
+    while(escolha!=7){
     switch(escolha){
     system("cls");
     case 1:
@@ -669,7 +712,7 @@ void exibir(int escolha){
                 }
                 cont_exibe=1;
             }
-            escolha=6;
+            escolha=7;
         break;
     case 2:
         while(tipo<1 || tipo>2){
@@ -693,7 +736,7 @@ void exibir(int escolha){
                 }
                 cont_exibe=1;
             }
-        escolha=6;
+        escolha=7;
         break;
     case 3:
          while(tipo<1 || tipo>2){
@@ -706,7 +749,6 @@ void exibir(int escolha){
             for(contador=0;contador<cont_armario;contador++){
                 exibir_armario(contador);
             }
-
             cont_exibe=1;
             }else{
                      system("cls");
@@ -714,7 +756,7 @@ void exibir(int escolha){
                     exibir_armario(buscar(op));
                 }
                 cont_exibe=1;
-            escolha=6;
+            escolha=7;
         break;
     case 4:
         while(tipo<1 || tipo>2){
@@ -738,7 +780,7 @@ void exibir(int escolha){
                 }
                 cont_exibe=1;
             }
-            escolha=6;
+            escolha=7;
             break;
         case 5:
         while(tipo<1 || tipo>2){
@@ -762,7 +804,31 @@ void exibir(int escolha){
                 }
                 cont_exibe=1;
             }
-            escolha=6;
+            escolha=7;
+            break;
+        case 6:
+        while(tipo<1 || tipo>2){
+            cout<<"Como deseja exibir?\n\n1-TUDO\n2-SEPARADAMENTE\n:";
+            cin>>tipo;
+        }
+        if(tipo==1){
+            system("cls");
+            cabecalho_alunoCurso();
+            for(contador=0;contador<cont_alunoCurso;contador++){
+                exibir_alunoCurso(contador);
+            }
+            cont_exibe=1;
+            }else{
+                if(cont_alunoCurso == 0) {
+                    cout << "Não existem cursos cadastrados!";
+                } else {
+                    system("cls");
+                    cabecalho_alunoCurso();
+                    exibir_alunoCurso(buscar(op));
+                }
+                cont_exibe=1;
+            }
+            escolha=7;
             break;
         }
     }
@@ -818,6 +884,7 @@ void cadastrar_aluno(){
     a_cursos[cont_aluno].ano=alunos[cont_aluno].ano_aluno;
     cout<<"\n\tALUNO CADASTRADO!!";
     cont_aluno++;
+    cont_alunoCurso++;
 }
 
 void reservar_armario(){
@@ -1311,4 +1378,5 @@ int main() {
     gravar_curso_arquivo();
     gravar_funcionario_arquivo();
     gravar_reserva_arquivo();
+    gravar_alunoCurso_arquivo();
 }
