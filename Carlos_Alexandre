@@ -384,8 +384,8 @@ void cadastrar_funcionario(){
 
 int pergunta(){
     int op;
-    while(op != 5){
-        cout<<"\n1-Funcionário\n2-Aluno\n3-Armário\n4-Curso\n5-Voltar\n:";
+    while(op != 6){
+        cout<<"\n1-Funcionário\n2-Aluno\n3-Armário\n4-Curso\n5-Reserva\n6-Voltar\n:";
         cin >> op;
         switch(op){
             case 1:
@@ -401,6 +401,9 @@ int pergunta(){
                 return op;
                 break;
             case 5:
+                return op;
+                break;
+            case 6:
                 return op;
                 break;
             default:
@@ -467,7 +470,6 @@ int buscar(int opcao) {
     }
 }
 
-
 void exibir_curso(int pos){
     int a=4;
     gotoxy(5,a+cont_exibe);
@@ -483,34 +485,54 @@ void exibir_curso(int pos){
 
 void exibir_funcionario(int pos) {
     int a=4;
-            gotoxy(5,cont_exibe+a);
-            cout<< "| " << funcionarios[pos].matricula_f;
-            gotoxy(33,cont_exibe+a);
-            cout << "| " << funcionarios[pos].nome;
-            gotoxy(60,cont_exibe+a);
-            cout << "| "<< funcionarios[pos].e_mail;
-            gotoxy(80,cont_exibe+a);
-            cout << "| "<< funcionarios[pos].fone;
-            gotoxy(95,a+cont_exibe);
-            cout<<"|";
-            gotoxy(5,cont_exibe+a+1);
-            cout<<"-------------------------------------------------------------------------------------------";
-            cont_exibe=cont_exibe+2;
+    gotoxy(5,cont_exibe+a);
+    cout<< "| " << funcionarios[pos].matricula_f;
+    gotoxy(33,cont_exibe+a);
+    cout << "| " << funcionarios[pos].nome;
+    gotoxy(60,cont_exibe+a);
+    cout << "| "<< funcionarios[pos].e_mail;
+    gotoxy(80,cont_exibe+a);
+    cout << "| "<< funcionarios[pos].fone;
+    gotoxy(95,a+cont_exibe);
+    cout<<"|";
+    gotoxy(5,cont_exibe+a+1);
+    cout<<"-------------------------------------------------------------------------------------------";
+    cont_exibe=cont_exibe+2;
+}
+
+void exibir_reserva(int pos) {
+    int a=4;
+    cont_exibe = 1;
+    gotoxy(5,cont_exibe+a);
+    cout<< "| " << reservas[pos].cod_reserva;
+    gotoxy(15,cont_exibe+a);
+    cout << "| " << reservas[pos].mat_aluno;
+    gotoxy(35,cont_exibe+a);
+    cout << "| "<< reservas[pos].mat_funcionario;
+    gotoxy(60,cont_exibe+a);
+    cout << "| "<< reservas[pos].numero_armario;
+    gotoxy(75,cont_exibe+a);
+    cout << "| "<< reservas[pos].ano_aluno_reserva;
+    gotoxy(95, cont_exibe+a);
+    cout<<"|";
+    gotoxy(5,cont_exibe+a+1);
+    cout<<"-------------------------------------------------------------------------------------------";
+    cont_exibe=cont_exibe+2;
 }
 
 void exibir_armario(int pos) {
     int a=4;
-            gotoxy(5,a+cont_exibe);
-            cout << "| " << armarios[pos].num_armario;
-            gotoxy(15,a+cont_exibe);
-            cout<< "| " << armarios[pos].disponivel;
-            gotoxy(35,a+cont_exibe);
-            cout<< "| " << armarios[pos].estado;
-            gotoxy(47,a+cont_exibe);
-            cout<<"|";
-            gotoxy(5,a+cont_exibe+1);
-            cout<<"-------------------------------------------";
-            cont_exibe=cont_exibe+2;
+    gotoxy(5,a+cont_exibe);
+    cout << "| " << armarios[pos].num_armario;
+    gotoxy(15,a+cont_exibe);
+    cout<< "| " << armarios[pos].disponivel;
+    gotoxy(35,a+cont_exibe);
+    cout<< "| " << armarios[pos].estado;
+    gotoxy(47,a+cont_exibe);
+    cout<<"|";
+    gotoxy(5,a+cont_exibe+1);
+    cout<<"-------------------------------------------";
+    cont_exibe=cont_exibe+2;
 }
 
 void exibir_aluno(int pos) {
@@ -533,7 +555,7 @@ void exibir_aluno(int pos) {
 }
 
 void cabecalho_curso(){
-            cout<<"Lista dos Cusrso(s)";
+            cout<<"Lista dos Curso(s)";
             gotoxy(5,2);
             cout<<"----------------------------";
             gotoxy(5,3);
@@ -544,6 +566,26 @@ void cabecalho_curso(){
             cout<<"|";
             gotoxy(5,4);
             cout<<"----------------------------";
+}
+
+void cabecalho_reserva() {
+    cout<<"Lista de Reserva(s)";
+    gotoxy(5,2);
+    cout<<"-------------------------------------------------------------------------------------------";
+    gotoxy(5,3);
+    cout<<"| Código";
+    gotoxy(15,3);
+    cout<<"| Matrícula aluno";
+    gotoxy(35,3);
+    cout<<"| Matrícula funcionário";
+    gotoxy(60,3);
+    cout<<"| N° armário";
+    gotoxy(75,3);
+    cout<<"| Ano aluno";
+    gotoxy(95,3);
+    cout<<"|";
+    gotoxy(5,4);
+    cout<<"-------------------------------------------------------------------------------------------";
 }
 
 void cabecalho_aluno(){
@@ -567,21 +609,21 @@ void cabecalho_aluno(){
 }
 
 void cabecalho_funcionario(){
- cout<<"Lista dos Funcionário(s)";
-            gotoxy(5,2);
-            cout<<"-------------------------------------------------------------------------------------------";
-            gotoxy(5,3);
-            cout<<"| Matrícula";
-            gotoxy(33,3);
-            cout<<"| Nome";
-            gotoxy(60,3);
-            cout<<"| E-mail";
-            gotoxy(80,3);
-            cout<<"| Fone";
-            gotoxy(95,3);
-            cout<<"|";
-            gotoxy(5,4);
-            cout<<"-------------------------------------------------------------------------------------------";
+    cout<<"Lista dos Funcionário(s)";
+    gotoxy(5,2);
+    cout<<"-------------------------------------------------------------------------------------------";
+    gotoxy(5,3);
+    cout<<"| Matrícula";
+    gotoxy(33,3);
+    cout<<"| Nome";
+    gotoxy(60,3);
+    cout<<"| E-mail";
+    gotoxy(80,3);
+    cout<<"| Fone";
+    gotoxy(95,3);
+    cout<<"|";
+    gotoxy(5,4);
+    cout<<"-------------------------------------------------------------------------------------------";
 }
 
 void cabecalho_armario(){
@@ -602,7 +644,7 @@ void cabecalho_armario(){
 
 void exibir(int escolha){
     int op=escolha, tipo=0, contador, i;
-    while(escolha!=5){
+    while(escolha!=6){
     switch(escolha){
     system("cls");
     case 1:
@@ -627,7 +669,7 @@ void exibir(int escolha){
                 }
                 cont_exibe=1;
             }
-            escolha=5;
+            escolha=6;
         break;
     case 2:
         while(tipo<1 || tipo>2){
@@ -651,7 +693,7 @@ void exibir(int escolha){
                 }
                 cont_exibe=1;
             }
-        escolha=5;
+        escolha=6;
         break;
     case 3:
          while(tipo<1 || tipo>2){
@@ -672,7 +714,7 @@ void exibir(int escolha){
                     exibir_armario(buscar(op));
                 }
                 cont_exibe=1;
-            escolha=5;
+            escolha=6;
         break;
     case 4:
         while(tipo<1 || tipo>2){
@@ -696,10 +738,34 @@ void exibir(int escolha){
                 }
                 cont_exibe=1;
             }
-            escolha=5;
+            escolha=6;
             break;
-          }
+        case 5:
+        while(tipo<1 || tipo>2){
+            cout<<"Como deseja exibir?\n\n1-TUDO\n2-SEPARADAMENTE\n:";
+            cin>>tipo;
         }
+        if(tipo==1){
+            system("cls");
+            cabecalho_reserva();
+            for(contador=0;contador<cont_reserva;contador++){
+                exibir_reserva(contador);
+            }
+            cont_exibe=1;
+            }else{
+                if(cont_reserva == 0) {
+                    cout << "Não existem cursos cadastrados!";
+                } else {
+                    system("cls");
+                    cabecalho_reserva();
+                    exibir_reserva(buscar(op));
+                }
+                cont_exibe=1;
+            }
+            escolha=6;
+            break;
+        }
+    }
  }
 
 void escolher_curso(){
@@ -715,7 +781,7 @@ void cadastrar_aluno(){
     while(sair != 1) {
         cout<<"\nMatrícula: ";
         scanf(" %[^\n]", pkey);
-        for(int contador = 0; contador <= cont_aluno; contador++){
+        for(contador = 0; contador <= cont_aluno; contador++){
             if(strcmp(alunos[contador].matricula_a, pkey)!=0){
                 if(contador == cont_aluno) {
                    strcpy(alunos[contador].matricula_a, pkey);
@@ -766,39 +832,42 @@ int sair = 0, contador, na;
         }
         cout<<"\nMatrícula: ";
         scanf(" %[^\n]", pkey);
-        for(int contador = 0; contador <= cont_aluno; contador++){
-            if(strcmp(alunos[contador].matricula_a, pkey)==0){
-                strcpy(reservas[cont_reserva].mat_aluno,pkey);
-                reservas[cont_reserva].ano_aluno_reserva=alunos[contador].ano_aluno;
-                armarios[na].ano_aluno_armario=alunos[contador].ano_aluno;
+        for(int contador = 0; contador <= cont_reserva; contador++){
+            if(strcmp(reservas[contador].mat_aluno, pkey)!=0){
+                if(contador == cont_reserva){
+                    strcpy(reservas[cont_reserva].mat_aluno,pkey);
+                    reservas[cont_reserva].ano_aluno_reserva=alunos[contador].ano_aluno;
+                    armarios[na].ano_aluno_armario=alunos[contador].ano_aluno;
+                }
                 sair = 1;
-            }
-            if(contador == cont_aluno){
-                cout<<"\nMatrícula não Existe\n";
+            } else {
+                cout<<"\nMatrícula já Existe!\n";
+                sair = 0;
+                break;
             }
     }
 }
 system("cls");
 cout<<"\nEscolha o número do armário";
-            gotoxy(5,2);
-            cout<<"-------------------------------------------";
-            gotoxy(5,3);
-            cout<<"| Número";
-            gotoxy(15,3);
-            cout<<"| Disponibilidade";
-            gotoxy(35,3);
-            cout<<"| Situação";
-            gotoxy(47,3);
-            cout<<"|";
-            gotoxy(5,4);
-            cout<<"-------------------------------------------";
+gotoxy(5,2);
+cout<<"-------------------------------------------";
+gotoxy(5,3);
+cout<<"| Número";
+gotoxy(15,3);
+cout<<"| Disponibilidade";
+gotoxy(35,3);
+cout<<"| Situação";
+gotoxy(47,3);
+cout<<"|";
+gotoxy(5,4);
+cout<<"-------------------------------------------";
 for(contador=0;contador<cont_armario;contador++){
     if((armarios[contador].ano_aluno_armario==0) || (armarios[contador].ano_aluno_armario<reservas[cont_reserva].ano_aluno_reserva)){
         exibir_armario(contador);
     }
 }
- cin>>reservas[cont_reserva].numero_armario;
- na=reservas[cont_reserva].numero_armario;
+cin>>reservas[cont_reserva].numero_armario;
+na=reservas[cont_reserva].numero_armario;
 strcpy( armarios[na].disponivel, "não");
 cont_reserva++;
 cout<<"armário reservado!";
