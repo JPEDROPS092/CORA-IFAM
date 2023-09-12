@@ -83,11 +83,6 @@ void ler_reserva_arquivo() {
     if(pont_arq){
          //printf("\nDados lidos do arquivo aluno.txt:\n");
         while(fscanf(pont_arq, "%d%s%s%d%d", reservas[cont].cod_reserva, reservas[cont].mat_aluno, reservas[cont].mat_funcionario, reservas[cont].numero_armario, reservas[cont].ano_aluno_reserva) != EOF) {
-            cout << "\ncod reserva: " << reservas[cont].cod_reserva;
-            cout << "\nmat aluno: " << reservas[cont].mat_aluno;
-            cout << "\nmat funcionario: " << reservas[cont].mat_funcionario;
-            cout << "\nNum armario: " << reservas[cont].numero_armario;
-            cout << "\nAno aluno reserva: " << reservas[cont].ano_aluno_reserva;
             cont++;
             cont_reserva++;
         }
@@ -100,7 +95,7 @@ void ler_reserva_arquivo() {
 void gravar_reserva_arquivo() {
     FILE *pont_arq;
     int i;
-    pont_arq = fopen("reserva.txt", "w");
+    pont_arq = fopen("reserva.txt", "a");
     if(pont_arq) {
         for(int pos = 0; pos < cont_reserva; pos++) {
             fprintf(pont_arq, "%d \n", reservas[pos].cod_reserva);
@@ -342,7 +337,6 @@ void cadastrar_curso(){
     scanf(" %[^\n]",cursos[cont_curso].nome);
     cout<<"\n\tCURSO CADASTRADO!!";
     cont_curso++;
-
 }
 
 void cadastrar_armario(){
@@ -715,11 +709,6 @@ void exibir(int escolha){
  }
 
 void escolher_curso(){
-    int cont;
-    cout<<"\nLISTA DE CURSOS CADASTRADOS:";
-    for(cont=0;cont<cont_curso;cont++){
-    exibir_curso(cont);
-    }
     cout<<"\nEscolha o COD correspondente\n:";
     fflush(stdin);
     gets(a_cursos[cont_aluno].cod_curso);
@@ -727,7 +716,7 @@ void escolher_curso(){
 
 void cadastrar_aluno(){
     cout<<"\t---CADASTRO DE ALUNO---: ";
-    int sair = 0;
+    int sair = 0, contador;
     char pkey[TAMPKEY];
     while(sair != 1) {
         cout<<"\nMatrícula: ";
@@ -760,6 +749,9 @@ void cadastrar_aluno(){
     }
     system("cls");
     cabecalho_curso();
+    for(contador=0;contador<cont_curso;contador++){
+    exibir_curso(contador);
+    }
     escolher_curso();
     cout<<"\nAno cursado: ";
     cin >>alunos[cont_aluno].ano_aluno;
@@ -814,6 +806,7 @@ for(contador=0;contador<cont_armario;contador++){
  cin>>reservas[cont_reserva].numero_armario;
  na=reservas[cont_reserva].numero_armario;
 strcpy( armarios[na].disponivel, "não");
+cont_reserva++;
 cout<<"armário reservado!";
 }
 
@@ -1120,8 +1113,8 @@ void alterar(int escolha){
 
 void menuFuncionario() {
     int opcao=1;
-        system("cls");
         while(opcao != 0) {
+        system("cls");
         cout << "Bem vindo funcionário\n";
         cout << "\nO que você quer fazer? ";
         cout << "\nVoltar [0] \nCadastrar[1]\nExcluir [2]\nAlterar[3]\nExibir[4]\nReservar armário[5]: \n";
@@ -1221,6 +1214,7 @@ void menu(){
             if(cont_funcionario==0){
                 cadastrar_funcionario();
             }
+            system("cls");
             login();
             break;
         case 3:
@@ -1248,6 +1242,7 @@ int main() {
     }
 
     menu();
+
     gravar_aluno_arquivo();
     gravar_armario_arquivo();
     gravar_curso_arquivo();
