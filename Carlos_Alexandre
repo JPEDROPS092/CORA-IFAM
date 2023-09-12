@@ -81,8 +81,7 @@ void ler_reserva_arquivo() {
     int cont = 0;
     pont_arq = fopen("reserva.txt", "r");
     if(pont_arq){
-         //printf("\nDados lidos do arquivo aluno.txt:\n");
-        while(fscanf(pont_arq, "%d%s%s%d%d", reservas[cont].cod_reserva, reservas[cont].mat_aluno, reservas[cont].mat_funcionario, reservas[cont].numero_armario, reservas[cont].ano_aluno_reserva) != EOF) {
+        while(fscanf(pont_arq, "%d%s%s%d%d", &reservas[cont].cod_reserva, reservas[cont].mat_aluno, reservas[cont].mat_funcionario, &reservas[cont].numero_armario, &reservas[cont].ano_aluno_reserva) != EOF) {
             cont++;
             cont_reserva++;
         }
@@ -115,7 +114,7 @@ void ler_alunoCurso_arquivo() {
     int i, cont = 0;
     pont_arq = fopen("alunoCurso.txt", "r");
     if(pont_arq){
-        while(fscanf(pont_arq, "%s%s%d%d%d", a_cursos[cont].matricula, a_cursos[cont].cod_curso, a_cursos[cont].inicio.ano, a_cursos[cont].fim.ano, a_cursos[cont].ano) != EOF) {
+        while(fscanf(pont_arq, "%s%s%d%d%d", a_cursos[cont].matricula, a_cursos[cont].cod_curso, &a_cursos[cont].inicio.ano, &a_cursos[cont].fim.ano, &a_cursos[cont].ano) != EOF) {
             cont++;
             cont_alunoCurso++;
         }
@@ -236,7 +235,6 @@ void gravar_funcionario_arquivo() {
     }
 }
 
-
 void ler_armario_arquivo() {
     FILE *pont_arq;
     int cont = 0, i;
@@ -269,7 +267,6 @@ void gravar_armario_arquivo() {
         printf("\nERRO ao abrir arquivo!\n");
     }
 }
-
 
 void ler_curso_arquivo() {
     FILE *pont_arq;
@@ -385,8 +382,6 @@ void cadastrar_funcionario(){
 
 }
 
-
-
 int pergunta(){
     int op;
     while(op != 5){
@@ -416,7 +411,6 @@ int pergunta(){
             }
     }
 }
-
 
 int buscar(int opcao) {
     int arm_busc, contador, para = 0;
