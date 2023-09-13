@@ -390,12 +390,14 @@ void cadastrar_funcionario(){
 
 int pergunta(){
     int op;
+     while(op != 7){
+            gotoxy(80,1);
+            cout<<"Diretório:";
             gotoxy(80,2);
             cout<<">Menu principal";
             gotoxy(80,3);
             cout<<">>Menu Funcionário\n\n";
         cout<<"\n1-Funcionário\n2-Aluno\n3-Armário\n4-Curso\n5-Voltar:";
-        while(op != 7){
         cin >> op;
         switch(op){
             case 1:
@@ -412,12 +414,11 @@ int pergunta(){
                 break;
             case 5:
                 return op;
-
-                return op;
-            default:
                 break;
+                default:
+                    cout<<"Opção inválida, tente novamente!\n:";
+                    break;
             }
-            break;
     }
 }
 
@@ -699,22 +700,21 @@ void exibir(int escolha){
         }
         if(tipo==1){
                 system("cls");
+                cont_exibe=1;
                 cabecalho_funcionario();
             for(contador=0;contador<cont_funcionario;contador++){
                 exibir_funcionario(contador);
                 }
-                cont_exibe=1;
             } else {
                 if(cont_funcionario == 0) {
                     cout << "Não existem funcionários cadastrados!";
                 } else {
                     system("cls");
+                    cont_exibe=1;
                   cabecalho_funcionario();
                     exibir_funcionario(buscar(op));
                 }
-                cont_exibe=1;
             }
-            escolha=7;
         break;
     case 2:
         while(tipo<1 || tipo>2){
@@ -723,22 +723,21 @@ void exibir(int escolha){
         }
         if(tipo==1){
                 system("cls");
+                cont_exibe=1;
          cabecalho_aluno();
             for(contador=0;contador<cont_aluno;contador++){
                 exibir_aluno(contador);
             }
-            cont_exibe=1;
             }else {
                 if(cont_aluno == 0) {
                     cout << "Não existem alunos cadastrados!";
                 } else {
                     system("cls");
+                    cont_exibe=1;
          cabecalho_aluno();
                     exibir_aluno(buscar(op));
                 }
-                cont_exibe=1;
             }
-        escolha=7;
         break;
     case 3:
          while(tipo<1 || tipo>2){
@@ -747,18 +746,17 @@ void exibir(int escolha){
         }
         if(tipo==1){
             system("cls");
+            cont_exibe=1;
             cabecalho_armario();
             for(contador=0;contador<cont_armario;contador++){
                 exibir_armario(contador);
             }
-            cont_exibe=1;
             }else{
                      system("cls");
+                     cont_exibe=1;
                 cabecalho_armario();
                     exibir_armario(buscar(op));
                 }
-                cont_exibe=1;
-            escolha=7;
         break;
     case 4:
         while(tipo<1 || tipo>2){
@@ -767,22 +765,21 @@ void exibir(int escolha){
         }
         if(tipo==1){
             system("cls");
+            cont_exibe=1;
             cabecalho_curso();
             for(contador=0;contador<cont_curso;contador++){
                 exibir_curso(contador);
             }
-            cont_exibe=1;
             }else{
                 if(cont_curso == 0) {
                     cout << "Não existem cursos cadastrados!";
                 } else {
                      system("cls");
+                     cont_exibe=1;
                 cabecalho_curso();
                     exibir_curso(buscar(op));
                 }
-                cont_exibe=1;
             }
-            escolha=7;
             break;
         case 5:
         while(tipo<1 || tipo>2){
@@ -791,22 +788,21 @@ void exibir(int escolha){
         }
         if(tipo==1){
             system("cls");
+            cont_exibe=1;
             cabecalho_reserva();
             for(contador=0;contador<cont_reserva;contador++){
                 exibir_reserva(contador);
             }
-            cont_exibe=1;
             }else{
                 if(cont_reserva == 0) {
                     cout << "Não existem cursos cadastrados!";
                 } else {
                     system("cls");
+                    cont_exibe=1;
                     cabecalho_reserva();
                     exibir_reserva(buscar(op));
                 }
-                cont_exibe=1;
             }
-            escolha=7;
             break;
         case 6:
         while(tipo<1 || tipo>2){
@@ -815,22 +811,21 @@ void exibir(int escolha){
         }
         if(tipo==1){
             system("cls");
+            cont_exibe=1;
             cabecalho_alunoCurso();
             for(contador=0;contador<cont_alunoCurso;contador++){
                 exibir_alunoCurso(contador);
             }
-            cont_exibe=1;
             }else{
                 if(cont_alunoCurso == 0) {
                     cout << "Não existem cursos cadastrados!";
                 } else {
                     system("cls");
+                    cont_exibe=1;
                     cabecalho_alunoCurso();
                     exibir_alunoCurso(buscar(op));
                 }
-                cont_exibe=1;
             }
-            escolha=7;
             break;
              default:
               break;
@@ -1474,8 +1469,11 @@ void menuFuncionario() {
             system("pause");
             break;
         case 4:
+            while(exibe<1 || exibe>7){
             system("cls");
-            gotoxy(80,2);
+            gotoxy(80,1);
+            cout<<"Diretório:";
+                gotoxy(80,2);
             cout<<">Menu principal";
             gotoxy(80,3);
             cout<<">>Menu Funcionário";
@@ -1484,7 +1482,6 @@ void menuFuncionario() {
             gotoxy(2,2);
             cout<<"O que quer exibir?\n";
             cout<<"\n1-Funcionário\n2-Aluno\n3-Armário\n4-Curso\n5-Reservas\n6-Aluno-cursos\n7-Voltar:";
-            while(exibe<1 || exibe>7){
             cin>>exibe;
             }
             exibir(exibe);
@@ -1553,8 +1550,11 @@ void menu(){
     int opcao;
     while(opcao != 3) {
         system("cls");
+        gotoxy(80,1);
+        cout<<"Diretório:";
         gotoxy(80,2);
-        cout<<">>Menu principal";
+        cout<<">Menu principal";
+        gotoxy(1,1);
         cout << "\nQuem está acessando? ";
         cout << "\nAluno [1] \nFuncionário [2]\nSair [3]\n:";
        scanf("%d", &opcao);
@@ -1570,7 +1570,7 @@ void menu(){
                     gotoxy(80,2);
                     cout<<">Menu principal";
                     gotoxy(80,3);
-                    cout<<">>Cadastrando primeiro funcinário";
+                    cout<<">>Cadastrando primeiro funcionário";
                     gotoxy(2,2);
                 cout<<"Não existe Funcionário cadastrado!\n";
                 cadastrar_funcionario();
