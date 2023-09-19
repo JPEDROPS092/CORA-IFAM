@@ -831,8 +831,8 @@ void exibir(int escolha){
             cin>>tipo;
         }
         if(tipo==1){
-            cabecalho_alunoCurso();
             system("cls");
+            cabecalho_alunoCurso();
             for(contador=0;contador<cont_aluno;contador++){
                 exibir_alunoCurso(contador);
             }
@@ -855,7 +855,10 @@ void exibir(int escolha){
  }
 
 void escolher_curso(){
-    int contador;
+    int contador, sair=0;
+    char COD[TAMPKEY];
+
+    while(sair != 1) {
     gotoxy(80,2);
     cout<<">Menu principal";
     gotoxy(80,3);
@@ -872,13 +875,21 @@ void escolher_curso(){
     for(contador=0;contador<cont_curso;contador++){
         exibir_curso(contador);
     }
-    cout<<"\nEscolha o COD correspondente\n:";
-    scanf(" %[^\n]", a_cursos[cont_aluno].cod_curso);
-    for(contador=0;contador<cont_curso;contador++){
-        if(a_cursos[cont_aluno].cod_curso==cursos[contador].COD);{
-            strcpy(a_cursos[cont_aluno].nome_curso,cursos[contador].nome);
+        scanf(" %[^\n]", COD);
+        for(contador=0;contador<=cont_curso; contador++){
+            if(strcmp(COD,cursos[contador].COD)==0){
+                   strcpy(a_cursos[cont_aluno].nome_curso,cursos[contador].nome);
+                   strcpy(a_cursos[cont_aluno].cod_curso,COD);
+                sair = 1;
+                break;
+            } if(contador==cont_curso) {
+                cout << "Matrícula não existe!";
+                sair = 0;
+                break;
+            }
         }
     }
+
 }
 
 void reservar_armario(char pkey[TAMPKEY]){
@@ -941,6 +952,8 @@ void cadastrar_aluno(){
         cout<<">>>Cadastrar";
         gotoxy(80,5);
         cout<<">>>>Aluno";
+        gotoxy(80,6);
+        cout<<">>>>>Cadastrando primeiro curso";
         gotoxy(2,2);
         printf("\nAinda não existem cursos cadastrados, cadastre um novo curso \n");
         cadastrar_curso();
@@ -1116,6 +1129,7 @@ void excluir_curso(int pos) {
         }
     }
     cout << "Curso excluído com sucesso!";
+    cont_curso--;
 }
 
 void excluir_aluno(int pos) {
@@ -1392,6 +1406,7 @@ void imprimir_reserva_arquivo(){
     fprintf(arquivo, "\n");
     fclose(arquivo);
 }
+
 void imprimir_armario_arquivo(){
     int i;
     FILE* arquivo =fopen("relatorioArmário.txt","w");
@@ -1401,7 +1416,7 @@ void imprimir_armario_arquivo(){
     fprintf(arquivo,"Disponibilidade\t\t|");
     fprintf(arquivo,"Estado\t\t|\n");
     fprintf(arquivo, "---------------------------------------------------------------------------------------------------\n");
-    for (int i = 0; i < cont_aluno; i++) {
+    for (int i = 0; i < cont_armario; i++) {
         fprintf(arquivo,"|%d\t\t|", armarios[i].num_armario);
         fprintf(arquivo,"%s\t\t|", armarios[i].disponivel);
         fprintf(arquivo,"%s\t\t|\n", armarios[i].estado);
@@ -1592,6 +1607,7 @@ int main() {
     gravar_curso_arquivo();
     gravar_funcionario_arquivo();
     gravar_reserva_arquivo();
+    gravar_alunoCurso_arquivo();
     imprimir_aluno_arquivo();
     imprimir_aluno_curso_arquivo();
     imprimir_armario_arquivo();
