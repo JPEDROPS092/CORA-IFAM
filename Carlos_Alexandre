@@ -378,8 +378,24 @@ void cadastrar_funcionario(){
     scanf(" %[^\n]",funcionarios[cont_funcionario].e_mail);
     cout<<"\nFone: ";
     scanf(" %[^\n]",funcionarios[cont_funcionario].fone);
-    cout<<"\nUsuário: ";
-    scanf(" %[^\n]",funcionarios[cont_funcionario].user);
+    char user[TAMUSER];
+    sair = 0;
+    while(sair != 1) {
+        cout<<"\nUsuário: ";
+        scanf(" %[^\n]", user);
+        for(int contador = 0; contador <= cont_funcionario; contador++){
+            if(strcmp(funcionarios[contador].user, user)!=0){
+                if(contador == cont_funcionario) {
+                   strcpy(funcionarios[contador].user, user);
+                }
+                sair = 1;
+            } else {
+                cout << "Usuário já existe!";
+                sair = 0;
+                break;
+            }
+        }
+    }
     cout<<"\nSenha de acesso \tOBS:(Lembre-se da senha informada!)\t(Max:30 caracteres)\n";
     scanf(" %[^\n]",funcionarios[cont_funcionario].senha);
     cout<<"\n\tFUNCIONÁRIO CADASTRADO!!";
