@@ -1077,7 +1077,7 @@ void exibir_termo_compromisso() {
 
 void menuAluno() {
     int opcao;
-    while(opcao != 4) {
+    while(opcao != 3) {
         system("cls");
             gotoxy(80,2);
             cout<<">Menu principal";
@@ -1085,7 +1085,7 @@ void menuAluno() {
             cout<<">>Menu Aluno";
         cout << "\nBem vindo, Aluno\n";
         cout << "O que você quer fazer? ";
-        cout << "\nVer armários disponíveis [1] \nTermo de compromisso [2] \nVer avisos [3] \nVoltar [4]\n";
+        cout << "\nVer armários disponíveis [1] \nTermo de compromisso [2] \nVoltar [3]\n";
        scanf("%d", &opcao);
        getchar();
         switch(opcao) {
@@ -1100,11 +1100,6 @@ void menuAluno() {
             system("pause");
             break;
         case 3:
-            system("cls");
-            //verAvisos();
-            system("pause");
-            break;
-        case 4:
             system("cls");
             system("pause");
             break;
