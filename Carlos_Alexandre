@@ -891,6 +891,7 @@ void escolher_curso(){
     for(contador=0;contador<cont_curso;contador++){
         exibir_curso(contador);
     }
+    cout << "\n";
         scanf(" %[^\n]", COD);
         for(contador=0;contador<=cont_curso; contador++){
             if(strcmp(COD,cursos[contador].COD)==0){
@@ -983,8 +984,12 @@ void cadastrar_aluno(){
     cin >>a_cursos[cont_aluno].inicio.ano;
     cout<<"\nAno de fim do curso: ";
     cin >>a_cursos[cont_aluno].fim.ano;
-    cout<<"\n\tALUNO CADASTRADO!!";
-    reservar_armario(pkey);
+    cout<<"\n\tALUNO CADASTRADO!!\n";
+    if(cont_reserva == TAMRESERVAS){
+        cout << "Armários lotados!!";
+    } else {
+        reservar_armario(pkey);
+    }
     cont_aluno++;
 }
 
