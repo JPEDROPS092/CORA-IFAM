@@ -464,8 +464,7 @@ int buscar(int opcao) {
 				 cout<<"\n\tInforme o número do armário\n: ";
 				cin>>arm_busc;
 				for(contador = 0; contador < cont_armario; contador++){
-					if(armarios[contador].num_armario=arm_busc){
-						para = 1;
+					if(armarios[contador].num_armario==arm_busc){
 						return contador;
 					}
 				}
@@ -1254,8 +1253,9 @@ void alterarFuncionario(int pos){
                     default:
                         printf("\n\tOpção inválida!\n\t");
   }
-  printf("\n\tNova informação cadastrada!\n\t");
  }while(op != 6);
+   printf("\n\tNovos dados cadastrados!\n\t");
+   system("pause");
 }
 
 void alterarAluno(int pos){
@@ -1296,8 +1296,9 @@ void alterarAluno(int pos){
                     default:
                         printf("\n\tOpção inválida!\n\t");
   }
-  printf("\n\tNova informação cadastrada!\n\t");
  }while(op != 5);
+   printf("\n\tNovos dados cadastrados!\n\t");
+   system("pause");
 }
 
 void alterarArmario(int pos){
@@ -1322,17 +1323,17 @@ void alterarArmario(int pos){
                         scanf(" %[^\n]",armarios[pos].disponivel);
                     break;
                     case 2:
-                        cout<<"\nNovo e-mail: ";
+                        cout<<"\nNovo estado: ";
                         scanf(" %[^\n]",armarios[pos].estado);
                     break;
                     case 3:
-
-                     break;
+                    break;
                     default:
                         printf("\n\tOpção inválida!\n\t");
   }
-  printf("\n\tNova informação cadastrada!\n\t");
  }while(op != 3);
+  printf("\n\tNovos dados cadastrados!\n\t");
+  system("pause");
 }
 
 void alterarCurso(int pos){
@@ -1347,6 +1348,7 @@ void alterarCurso(int pos){
 			cout<<"Novo nome:";
             scanf(" %[^\n]",cursos[pos].nome);
             printf("\n\tNova informação cadastrada!\n\t");
+            system("pause");
 }
 
 void menuAlterar(){
@@ -1363,7 +1365,6 @@ void menuAlterar(){
                     printf("\nO que quer alterar?\n\t1 - Funcionário\n\t2 - Aluno\n\t3 - Armário\n\t4 - Curso\n\t5 - Sair\n\t");
                     scanf("%d", &op);
                     switch(op){
-
                         case 1:
                              alterarFuncionario(buscar(1));
                         break;
@@ -1372,7 +1373,7 @@ void menuAlterar(){
                             alterarAluno(buscar(2));
                             }else{
                                 cout<<"Não existem alunos cadastrados\n";
-                                system("Pause");
+                                 system("pause");
                             }
                         break;
                         case 3:
@@ -1383,20 +1384,17 @@ void menuAlterar(){
                             alterarCurso(buscar(4));
                             }else{
                                 cout<<"Não existem cursos cadastrados\n";
-                                system("Pause");
+                                system("pause");
                             }
                         break;
                         case 5:
-                            system("pause");
                         break;
                         default:
-
                              printf("\n\tOpção Inválida!\n\t");
 
                     }
 
                 }while(op!= 5);
-
 }
 
 void imprimir_aluno_arquivo(){
