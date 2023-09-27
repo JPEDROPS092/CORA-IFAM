@@ -447,9 +447,6 @@ int buscar(int opcao) {
 				scanf(" %[^\n]",matricula_f_busc);
 				for(contador = 0; contador <= cont_funcionario; contador++){
 					if(strcmp(funcionarios[contador].matricula_f, matricula_f_busc)==0){
-						cout << "encontrado " << contador;
-						para = 1;
-						system("cls");
 						return contador;
 					}
 				}
@@ -459,7 +456,6 @@ int buscar(int opcao) {
 				 scanf(" %[^\n]",matricula_a_busc);
 				 for(contador = 0; contador < cont_aluno; contador++){
 					if(strcmp(alunos[contador].matricula_a,matricula_a_busc)==0){
-						para = 1;
 						return contador;
 					}
 				}
@@ -479,7 +475,6 @@ int buscar(int opcao) {
 				 scanf(" %[^\n]",cod_busc);
 				 for(contador = 0;contador < cont_curso; contador++){
 					if(strcmp(cursos[contador].COD,cod_busc)==0){
-						para = 1;
 						return contador;
 					}
 				}
@@ -489,7 +484,6 @@ int buscar(int opcao) {
 				 cin>> codInt;
 				 for(contador = 0;contador < cont_reserva; contador++){
 					if(reservas[contador].cod_reserva == codInt){
-						para = 1;
 						return contador;
 					}
 				}
@@ -499,7 +493,6 @@ int buscar(int opcao) {
 				 scanf(" %[^\n]",cod_busc);
 				 for(contador = 0;contador < cont_aluno; contador++){
 					if(strcmp(a_cursos[contador].matricula, cod_busc)==0){
-						para = 1;
 						return contador;
 					}
 				}
@@ -1228,7 +1221,7 @@ void alterarFuncionario(int pos){
 			gotoxy(80,5);
 			cout<<">>>Escolhendo o campo\n";
 			gotoxy(5,2);
-                printf("\nQual campo?\n\t1 - Nome\n\t2 - E-mail\n\t3 - Telefone\n\t4- USER\n\t5 - Senha\n\t6 - Sair\n\t");
+                printf("\nQual campo?\n\t1 - Nome\n\t2 - E-mail\n\t3 - Telefone\n\t4 - USER\n\t5 - Senha\n\t6 - Sair\n\t");
                 scanf("%d", &op);
                 switch(op){
                     case 1:
@@ -1261,6 +1254,7 @@ void alterarFuncionario(int pos){
                     default:
                         printf("\n\tOpção inválida!\n\t");
   }
+  printf("\n\tNova informação cadastrada!\n\t");
  }while(op != 6);
 }
 
@@ -1302,6 +1296,7 @@ void alterarAluno(int pos){
                     default:
                         printf("\n\tOpção inválida!\n\t");
   }
+  printf("\n\tNova informação cadastrada!\n\t");
  }while(op != 5);
 }
 
@@ -1323,7 +1318,7 @@ void alterarArmario(int pos){
                 switch(op){
                     case 1:
                         system("cls");
-                        cout<<"\nNovo nome: ";
+                        cout<<"\nNova disponibilidade: ";
                         scanf(" %[^\n]",armarios[pos].disponivel);
                     break;
                     case 2:
@@ -1336,6 +1331,7 @@ void alterarArmario(int pos){
                     default:
                         printf("\n\tOpção inválida!\n\t");
   }
+  printf("\n\tNova informação cadastrada!\n\t");
  }while(op != 3);
 }
 
@@ -1350,6 +1346,7 @@ void alterarCurso(int pos){
 			gotoxy(2,3);
 			cout<<"Novo nome:";
             scanf(" %[^\n]",cursos[pos].nome);
+            printf("\n\tNova informação cadastrada!\n\t");
 }
 
 void menuAlterar(){
@@ -1363,7 +1360,7 @@ void menuAlterar(){
 			gotoxy(80,4);
 			cout<<">>>Alterar\n";
 			gotoxy(5,2);
-                    printf("\nO que quer alterar?\n\t1 - Funcionário\n\t2 -Aluno\n\t3 -Armário\n\t4 - Curso\n\t5 - Sair\n\t");
+                    printf("\nO que quer alterar?\n\t1 - Funcionário\n\t2 - Aluno\n\t3 - Armário\n\t4 - Curso\n\t5 - Sair\n\t");
                     scanf("%d", &op);
                     switch(op){
 
