@@ -1407,6 +1407,7 @@ void alterarCurso(int pos){
 void alterarCursoAluno(int pos){
     int cont;
     char COD[TAMPKEY];
+    system("cls");
     cabecalho_curso();
     for(cont=0;cont<cont_curso;cont++){
         exibir_curso(cont);
@@ -1417,6 +1418,8 @@ void alterarCursoAluno(int pos){
 			if(strcmp(COD,cursos[cont].COD)==0){
 				   strcpy(a_cursos[pos].nome_curso,cursos[cont].nome);
 				   strcpy(a_cursos[pos].cod_curso,COD);
+				   cout<<"\nDado atualizado\n";
+				   system("pause");
 				break;
 			}if(cont==cont_curso) {
 				cout << "Matrícula não existe!";
