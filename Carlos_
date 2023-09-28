@@ -911,8 +911,8 @@ void reservar_armario(char pkey[TAMPKEY]){
 	reservas[cont_reserva].numero_armario = cont_reserva;
 	na=reservas[cont_reserva].numero_armario;
 	strcpy( armarios[na].disponivel, "não");
+	printf("\nArmário reservado!\nO código de reserva é : %d",reservas[cont_reserva].cod_reserva);
 	cont_reserva++;
-	cout<<"\nArmário reservado!";
 }
 
 void cadastrar_aluno(){
@@ -974,6 +974,7 @@ void cadastrar_aluno(){
 		cout << "Armários lotados!!";
 	} else {
 		reservar_armario(pkey);
+
 	}
 	cont_aluno++;
 }
