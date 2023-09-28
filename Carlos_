@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-
+#include <locale.h>
 #define  TAMCURSOS 10//CONSTANTES UTILIZADAS
 #define  TAMALUNOS 10
 #define  TAMARMARIOS 50
@@ -72,7 +72,7 @@ Reserva reservas[TAMRESERVAS];
 Curso cursos[TAMCURSOS];
 Aluno_Curso a_cursos[TAMALUNOS];
 Aluno alunos[TAMALUNOS];
-int cont_funcionario, cont_armario, cont_reserva, cont_curso, cont_aluno,cont_exibe=1;
+int cont_funcionario, cont_armario, cont_reserva, cont_curso, cont_aluno,cont_exibe=1, na;
 char func_atual[TAMPKEY], user_atual[TAMUSER];
 //Funções
 
@@ -727,16 +727,12 @@ void exibir(int escolha){
 			for(contador=0;contador<cont_funcionario;contador++){
 				exibir_funcionario(contador);
 				}
-			} else {
-				if(cont_funcionario == 0) {
-					cout << "Não existem funcionários cadastrados!";
-				} else {
+			}if(tipo==2) {
 					pos = buscar(op);
 					system("cls");
 					cabecalho_funcionario();
 					exibir_funcionario(pos);
 				}
-			}
 		break;
 	case 2:
 		cont_exibe=1;
@@ -750,16 +746,13 @@ void exibir(int escolha){
 			for(contador=0;contador<cont_aluno;contador++){
 				exibir_aluno(contador);
 			}
-			}else {
-				if(cont_aluno == 0) {
-					cout << "Não existem alunos cadastrados!";
-				} else {
+			}
+			if(tipo==2){
 					pos = buscar(op);
 					system("cls");
 					cabecalho_aluno();
 					exibir_aluno(pos);
 				}
-			}
 		break;
 	case 3:
 		cont_exibe=1;
@@ -877,7 +870,7 @@ void escolher_curso(){
 	for(contador=0;contador<cont_curso;contador++){
 		exibir_curso(contador);
 	}
-	cout << "\n";
+	cout << "\nEscolha o Cod\n:";
 		scanf(" %[^\n]", COD);
 		for(contador=0;contador<=cont_curso; contador++){
 			if(strcmp(COD,cursos[contador].COD)==0){
@@ -897,27 +890,25 @@ void escolher_curso(){
 void reservar_armario(char pkey[TAMPKEY]){
 	reservas[cont_reserva].cod_reserva = cont_reserva+1;
 	strcpy(reservas[cont_reserva].mat_funcionario,func_atual);
-	int sair = 0, contador, na;
-	for(int contador = 0; contador <= cont_aluno; contador++){
+	int contador;
+	for(int contador = 0; contador < cont_aluno; contador++){
 		if(strcmp(alunos[contador].matricula_a, pkey)==0){
-			if(contador == cont_aluno){
 				strcpy(reservas[cont_reserva].mat_aluno,pkey);
 				reservas[cont_reserva].ano_aluno_reserva=alunos[contador].ano_aluno;
 				armarios[na].ano_aluno_armario=alunos[contador].ano_aluno;
-			}
-			sair = 1;
 		}
 	}
-	reservas[cont_reserva].numero_armario = cont_reserva;
+	reservas[cont_reserva].numero_armario = cont_reserva+1;
 	na=reservas[cont_reserva].numero_armario;
 	strcpy( armarios[na].disponivel, "não");
-	printf("\nArmário reservado!\nO código de reserva é : %d",reservas[cont_reserva].cod_reserva);
+	printf("\nArmário reservado!\nO código de reserva é : %d\n",reservas[cont_reserva].cod_reserva);
 	cont_reserva++;
+	na++;
 }
 
 void cadastrar_aluno(){
 	cout<<"\t---CADASTRO DE ALUNO---: ";
-	int sair = 0, contador;
+	int sair = 0, contador, op=0;
 	char pkey[TAMPKEY];
 	while(sair != 1) {
 		cout<<"\nMatrícula: ";
@@ -970,13 +961,19 @@ void cadastrar_aluno(){
 	cout<<"\nAno de fim do curso: ";
 	cin >>a_cursos[cont_aluno].fim.ano;
 	cout<<"\n\tALUNO CADASTRADO!!\n";
+	cont_aluno++;
 	if(cont_reserva == TAMRESERVAS){
 		cout << "Armários lotados!!";
 	} else {
+	    while(op<1 || op>2){
+        cout << "Cadastrar armário automaticamente?\n";
+        cout << "Sim[1]\nNão[2]\n:";
+        cin>>op;
+	    }
+        if(op==1){
 		reservar_armario(pkey);
-
+        }
 	}
-	cont_aluno++;
 }
 
 void cadastrar(int op_c){
@@ -1228,26 +1225,36 @@ void alterarFuncionario(int pos){
                         system("cls");
                         cout<<"\nNovo nome: ";
                         scanf(" %[^\n]",funcionarios[pos].nome);
+                        printf("\n\tDado atualizado!\n\t");
+                        system("pause");
                     break;
                     case 2:
                         system("cls");
                         cout<<"\nNovo e-mail: ";
                         scanf(" %[^\n]",funcionarios[pos].e_mail);
+                        printf("\n\tDado atualizado!\n\t");
+                        system("pause");
                     break;
                     case 3:
                       system("cls");
                         cout<<"\nNovo telefone: ";
                         scanf(" %[^\n]",funcionarios[pos].fone);
+                        printf("\n\tDado atualizado!\n\t");
+                        system("pause");
                     break;
                     case 4:
                         system("cls");
                         cout<<"\nNovo USER :";
                         scanf(" %[^\n]",funcionarios[pos].user);
+                        printf("\n\tDado atualizado!\n\t");
+                        system("pause");
                     break;
                       case 5:
                         system("cls");
                         cout<<"\nNova senha:";
                         scanf(" %[^\n]",funcionarios[pos].senha);
+                        printf("\n\tDado atualizado!\n\t");
+                        system("pause");
                     break;
                     case 6:
                     break;
@@ -1255,8 +1262,6 @@ void alterarFuncionario(int pos){
                         printf("\n\tOpção inválida!\n\t");
   }
  }while(op != 6);
-   printf("\n\tNovos dados cadastrados!\n\t");
-   system("pause");
 }
 
 void alterarAluno(int pos){
@@ -1279,18 +1284,26 @@ void alterarAluno(int pos){
                         system("cls");
                         cout<<"\nNovo nome: ";
                         scanf(" %[^\n]",alunos[pos].nome);
+                        printf("\n\tDado atualizado!\n\t");
+                        system("pause");
                     break;
                     case 2:
                         cout<<"\nNovo e-mail: ";
                         scanf(" %[^\n]",alunos[pos].e_mail);
+                        printf("\n\tDado atualizado!\n\t");
+                        system("pause");
                     break;
                     case 3:
                         cout<<"\nNovo telefone: ";
                         scanf(" %[^\n]",alunos[pos].fone);
+                        printf("\n\tDado atualizado!\n\t");
+                        system("pause");
                     break;
                     case 4:
                         cout<<"\nNovo série:";
                         cin>>alunos[pos].ano_aluno;
+                        printf("\n\tDado atualizado!\n\t");
+                        system("pause");
                     break;
                       case 5:
                      break;
@@ -1298,8 +1311,6 @@ void alterarAluno(int pos){
                         printf("\n\tOpção inválida!\n\t");
   }
  }while(op != 5);
-   printf("\n\tNovos dados cadastrados!\n\t");
-   system("pause");
 }
 
 void alterarArmario(int pos){
@@ -1322,10 +1333,14 @@ void alterarArmario(int pos){
                         system("cls");
                         cout<<"\nNova disponibilidade: ";
                         scanf(" %[^\n]",armarios[pos].disponivel);
+                        printf("\n\tDado atualizado!\n\t");
+                        system("pause");
                     break;
                     case 2:
                         cout<<"\nNovo estado: ";
                         scanf(" %[^\n]",armarios[pos].estado);
+                        printf("\n\tDado atualizado!\n\t");
+                        system("pause");
                     break;
                     case 3:
                     break;
@@ -1333,8 +1348,7 @@ void alterarArmario(int pos){
                         printf("\n\tOpção inválida!\n\t");
   }
  }while(op != 3);
-  printf("\n\tNovos dados cadastrados!\n\t");
-  system("pause");
+
 }
 
 void alterarCurso(int pos){
@@ -1529,7 +1543,7 @@ void menuFuncionario() {
         cout<<">>Menu Funcionário\n";
 		cout << "Bem vindo, "<<user_atual<<"\n";
 		cout << "\nO que você quer fazer? ";
-		cout << "\nVoltar [0] \nCadastrar[1]\nExcluir [2]\nAlterar[3]\nExibir[4]\n";
+		cout << "\nVoltar [0] \nCadastrar[1]\nExcluir [2]\nAlterar[3]\nExibir[4]\nReservar armário[5]\n:";
 	   scanf("%d", &opcao);
 		switch(opcao) {
 		case 0:
@@ -1581,6 +1595,15 @@ void menuFuncionario() {
 			cout << "\n";
 			system("pause");
 			  exibe=0;
+			  break;
+        case 5:
+            if(cont_aluno!=0){
+            reservar_armario(alunos[buscar(2)].matricula_a);
+            system("pause");
+            }else{
+                cout<<"\nNão existem alunos cadastrados\n";
+                 system("pause");
+            }
 			break;
 		default:
 			cout << "Opção inválida!\n\n";
