@@ -41,7 +41,7 @@ int inicial_existe(){
 void inserir_fruta(){
 }
 
-*Fruta buscar(){
+Fruta* buscar(){
 }
 
  void excluir_inicial(){
@@ -62,8 +62,6 @@ void inserir_fruta(){
   void exibir_fruta(){
   }
   
-   void exibir_fruta(){
-  }
   
   void exibir_relevancia(){
   }//exibir quantas vezes foram buscadas todas da lista
