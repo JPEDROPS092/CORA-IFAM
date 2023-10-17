@@ -18,7 +18,7 @@ struct Dicionario {
      struct Dicionario *pProx;
      struct Dicionario *pAnt;
      Fruta inicio_fruta;
-} inicio_dicio, *pAux_dicio;
+} inicio_dicio, *pAux_dicio, *pSal;
 
 //************************Variáveis globais
 char palavra[20], letra;
@@ -33,7 +33,30 @@ void gotoxy(int x, int y){
  SetConsoleCursorPosition(console,CursorPosition); // Sets position for next thing to be printed
 }
 
+/****************** FUNCAO SALVAR ******************/
 void gravar(){
+    FILE *pont_arq;
+    pont_arq = fopen("dicionario.txt", "w");
+    if(pont_arq) {
+        if(inicio_dicio.pProx != NULL) {
+            pSal = inicio_dicio.pProx; /* aponta para o inicio do dicionario */
+             while(pSal){
+                 pAux_fruta = pSal->inicio_fruta.pProx;/* aponta para o inicio da lista de frutas */
+                 while(pAux_fruta) {
+                    fprintf(pont_arq, "%s\n", pAux_fruta->nome);
+                    fprintf(pont_arq, "%s\n", pAux_fruta->descricao);
+                    fprintf(pont_arq, "%d\n", pAux_fruta->pesquisada);
+                    pAux_fruta = pAux_fruta->pProx; //Passa para a próxima fruta
+             }
+            pSal = pSal->pProx; //Passa para a próxima letra
+        }
+        fclose(pont_arq);
+    }
+    else {
+        cout << "Erro ao gravar arquivo!";
+        system("pause");
+    }
+  }
 }
 
 void ler(){
@@ -78,6 +101,7 @@ void inserir_fruta(){
         gets(pAux_fruta->descricao);
         pAux_fruta->pesquisada = 0;
     }
+    gravar();
     pAux_dicio = NULL;
     pAux_fruta = NULL;
 }
@@ -124,8 +148,6 @@ Fruta* buscar(){
         pAux_fruta = &pAux_dicio->inicio_fruta;
         while(pAux_fruta->pProx) {
             pAux_fruta = pAux_fruta->pProx;
-
-
             gotoxy(0, cont_linha+1);
             cout << pAux_fruta->nome;
             gotoxy(20, cont_linha+1);
