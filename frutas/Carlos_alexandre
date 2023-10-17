@@ -22,7 +22,7 @@ struct Dicionario {
 
 //************************Variáveis globais
 char palavra[20], letra;
-int cont_linha;
+int cont_linha = 1;
 
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 COORD CursorPosition;
@@ -57,13 +57,23 @@ void gravar(){
         system("pause");
     }
   }
+  pAux_dicio = NULL;
+  pAux_fruta = NULL;
 }
 
 void ler(){
 }//função onde devemos ordenar a partir do arquivo;
 
-int inicial_existe(){
-}//verificação da inicial para inserir
+int inicial_existe(){//verificação da inicial para inserir
+    while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(palavra[0]))){
+        pAux_dicio = pAux_dicio->pProx;
+    }
+    if(toupper(pAux_dicio->inicial) == toupper(letra)) { //Inicial existe
+        return 1;
+    } else {
+        return 0;
+    }
+}
 
 void inserir_fruta(){
     pAux_dicio = &inicio_dicio;
@@ -75,6 +85,7 @@ void inserir_fruta(){
     fflush(stdin);
     gets(palavra);
     //Verifica inicial
+
     while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(palavra[0]))){
         pAux_dicio = pAux_dicio->pProx;
     }
@@ -125,12 +136,28 @@ Fruta* buscar(){
  void alterar(){
 
  }
+void cabecalhoExibir() {
+    gotoxy(0, cont_linha);
+    cout << "Nome ";
+    gotoxy(20, cont_linha);
+    cout << "| Descrição ";
+    gotoxy(0, cont_linha+1);
+    cout << "-------------------------------------------------------";
+    cont_linha++;
+}
+
+void exibir_fruta(){
+    gotoxy(0, cont_linha+1);
+    cout << pAux_fruta->nome;
+    gotoxy(20, cont_linha+1);
+    cout << "| " << pAux_fruta->descricao;
+    cont_linha++;
+}
 
  void exibir_inicial(){ //todas palavras de tal letra
     pAux_dicio = &inicio_dicio;
     cout << "Inicial: ";
     cin >> letra;
-    cont_linha = 1;
     while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(letra))){
         pAux_dicio = pAux_dicio->pProx;
     }
@@ -138,42 +165,46 @@ Fruta* buscar(){
         cout << "Essa inicial não existe!";
         system("pause");
     } else {
-        gotoxy(0, cont_linha);
-        cout << "Nome ";
-        gotoxy(20, cont_linha);
-        cout << "| Descrição ";
-        gotoxy(0, cont_linha+1);
-        cout << "-------------------------------------------------------";
-        cont_linha++;
+        cabecalhoExibir();
         pAux_fruta = &pAux_dicio->inicio_fruta;
         while(pAux_fruta->pProx) {
             pAux_fruta = pAux_fruta->pProx;
-            gotoxy(0, cont_linha+1);
-            cout << pAux_fruta->nome;
-            gotoxy(20, cont_linha+1);
-            cout << "| " << pAux_fruta->descricao;
-            cont_linha++;
+            exibir_fruta();
         }
         cout << "\n";
     }
  }
 
 
-  void exibir_fruta(){
-  }
+void exibir_relevancia(){//exibir quantas vezes foram buscadas todas da lista
 
+}
 
-  void exibir_relevancia(){
-  }//exibir quantas vezes foram buscadas todas da lista
+void listar_remisso(){//exibir como tá no arquivo
+    if(inicio_dicio.pProx) {
+        cabecalhoExibir();
+        pAux_dicio = &inicio_dicio;
+        while(pAux_dicio->pProx) {
+            pAux_dicio = pAux_dicio->pProx;
+            pAux_fruta = &pAux_dicio->inicio_fruta;
+            while(pAux_fruta->pProx) {
+                pAux_fruta = pAux_fruta->pProx;
+                exibir_fruta();
+            }
+        }
+        cout << "\n";
+    } else {
+        cout << "Não existem registros de frutas!";
+    }
+}
 
-    void listar_remisso(){
-  }//exibir como tá no arquivo
+void menu_exibir(){
 
-  void menu_exibir(){
-  }
+}
 
- void ordenar(){
- }//escolhe como serão ordenadas as palavras(alfabética, criação e randomica);
+ void ordenar(){//escolhe como serão ordenadas as palavras(alfabética, criação e randomica);
+
+ }
 
 void menu(){
     int op=1;
@@ -194,6 +225,7 @@ void menu(){
        break;
        case 2:
            system("cls");
+           listar_remisso();
            system("pause");
        break;
        case 3:
