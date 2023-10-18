@@ -8,7 +8,7 @@ using namespace std;
 struct Fruta {
      char nome[20], descricao[500];
      struct Fruta *pProx;
-} frutas, *pAux_fruta, *pLer_fruta;
+} frutas, *pAux_fruta, *pLer_fruta, *pProx_fruta;
 
 struct Dicionario {
      char inicial;
@@ -84,7 +84,12 @@ void ler(){
             lido[strlen(lido)-1] = '\0';
             switch(etapa) {
             case 0:
-                if(inicial_existe(lido[0]) == 0){
+                pAux_dicio = &inicio_dicio;
+                while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(lido[0]))){
+                    pAnt_dicio = pAux_dicio;
+                    pAux_dicio = pAux_dicio->pProx;
+                }
+                if(toupper(pAux_dicio->inicial) != toupper(lido[0])) { //Inicial não existe
                     pAux_dicio->pProx = new Dicionario;
                     pAux_dicio = pAux_dicio->pProx;
                     pAux_dicio->pProx = NULL;
@@ -96,10 +101,10 @@ void ler(){
                 } else {
                     pLer_fruta = &pAux_dicio->inicio_fruta;
                     while(pLer_fruta->pProx){
-                        pLer_fruta->pProx;
+                        pLer_fruta = pLer_fruta->pProx;
                     }
-                    pLer_fruta->pProx = new Fruta;
-                    pAux_fruta = pLer_fruta->pProx;
+                    pAux_fruta->pProx = new Fruta;
+                    pAux_fruta = pAux_fruta->pProx;
                 }
                 strcpy(pAux_fruta->nome, lido);
             break;
@@ -200,6 +205,7 @@ void exibir_fruta(){
 
  void exibir_inicial(){ //todas palavras de tal letra
     pAux_dicio = &inicio_dicio;
+    cont_linha = 1;
     cout << "Inicial: ";
     cin >> letra;
     while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(letra))){
@@ -225,6 +231,7 @@ void exibir_relevancia(){//exibir fruta por recorrencia de palavra na descriçã
 }
 
 void listar_remisso(){//exibir como tá no arquivo
+    cont_linha = 1;
     if(inicio_dicio.pProx) {
         cabecalhoExibir();
         pAux_dicio = &inicio_dicio;
@@ -277,18 +284,17 @@ int op=1;
 //Ordenação por comparação
 void ordenar_alfabetico() {
     pAnt_dicio = inicio_dicio.pProx;
-    pAux_dicio = pAnt_dicio;
-    Dicionario *temporario;
-    temporario = new Dicionario;
+    Fruta *tempFruta = new Fruta;
+    Dicionario *temporario = new Dicionario;
     while(pAnt_dicio->pProx){
         pAux_dicio = pAnt_dicio->pProx;
         while(pAux_dicio){
-            cout << "\ncomparando " << pAnt_dicio->inicial << " e " << pAux_dicio->inicial << " ";
+            //cout << "\ncomparando " << pAnt_dicio->inicial << " e " << pAux_dicio->inicial << " ";
             if(pAnt_dicio->inicial > pAux_dicio->inicial) {
-                cout << pAnt_dicio->inicial << " E maior que " << pAux_dicio->inicial;
+                //cout << pAnt_dicio->inicial << " E maior que " << pAux_dicio->inicial;
             }
             if(pAnt_dicio->inicial > pAux_dicio->inicial){
-                cout << "\ntrocar " << pAnt_dicio->inicial << " e " << pAux_dicio->inicial << " ";
+                //cout << "\ntrocar " << pAnt_dicio->inicial << " e " << pAux_dicio->inicial << " ";
 
                 temporario->inicial = pAnt_dicio->inicial;
                 temporario->inicio_fruta = pAnt_dicio->inicio_fruta;
@@ -303,6 +309,32 @@ void ordenar_alfabetico() {
             pAux_dicio = pAux_dicio->pProx;
         }
         pAnt_dicio = pAnt_dicio->pProx;
+    }
+    //Ordenando as sub-listas
+    pAux_dicio = inicio_dicio.pProx;
+    while(pAux_dicio){
+        pAux_fruta = pAux_dicio->inicio_fruta.pProx;
+        while(pAux_fruta->pProx){
+            pProx_fruta = pAux_fruta->pProx;
+            while(pProx_fruta) {
+                //cout << " comparando " << pAux_fruta->nome << " e " << pProx_fruta->nome << "\n";
+                if(strcmp(pAux_fruta->nome, pProx_fruta->nome) > 0) {
+                    //cout << pAux_fruta->nome << " maior que " << pProx_fruta->nome << "\n";
+
+                    strcpy(tempFruta->nome, pAux_fruta->nome);
+                    strcpy(tempFruta->descricao, pAux_fruta->descricao);
+
+                    strcpy(pAux_fruta->nome, pProx_fruta->nome);
+                    strcpy(pAux_fruta->descricao, pProx_fruta->descricao);
+
+                    strcpy(pProx_fruta->nome, tempFruta->nome);
+                    strcpy(pProx_fruta->descricao, tempFruta->descricao);
+                }
+                pProx_fruta = pProx_fruta->pProx;
+            }
+            pAux_fruta = pAux_fruta->pProx;
+        }
+        pAux_dicio = pAux_dicio->pProx;
     }
 }
 
