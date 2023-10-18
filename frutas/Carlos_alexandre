@@ -7,18 +7,18 @@
 using namespace std;
 
 struct Fruta {
-    char nome[20], descricao[500];
-    struct Fruta *pProx;
-    int pesquisada;
-} frutas, *pAux_fruta;
+     char nome[20], descricao[500];
+     struct Fruta *pProx;
+     int pesquisada;
+} frutas, *pAux_fruta, *pLer_fruta;
 
 struct Dicionario {
-    char inicial;
-    int quant, pos;
-    struct Dicionario *pProx;
-    struct Dicionario *pAnt;
-    Fruta inicio_fruta;
-} inicio_dicio, *pAux_dicio, *pSal, *pVolta;
+     char inicial;
+     int quant, pos;
+     struct Dicionario *pProx;
+     struct Dicionario *pAnt;
+     Fruta inicio_fruta;
+} inicio_dicio, *pAux_dicio, *pSal, *pAnt_dicio;
 
 //************************Variáveis globais
 char palavra[20], letra;
@@ -28,9 +28,23 @@ HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 COORD CursorPosition;
 
 void gotoxy(int x, int y){
-    CursorPosition.X = x; // Locates column
-    CursorPosition.Y = y; // Locates Row
-    SetConsoleCursorPosition(console,CursorPosition); // Sets position for next thing to be printed
+ CursorPosition.X = x; // Locates column
+ CursorPosition.Y = y; // Locates Row
+ SetConsoleCursorPosition(console,CursorPosition); // Sets position for next thing to be printed
+}
+
+/****************** FUNCAO VERIFICAR NODO ******************/
+int inicial_existe(char let){//verificação da inicial para inserir
+    pAux_dicio = &inicio_dicio;
+    while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(let))){
+        pAnt_dicio = pAux_dicio;
+        pAux_dicio = pAux_dicio->pProx;
+    }
+    if(toupper(pAux_dicio->inicial) == toupper(let)) { //Inicial existe
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 /****************** FUNCAO SALVAR ******************/
@@ -41,39 +55,110 @@ void gravar(){
         if(inicio_dicio.pProx != NULL) {
             pSal = inicio_dicio.pProx; /* aponta para o inicio do dicionario */
              while(pSal){
-                pAux_fruta = pSal->inicio_fruta.pProx;/* aponta para o inicio da lista de frutas */
-                while(pAux_fruta) {
+                 pAux_fruta = pSal->inicio_fruta.pProx;/* aponta para o inicio da lista de frutas */
+                 while(pAux_fruta) {
                     fprintf(pont_arq, "%s\n", pAux_fruta->nome);
                     fprintf(pont_arq, "%s\n", pAux_fruta->descricao);
                     fprintf(pont_arq, "%d\n", pAux_fruta->pesquisada);
                     pAux_fruta = pAux_fruta->pProx; //Passa para a próxima fruta
-                }
-                pSal = pSal->pProx; //Passa para a próxima letra
-            }
+             }
+            pSal = pSal->pProx; //Passa para a próxima letra
+        }
         fclose(pont_arq);
-    } else {
+    }
+    else {
         cout << "Erro ao gravar arquivo!";
         system("pause");
-      }
     }
+  }
+  pAux_dicio = NULL;
+  pAux_fruta = NULL;
+}
+void ler() {
+    pAux_dicio = &inicio_dicio;
+    
+    while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(palavra[0]))){
+        pAnt_dicio = pAux_dicio;
+        pAux_dicio = pAux_dicio->pProx;
+    }
+    if(pAux_dicio->inicial != palavra[0]) { //Inicial não encontrada
+        pAux_dicio->pProx = new Dicionario; //Cria novo nodo para essa inicial
+        pAux_dicio = pAux_dicio->pProx;
+        pAux_dicio->inicial = palavra[0];
+        pAux_dicio->pProx = NULL; //Faz o próximo item(último) apontar para nulo(necessário)
+    }
+    //Validar palavra
+    pAux_fruta = &pAux_dicio->inicio_fruta;
+    while((pAux_fruta->pProx) && (strcmp(pAux_fruta->nome, palavra) != 0)) {
+        pAux_fruta = pAux_fruta->pProx;
+    }
+    if(strcmp(pAux_fruta->nome, palavra) == 0) { //Palavra já inserida
+        cout << "Fruta já inserida!";
+    } else { //Cria espaço para nova fruta
+        pAux_dicio->quant++;
+        pAux_fruta->pProx = new Fruta;
+        pAux_fruta = pAux_fruta->pProx;
+        strcpy(pAux_fruta->nome, palavra);
+        gotoxy(21, 2);
+        fflush(stdin);
+        gets(pAux_fruta->descricao);
+        pAux_fruta->pesquisada = 0;
+    }
+    gravar();
     pAux_dicio = NULL;
     pAux_fruta = NULL;
 }
+/*
+void ler(){
+    char lido[500];
+    int etapa=0;
+    FILE *pont_arq;
+    pont_arq = fopen("dicionario.txt", "r");
+    if(pont_arq) {
+     pAux_dicio=&inicio_dicio;
+      while(!feof(pont_arq)) {
+          if(fgets(lido, 500, pont_arq)) {
+            //switch(etapa) {
+            if(inicial_existe(lido[0]) == 0){
+                pAux_dicio->pProx = new Dicionario;
+                pAux_dicio = pAux_dicio->pProx;
+                pAux_dicio->pProx = NULL;
+                pAux_dicio->inicial = lido[0];
+                pLer_fruta = &pAux_dicio->inicio_fruta;
+                pLer_fruta->pProx = new Fruta;
+                pAux_fruta = pLer_fruta->pProx;
+            } else {
+                pLer_fruta = &pAux_dicio->inicio_fruta;
+                while(pLer_fruta->pProx){
+                    pLer_fruta->pProx;
+                }
+                pLer_fruta->pProx = new Fruta;
+                pAux_fruta = pLer_fruta->pProx;
 
-void ler() {//função onde devemos ordenar a partir do arquivo;
+            }
+            strcpy(pAux_fruta->nome, lido);
 
-}
 
-int inicial_existe(){//verificação da inicial para inserir
-    while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(palavra[0]))){
-        pAux_dicio = pAux_dicio->pProx;
+            while((pAux_dicio->pProx) && (pAux_dicio->inicial != lido[0])){
+                pAnt_dicio = pAux_dicio;
+                pAux_dicio = pAux_dicio->pProx;
+            }
+            if(pAux_dicio->inicial != lido[0]) {
+
+            }
+
+            //}
+          }
+      }
     }
-    if(toupper(pAux_dicio->inicial) == toupper(letra)) { //Inicial existe
-        return 1;
-    } else {
-        return 0;
+    else{
+     cout << "Sem dados no arquivo\n";
+     system("pause");
     }
-}
+
+}//função onde devemos ordenar a partir do arquivo;
+*/
+
 
 void inserir_fruta(){
     pAux_dicio = &inicio_dicio;
@@ -85,7 +170,9 @@ void inserir_fruta(){
     fflush(stdin);
     gets(palavra);
     //Verifica inicial
+
     while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(palavra[0]))){
+        pAnt_dicio = pAux_dicio;
         pAux_dicio = pAux_dicio->pProx;
     }
     if(pAux_dicio->inicial != palavra[0]) { //Inicial não encontrada
@@ -120,43 +207,21 @@ Fruta* buscar(){
 
 }
 
-void excluir_inicial(){
-    if(inicio_dicio.pProx) {
-        cout << "Qual inicial excluir? ";
-        cin >> letra;
-        pAux_dicio = &inicio_dicio;
-        while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(letra))){
-            pVolta = pAux_dicio;
-            pAux_dicio = pAux_dicio->pProx;
-        }
+ void excluir_inicial(){
 
-        if(toupper(pAux_dicio->inicial) != toupper(letra)) { //Inicial não encontrada
-            cout << "Essa inicial não existe!";
-            system("pause");
-        } else {
-            if(pAux_dicio->pProx) {
-                pVolta->pProx = pAux_dicio->pProx;
-            }
-            pVolta->pProx->pAnt = pVolta;
-            delete pAux_dicio;
-            cout << "Aqui";
-        }
-    } else {
-        cout << "Não existem registros de frutas!";
-    }
-}
+ }
 
-void excluir_fruta(){
+ void excluir_fruta(){
 
-}
+ }
 
-void menu_excluir(){
+ void menu_excluir(){
 
-}
+ }
 
-void alterar(){
+ void alterar(){
 
-}
+ }
 void cabecalhoExibir() {
     gotoxy(0, cont_linha);
     cout << "Nome ";
@@ -177,7 +242,6 @@ void exibir_fruta(){
 
  void exibir_inicial(){ //todas palavras de tal letra
     pAux_dicio = &inicio_dicio;
-    cont_linha = 1;
     cout << "Inicial: ";
     cin >> letra;
     while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(letra))){
@@ -204,7 +268,6 @@ void exibir_relevancia(){//exibir quantas vezes foram buscadas todas da lista
 
 void listar_remisso(){//exibir como tá no arquivo
     if(inicio_dicio.pProx) {
-        cont_linha = 1;
         cabecalhoExibir();
         pAux_dicio = &inicio_dicio;
         while(pAux_dicio->pProx) {
@@ -225,9 +288,9 @@ void menu_exibir(){
 
 }
 
-void ordenar(){//escolhe como serão ordenadas as palavras(alfabética, criação e randomica);
+ void ordenar(){//escolhe como serão ordenadas as palavras(alfabética, criação e randomica);
 
-}
+ }
 
 void menu(){
     int op=1;
@@ -253,7 +316,6 @@ void menu(){
        break;
        case 3:
            system("cls");
-           excluir_inicial();
            system("pause");
        break;
        case 4:
@@ -275,5 +337,6 @@ void menu(){
 
 int main() {
     setlocale(LC_ALL, "Portuguese");
+    ler();
     menu();
 }
