@@ -5,12 +5,10 @@
 #include <stdlib.h>
 #include <windows.h>
 using namespace std;
-
 struct Fruta {
      char nome[20], descricao[500];
      struct Fruta *pProx;
-     int pesquisada;
-} frutas, *pAux_fruta;
+} frutas, *pAux_fruta, *pLer_fruta;
 
 struct Dicionario {
      char inicial;
@@ -18,7 +16,7 @@ struct Dicionario {
      struct Dicionario *pProx;
      struct Dicionario *pAnt;
      Fruta inicio_fruta;
-} inicio_dicio, *pAux_dicio, *pSal;
+} inicio_dicio, *pAux_dicio, *pSal, *pAnt_dicio;
 
 //************************Variáveis globais
 char palavra[20], letra;
@@ -33,6 +31,20 @@ void gotoxy(int x, int y){
  SetConsoleCursorPosition(console,CursorPosition); // Sets position for next thing to be printed
 }
 
+/****************** FUNCAO VERIFICAR NODO ******************/
+int inicial_existe(char let){//verificação da inicial para inserir
+    pAux_dicio = &inicio_dicio;
+    while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(let))){
+        pAnt_dicio = pAux_dicio;
+        pAux_dicio = pAux_dicio->pProx;
+    }
+    if(toupper(pAux_dicio->inicial) == toupper(let)) { //Inicial existe
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 /****************** FUNCAO SALVAR ******************/
 void gravar(){
     FILE *pont_arq;
@@ -45,7 +57,6 @@ void gravar(){
                  while(pAux_fruta) {
                     fprintf(pont_arq, "%s\n", pAux_fruta->nome);
                     fprintf(pont_arq, "%s\n", pAux_fruta->descricao);
-                    fprintf(pont_arq, "%d\n", pAux_fruta->pesquisada);
                     pAux_fruta = pAux_fruta->pProx; //Passa para a próxima fruta
              }
             pSal = pSal->pProx; //Passa para a próxima letra
@@ -61,41 +72,40 @@ void gravar(){
   pAux_fruta = NULL;
 }
 
-int inicial_existe(){//verificação da inicial para inserir
-    while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(palavra[0]))){
-        pAux_dicio = pAux_dicio->pProx;
-    }
-    if(toupper(pAux_dicio->inicial) == toupper(letra)) { //Inicial existe
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
 void ler(){
     char lido[500];
     int etapa=0;
     FILE *pont_arq;
     pont_arq = fopen("dicionario.txt", "r");
     if(pont_arq) {
-     pAux_dicio=&inicio_dicio;
+      pAux_dicio = &inicio_dicio;
       while(!feof(pont_arq)) {
           if(fgets(lido, 500, pont_arq)) {
-            switch(etapa){
+            lido[strlen(lido)-1] = '\0';
+            switch(etapa) {
             case 0:
-                  if(pAux_dicio->inicial==NULL){
-                    pAux_dicio->inicial=lido[0];
-                  }else{
-                      cout<<"ajuda, senhor";
-                  }
+                if(inicial_existe(lido[0]) == 0){
+                    pAux_dicio->pProx = new Dicionario;
+                    pAux_dicio = pAux_dicio->pProx;
+                    pAux_dicio->pProx = NULL;
+                    pAux_dicio->inicial = lido[0];
+                    pLer_fruta = &pAux_dicio->inicio_fruta;
+                    pLer_fruta->pProx = new Fruta;
+                    pAux_fruta = pLer_fruta->pProx;
+                    strcpy(pAux_fruta->nome, lido);
+                } else {
+                    pLer_fruta = &pAux_dicio->inicio_fruta;
+                    while(pLer_fruta->pProx){
+                        pLer_fruta->pProx;
+                    }
+                    pLer_fruta->pProx = new Fruta;
+                    pAux_fruta = pLer_fruta->pProx;
+                }
+                strcpy(pAux_fruta->nome, lido);
             break;
             case 1:
-
-            break;
-            case 2:
-            break;
-            case 3:
-                etapa=-1;
+                strcpy(pAux_fruta->descricao, lido);
+                etapa = -1;
                 break;
             }
             etapa++;
@@ -123,6 +133,7 @@ void inserir_fruta(){
     //Verifica inicial
 
     while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(palavra[0]))){
+        pAnt_dicio = pAux_dicio;
         pAux_dicio = pAux_dicio->pProx;
     }
     if(pAux_dicio->inicial != palavra[0]) { //Inicial não encontrada
@@ -146,7 +157,6 @@ void inserir_fruta(){
         gotoxy(21, 2);
         fflush(stdin);
         gets(pAux_fruta->descricao);
-        pAux_fruta->pesquisada = 0;
     }
     gravar();
     pAux_dicio = NULL;
@@ -235,7 +245,35 @@ void listar_remisso(){//exibir como tá no arquivo
 }
 
 void menu_exibir(){
-
+int op=1;
+    do{
+       system("cls");
+       cout<<"\t\tComo deseja exibir?\n";
+       cout<<"Voltar-0\nExibir remisso-1\nExibir letra-2\nExibir Fruta-3\n:";
+       cin>>op;
+       switch(op){
+       case 0:
+       break;
+       case 1:
+           system("cls");
+           listar_remisso();
+           system("pause");
+       break;
+       case 2:
+           system("cls");
+           exibir_inicial();
+           system("pause");
+       break;
+       case 3:
+           system("cls");
+           system("pause");
+       break;
+       default:
+        cout<<"\nOpção inválida, tente novamente!\n";
+        system("pause");
+       break;
+       }
+    }while(op!=0);
 }
 
  void ordenar(){//escolhe como serão ordenadas as palavras(alfabética, criação e randomica);
@@ -247,7 +285,7 @@ void menu(){
     do{
        system("cls");
        cout<<"\t\tO QUE DESEJA FAZER?\n";
-       cout<<"SAIR-0\nINSERIR FRUTA(S)-1\nEXIBIR DICIONÁRIO-2\nEXCLUIR FRUTA(S)-3\nALTERAR FRUTA(S)-4\nPESQUISAR FRUTA-5\n:";
+       cout<<"SAIR-0\nINSERIR FRUTA(S)-1\nEXIBIR DICIONÁRIO-2\nEXCLUIR FRUTA(S)-3\nALTERAR FRUTA(S)-4\n:";
        cin>>op;
        switch(op){
        case 0:
@@ -261,7 +299,7 @@ void menu(){
        break;
        case 2:
            system("cls");
-           listar_remisso();
+           menu_exibir();
            system("pause");
        break;
        case 3:
@@ -270,11 +308,6 @@ void menu(){
        break;
        case 4:
            system("cls");
-           system("pause");
-       break;
-       case 5:
-           system("cls");
-           exibir_inicial();
            system("pause");
        break;
        default:
