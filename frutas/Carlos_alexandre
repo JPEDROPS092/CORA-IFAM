@@ -74,80 +74,44 @@ void gravar(){
   pAux_dicio = NULL;
   pAux_fruta = NULL;
 }
-void ler() {
-    pAux_dicio = &inicio_dicio;
-    
-    while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(palavra[0]))){
-        pAnt_dicio = pAux_dicio;
-        pAux_dicio = pAux_dicio->pProx;
-    }
-    if(pAux_dicio->inicial != palavra[0]) { //Inicial não encontrada
-        pAux_dicio->pProx = new Dicionario; //Cria novo nodo para essa inicial
-        pAux_dicio = pAux_dicio->pProx;
-        pAux_dicio->inicial = palavra[0];
-        pAux_dicio->pProx = NULL; //Faz o próximo item(último) apontar para nulo(necessário)
-    }
-    //Validar palavra
-    pAux_fruta = &pAux_dicio->inicio_fruta;
-    while((pAux_fruta->pProx) && (strcmp(pAux_fruta->nome, palavra) != 0)) {
-        pAux_fruta = pAux_fruta->pProx;
-    }
-    if(strcmp(pAux_fruta->nome, palavra) == 0) { //Palavra já inserida
-        cout << "Fruta já inserida!";
-    } else { //Cria espaço para nova fruta
-        pAux_dicio->quant++;
-        pAux_fruta->pProx = new Fruta;
-        pAux_fruta = pAux_fruta->pProx;
-        strcpy(pAux_fruta->nome, palavra);
-        gotoxy(21, 2);
-        fflush(stdin);
-        gets(pAux_fruta->descricao);
-        pAux_fruta->pesquisada = 0;
-    }
-    gravar();
-    pAux_dicio = NULL;
-    pAux_fruta = NULL;
-}
-/*
+
 void ler(){
     char lido[500];
     int etapa=0;
     FILE *pont_arq;
     pont_arq = fopen("dicionario.txt", "r");
     if(pont_arq) {
-     pAux_dicio=&inicio_dicio;
+      pAux_dicio = &inicio_dicio;
       while(!feof(pont_arq)) {
           if(fgets(lido, 500, pont_arq)) {
-            //switch(etapa) {
-            if(inicial_existe(lido[0]) == 0){
-                pAux_dicio->pProx = new Dicionario;
-                pAux_dicio = pAux_dicio->pProx;
-                pAux_dicio->pProx = NULL;
-                pAux_dicio->inicial = lido[0];
-                pLer_fruta = &pAux_dicio->inicio_fruta;
-                pLer_fruta->pProx = new Fruta;
-                pAux_fruta = pLer_fruta->pProx;
-            } else {
-                pLer_fruta = &pAux_dicio->inicio_fruta;
-                while(pLer_fruta->pProx){
-                    pLer_fruta->pProx;
+            lido[strlen(lido)-1] = '\0';
+            switch(etapa) {
+            case 0:
+                if(inicial_existe(lido[0]) == 0){
+                    pAux_dicio->pProx = new Dicionario;
+                    pAux_dicio = pAux_dicio->pProx;
+                    pAux_dicio->pProx = NULL;
+                    pAux_dicio->inicial = lido[0];
+                    pLer_fruta = &pAux_dicio->inicio_fruta;
+                    pLer_fruta->pProx = new Fruta;
+                    pAux_fruta = pLer_fruta->pProx;
+                    strcpy(pAux_fruta->nome, lido);
+                } else {
+                    pLer_fruta = &pAux_dicio->inicio_fruta;
+                    while(pLer_fruta->pProx){
+                        pLer_fruta->pProx;
+                    }
+                    pLer_fruta->pProx = new Fruta;
+                    pAux_fruta = pLer_fruta->pProx;
                 }
-                pLer_fruta->pProx = new Fruta;
-                pAux_fruta = pLer_fruta->pProx;
-
+                strcpy(pAux_fruta->nome, lido);
+            break;
+            case 1:
+                strcpy(pAux_fruta->descricao, lido);
+                etapa = -1;
+                break;
             }
-            strcpy(pAux_fruta->nome, lido);
-
-
-            while((pAux_dicio->pProx) && (pAux_dicio->inicial != lido[0])){
-                pAnt_dicio = pAux_dicio;
-                pAux_dicio = pAux_dicio->pProx;
-            }
-            if(pAux_dicio->inicial != lido[0]) {
-
-            }
-
-            //}
+            etapa++;
           }
       }
     }
@@ -157,7 +121,7 @@ void ler(){
     }
 
 }//função onde devemos ordenar a partir do arquivo;
-*/
+
 
 
 void inserir_fruta(){
