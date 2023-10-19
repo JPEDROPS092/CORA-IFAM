@@ -227,6 +227,7 @@ void alterar(Fruta *achada){
     fflush(stdin);
     cout<<"\nNova descrição\n:";
     gets(pAux_fruta->descricao);
+    gravar();
 }
 
 void cabecalhoExibir() {
