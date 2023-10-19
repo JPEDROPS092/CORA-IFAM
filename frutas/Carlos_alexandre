@@ -45,6 +45,20 @@ int inicial_existe(char let){//verificação da inicial para inserir
     }
 }
 
+/****************** FUNCAO CONTADOR DE OCORRÊNCIA ******************/
+int existe(char *str1, char *str2, int id) { //Passa a string que pode conter a substring, a substring e a posição em que começa a verificação
+    int i, j = 0;
+    for(i = id; i < strlen(str1); i++){ //Percorre a string da posição id até o final
+        if(str1[i] == str2[j]) //Se a letra atual é igual a letra da sobstring j++
+            j++;
+        else //Senão é uma palavra diferente e j = 0
+            j = 0;
+        if(j == strlen(str2)) //retorna a posição em que termina a substring na string
+            return i;
+    }
+    return -1; //Não encontrou substring na string
+}
+
 /****************** FUNCAO SALVAR ******************/
 void gravar(){
     FILE *pont_arq;
@@ -372,6 +386,19 @@ void ordenar(){//escolhe como serão ordenadas as palavras(alfabética, criaçã
 }
 
 void menu(){
+    /*
+    char str1[] = "teste teste testando";
+    char str2[] = "teste";
+    int indice = 0, quantidade = 0;
+    do{
+        indice = existe(str1, str2, indice);
+        cout << "Retorno: " << indice << "\n";
+        if(indice != -1)
+            quantidade++;
+    }while(indice != -1);
+    cout << "\nQuantidade: " << quantidade << "\n";
+    system("pause");
+    */
     int op=1;
     do{
        system("cls");
