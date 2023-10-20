@@ -215,7 +215,36 @@ void excluir_inicial(){
 }
 
 void excluir_fruta(){
+char elemento[40];
 
+cout<<"Informe a fruta\n:";
+fflush(stdin);
+gets(elemento);
+
+pAux_dicio=&inicio_dicio;
+ if(pAux_dicio->pProx!=NULL){
+        pbuscarLetra=pAux_dicio->pProx;
+    while(pbuscarLetra){
+       if(toupper(elemento[0])==toupper(pbuscarLetra->inicial)){
+           pbuscarFruta=&pbuscarLetra->inicio_fruta;
+           while(pbuscarFruta->pProx){
+                if(strcmp(toupper(pbuscarFruta->pProx->nome),toupper(elemento))==0){
+                    pAux_fruta = pbuscarFruta->pProx->pProx;
+                    pbuscarFruta->pProx = pAux_fruta;
+                    pAux_fruta = NULL;
+                }
+           pbuscarFruta = pbuscarFruta->pProx;
+           }
+           printf("\n %s não foi adicionado(a) ao dicionário\n", elemento);
+           system("pause");
+       }
+       pbuscarLetra=pbuscarLetra->pProx ;
+    }
+ }else{
+     cout<<"\nNão existe fruta cadastrada na lista!";
+ }
+
+gravar();
 }
 
 void menu_excluir(){
@@ -417,19 +446,6 @@ void ordenar(){//escolhe como serão ordenadas as palavras(alfabética, criaçã
 }
 
 void menu(){
-    /*
-    char str1[] = "teste teste testando";
-    char str2[] = "teste";
-    int indice = 0, quantidade = 0;
-    do{
-        indice = existe(str1, str2, indice);
-        cout << "Retorno: " << indice << "\n";
-        if(indice != -1)
-            quantidade++;
-    }while(indice != -1);
-    cout << "\nQuantidade: " << quantidade << "\n";
-    system("pause");
-    */
     int op=1;
     do{
        system("cls");
@@ -453,6 +469,7 @@ void menu(){
        break;
        case 3:
            system("cls");
+           excluir_fruta();
            system("pause");
        break;
        case 4:
