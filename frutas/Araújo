@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <windows.h>
+#include <cstdlib>
 using namespace std;
 struct Fruta {
      char nome[40], descricao[500];
@@ -228,15 +229,17 @@ pAux_dicio=&inicio_dicio;
        if(toupper(elemento[0])==toupper(pbuscarLetra->inicial)){
            pbuscarFruta=&pbuscarLetra->inicio_fruta;
            while(pbuscarFruta->pProx){
-                if(strcmp(toupper(pbuscarFruta->pProx->nome),toupper(elemento))==0){
-                    pAux_fruta = pbuscarFruta->pProx->pProx;
-                    pbuscarFruta->pProx = pAux_fruta;
-                    pAux_fruta = NULL;
+               if(strcmp(pbuscarFruta->pProx->nome,elemento)==0){
+                if(pbuscarFruta->pProx->pProx!=NULL){
+                     pAux_fruta = pbuscarFruta->pProx->pProx;
+                     pbuscarFruta->pProx = pAux_fruta;
+                     pAux_fruta = NULL;
+                        }else{
+                           pbuscarFruta->pProx=NULL;
+                        }
                 }
            pbuscarFruta = pbuscarFruta->pProx;
            }
-           printf("\n %s não foi adicionado(a) ao dicionário\n", elemento);
-           system("pause");
        }
        pbuscarLetra=pbuscarLetra->pProx ;
     }
