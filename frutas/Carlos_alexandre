@@ -20,7 +20,7 @@ struct Dicionario {
 } inicio_dicio, *pAux_dicio, *pSal, *pAnt_dicio, *pbuscarLetra;
 
 //************************Variáveis globais
-char palavra[40], letra;
+char palavra[40], letra,elemento[40];
 int cont_linha = 1, cont_fruta;
 
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -78,11 +78,10 @@ void gravar(){
         }
         fclose(pont_arq);
     }
-    else {
+  } else {
         cout << "Erro ao gravar arquivo!";
         system("pause");
     }
-  }
   pAux_dicio = NULL;
   pAux_fruta = NULL;
 }
@@ -187,7 +186,7 @@ void inserir_fruta(){
 
 /****************** FUNCAO BUSCAR ******************/
 Fruta* buscar(){
-    char elemento[40];
+
     cout<<"Informe a fruta\n:";
     fflush(stdin);
     gets(elemento);
@@ -202,10 +201,7 @@ Fruta* buscar(){
                     if(strcmp(elemento, pbuscarFruta->nome)==0){
                         return pbuscarFruta;
                     }
-                    //pbuscarFruta = pbuscarFruta->pProx;
                }
-               printf("\n%s não foi adicionado(a) ao dicionário", elemento);
-               system("pause");
            }
            pbuscarLetra=pbuscarLetra->pProx ;
         }
@@ -318,6 +314,7 @@ void excluir_fruta(){
         if(pAux_dicio->pProx!=NULL){
             pbuscarLetra=pAux_dicio->pProx;
             while(pbuscarLetra){
+                pAnt_dicio = pbuscarLetra;
                if(toupper(elemento[0])==toupper(pbuscarLetra->inicial)){
                    pbuscarFruta=&pbuscarLetra->inicio_fruta;
                    while(pbuscarFruta->pProx){
@@ -328,6 +325,29 @@ void excluir_fruta(){
                             encontrou = 1;
                             pAnt_fruta->pProx = pbuscarFruta->pProx;
                             delete pbuscarFruta;
+                        }
+                   }
+                   if(pbuscarLetra->inicio_fruta.pProx == NULL){
+                        if(pbuscarLetra->pProx) { //Não é o último da lista
+                            if(pAnt_dicio != pbuscarLetra) { //Tem anterior
+                                pAnt_dicio->pProx = pbuscarLetra->pProx;
+                                delete pbuscarLetra;
+                                pbuscarLetra = pAnt_dicio->pProx;
+                                pbuscarLetra->pAnt = pAnt_dicio;
+                            } else { //Não tem anterior
+                                inicio_dicio.pProx = pbuscarLetra->pProx;
+                                pbuscarLetra = inicio_dicio.pProx;
+                                delete pAnt_dicio;
+                                pbuscarLetra->pAnt = &inicio_dicio;
+                            }
+                        } else { //É o último da lista
+                            if(inicio_dicio.pProx != pbuscarLetra) { // Tem anterior
+                                pAnt_dicio->pProx = NULL;
+                                pbuscarLetra = pAnt_dicio;
+                            } else { //Não tem anterior
+                                pbuscarLetra = &inicio_dicio;
+                                pbuscarLetra->pProx = NULL;
+                            }
                         }
                    }
                }
@@ -345,7 +365,7 @@ void excluir_fruta(){
     }
     pAux_dicio = NULL;
     pAux_fruta = NULL;
-    system("cls");
+
     listar_tudo(inicio_dicio);
     gravar();
 }
@@ -379,13 +399,16 @@ void menu_exibir(){
            break;
            case 3:
                system("cls");
-               pLer_fruta = buscar();
-               system("cls");
-               cont_linha = 1;
-               cabecalhoExibir();
-               exibir_fruta(pLer_fruta);
-               cout << "\n";
-               system("pause");
+               if(pLer_fruta = buscar()){
+                   system("cls");
+                   cont_linha = 1;
+                   cabecalhoExibir();
+                   exibir_fruta(pLer_fruta);
+                   cout << "\n";
+                   system("pause");
+               }else{
+                 printf("\n Essa fruta não foi adicionado(a) ao dicionário");
+               }
            break;
            default:
             cout<<"\nOpção inválida, tente novamente!\n";
