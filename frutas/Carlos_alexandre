@@ -9,7 +9,8 @@ using namespace std;
 struct Fruta {
      char nome[40], descricao[500];
      struct Fruta *pProx;
-} frutas, *pAux_fruta, *pLer_fruta, *pProx_fruta, *pbuscarFruta, *pAux_fruta_temp, *pAnt_fruta;
+     int relevancia;
+} frutas, *pAux_fruta, *pLer_fruta, *pProx_fruta, *pbuscarFruta, *pAux_fruta_temp, *pAnt_fruta, *tempFruta = new Fruta;
 
 struct Dicionario {
      char inicial;
@@ -17,7 +18,7 @@ struct Dicionario {
      struct Dicionario *pProx;
      struct Dicionario *pAnt;
      Fruta inicio_fruta;
-} inicio_dicio, *pAux_dicio, *pSal, *pAnt_dicio, *pbuscarLetra;
+} inicio_dicio, *pAux_dicio, *pSal, *pAnt_dicio, *pbuscarLetra, dicio_temp;
 
 //************************Variáveis globais
 char palavra[40], letra,elemento[40];
@@ -425,7 +426,7 @@ void menu_exibir(){
 void ordenar_alfabetico() { //Ordenação por comparação
     //##########Precisa criar uma lista auxiliar e usar ela para ordenar
     pAux_dicio = inicio_dicio.pProx;
-    Dicionario dicio_temp, *pAux_Temp_Dicio;
+    Dicionario *pAux_Temp_Dicio;
     pAux_Temp_Dicio = &dicio_temp;
     while(pAux_dicio) { //Percorre os nodos do dicionario
         pAux_Temp_Dicio->pProx = new Dicionario;//Cria novo nodo para dicionario temporario
@@ -445,8 +446,7 @@ void ordenar_alfabetico() { //Ordenação por comparação
     }
     //Ordenar lista temporária principal
     pAnt_dicio = dicio_temp.pProx;
-    Fruta *tempFruta = new Fruta;
-    Dicionario *temporario = new Dicionario;
+    Dicionario *temporario;
     while(pAnt_dicio->pProx){
         pAux_dicio = pAnt_dicio->pProx;
         while(pAux_dicio){
@@ -539,68 +539,136 @@ void ordenar(){//escolhe como serão ordenadas as palavras(alfabética, criaçã
     }
 }
 
+/****************** FUNCAO ORDENAR POR RELEVÂNCIA ******************/
+void ordenar_relevancia(){
+    //Ordenando as sub-listas
+    pAux_dicio = dicio_temp.pProx;
+    while(pAux_dicio){
+        pAux_fruta = pAux_dicio->inicio_fruta.pProx;
+        while(pAux_fruta->pProx){
+            pProx_fruta = pAux_fruta->pProx;
+            while(pProx_fruta) {
+                //cout << " comparando " << pAux_fruta->nome << " e " << pProx_fruta->nome << "\n";
+                if(pAux_fruta->relevancia < pProx_fruta->relevancia) {
+                    //cout << pAux_fruta->nome << " menor que " << pProx_fruta->nome << "\n";
+                    strcpy(tempFruta->nome, pAux_fruta->nome);
+                    strcpy(tempFruta->descricao, pAux_fruta->descricao);
+                    tempFruta->relevancia = pAux_fruta->relevancia;
+
+                    strcpy(pAux_fruta->nome, pProx_fruta->nome);
+                    strcpy(pAux_fruta->descricao, pProx_fruta->descricao);
+                    pAux_fruta->relevancia = pProx_fruta->relevancia;
+
+                    strcpy(pProx_fruta->nome, tempFruta->nome);
+                    strcpy(pProx_fruta->descricao, tempFruta->descricao);
+                    pProx_fruta->relevancia = tempFruta->relevancia;
+                }
+                pProx_fruta = pProx_fruta->pProx;
+            }
+            pAux_fruta = pAux_fruta->pProx;
+        }
+        pAux_dicio = pAux_dicio->pProx;
+    }
+}
+
+/****************** FUNCAO PESQUISAR POR RELEVÂNCIA ******************/
 void pesquisar() {
     if(inicio_dicio.pProx) {
         Fruta *pPesq_fruta;
-        Dicionario *pPesq_dicio, dicio_temp, *pAux_Temp_Dicio;
+        Dicionario *pPesq_dicio, *pAux_Temp_Dicio;
+        dicio_temp.pProx = NULL;
         char pesquisa[40];
         int indice = 0, quantidade = 0;
         cout<<"Informe o que quer pesquisar\n:";
         fflush(stdin);
         gets(pesquisa);
-        pPesq_dicio = &inicio_dicio;
-        while(pPesq_dicio->pProx) {
-            pPesq_dicio = pPesq_dicio->pProx;
-            pPesq_fruta = &pPesq_dicio->inicio_fruta;
-            while(pPesq_fruta->pProx) {
-                pPesq_fruta = pPesq_fruta->pProx;
-                //Verifica se a pesquisa esta na descrição
-                cout << "Verificando " << pPesq_fruta->nome << "\n";
-                indice = 0;
-                quantidade = 0;
-                do{
-                    indice = existe(pPesq_fruta->descricao, pesquisa, indice);
-                    if(indice != -1) {
-                        quantidade++;
-                        //Adicionar em lista temporária
-                        cout << quantidade << " quantidade em " << pPesq_fruta->nome << "\n";
-                        pAux_dicio = &dicio_temp;
+        if(strlen(pesquisa) > 1) {
+            pPesq_dicio = &inicio_dicio;
+            while(pPesq_dicio->pProx) {
+                pPesq_dicio = pPesq_dicio->pProx;
+                pPesq_fruta = &pPesq_dicio->inicio_fruta;
+                while(pPesq_fruta->pProx) {
+                    pPesq_fruta = pPesq_fruta->pProx;
+                    //Verifica se a pesquisa esta na descrição
+                    //cout << "Verificando " << pPesq_fruta->nome << "\n";
+                    indice = 0;
+                    quantidade = 0;
+                    do{
+                        indice = existe(pPesq_fruta->descricao, pesquisa, indice);
+                        if(indice != -1) {
+                            quantidade++;
+                            //Adicionar em lista temporária
+                            //cout << quantidade << " quantidade em " << pPesq_fruta->nome << "\n";
+                            pAux_dicio = &dicio_temp;
+                            if(dicio_temp.pProx == NULL) {
+                                //cout << "nova inicial primeira";
+                                pAux_dicio->pProx = new Dicionario; //Cria novo nodo para essa inicial
+                                pAux_dicio = pAux_dicio->pProx;
+                                pAux_dicio->inicial = pesquisa[0];
+                                pAux_dicio->pProx = NULL; //Faz o próximo item(último) apontar para nulo(necessário)
+                            } else {
+                                while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(pesquisa[0]))){
+                                    pAnt_dicio = pAux_dicio;
+                                    pAux_dicio = pAux_dicio->pProx;
+                                }
+                                if(toupper(pAux_dicio->inicial) != toupper(pesquisa[0])) { //Inicial não encontrada
+                                    pAux_dicio->pProx = new Dicionario; //Cria novo nodo para essa inicial
+                                    pAux_dicio = pAux_dicio->pProx;
+                                    pAux_dicio->inicial = pesquisa[0];
+                                    //cout << "inicial: " << pAux_dicio->inicial;
+                                    pAux_dicio->pProx = NULL; //Faz o próximo item(último) apontar para nulo(necessário)
+                                }
+                            }
 
-                        while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(palavra[0]))){
-                            pAnt_dicio = pAux_dicio;
-                            pAux_dicio = pAux_dicio->pProx;
+                            //Validar palavra
+                            pAux_fruta = &pAux_dicio->inicio_fruta;
+                            while((pAux_fruta->pProx) && (strcmp(pAux_fruta->nome, pPesq_fruta->nome) != 0)) {
+                                pAux_fruta = pAux_fruta->pProx;
+                            }
+                             //Cria espaço para nova fruta
+                             if(strcmp(pAux_fruta->nome, pPesq_fruta->nome) != 0) {
+                                pAux_fruta->pProx = new Fruta;
+                                pAux_fruta = pAux_fruta->pProx;
+                                pAux_fruta->pProx = NULL;
+                                strcpy(pAux_fruta->nome, pPesq_fruta->nome);
+                                strcpy(pAux_fruta->descricao, pPesq_fruta->descricao);
+                                pAux_fruta->relevancia = 1;
+                             } else {
+                                 //cout << "incrementa";
+                                 pAux_fruta->relevancia++;
+                             }
                         }
-                        if(pAux_dicio->inicial != palavra[0]) { //Inicial não encontrada
-                            pAux_dicio->pProx = new Dicionario; //Cria novo nodo para essa inicial
-                            pAux_dicio = pAux_dicio->pProx;
-                            pAux_dicio->inicial = palavra[0];
-                            pAux_dicio->pProx = NULL; //Faz o próximo item(último) apontar para nulo(necessário)
-                        }
-                        //Validar palavra
-                        pAux_fruta = &pAux_dicio->inicio_fruta;
-                        while(pAux_fruta->pProx) {
-                            pAux_fruta = pAux_fruta->pProx;
-                        }
-                         //Cria espaço para nova fruta
-                        pAux_fruta->pProx = new Fruta;
+                    } while(indice != -1);
+                }
+            }
+            //Ordenar por relevância
+            ordenar_relevancia();
+            //Exibir por relevância
+            system("cls");
+            cont_linha = 1;
+            if(dicio_temp.pProx) {
+                cabecalhoExibir();
+                pAux_dicio = &dicio_temp;
+                while(pAux_dicio->pProx) {
+                    pAux_dicio = pAux_dicio->pProx;
+                    pAux_fruta = &pAux_dicio->inicio_fruta;
+                    while(pAux_fruta->pProx) {
                         pAux_fruta = pAux_fruta->pProx;
-                        strcpy(pAux_fruta->nome, pPesq_fruta->nome);
-                        strcpy(pAux_fruta->descricao, pPesq_fruta->descricao);
-
-                        gravar();
-                        pAux_dicio = NULL;
-                        pAux_fruta = NULL;
+                        gotoxy(0, cont_linha+1);
+                        cout << pAux_fruta->nome;
+                        gotoxy(20, cont_linha+1);
+                        cout << "| " << pAux_fruta->descricao;
+                        gotoxy(40, cont_linha+1);
+                        cout << "| " << pAux_fruta->relevancia;
+                        cont_linha++;
                     }
-                } while(indice != -1);
+                }
+                cout << "\n";
             }
         }
-        system("pause");
-        system("cls");
-        listar_tudo(dicio_temp);
     } else {
         cout << "Não existem registros de frutas!\n";
     }
-
 }
 
 /****************** FUNCAO MENU PRINCIPAL ******************/
