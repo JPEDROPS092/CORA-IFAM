@@ -248,6 +248,20 @@ void cabecalhoExibir() {
     cont_linha++;
 }
 
+void cabecalhoExibirReferecia() {
+    cout << "-------------------------------------------------------------------------------------------------------------";
+    gotoxy(0, cont_linha);
+    cout << "|Qtd ";
+    gotoxy(6, cont_linha);
+    cout << "|Nome ";
+    gotoxy(46, cont_linha);
+    cout << "| Descrição                                                   |";
+    gotoxy(0, cont_linha+1);
+    cout << "-------------------------------------------------------------------------------------------------------------";
+    cont_linha++;
+}
+
+
 /****************** FUNCAO EXIBIR FRUTA ******************/
 void exibir_fruta(Fruta *exibir){
     gotoxy(0, cont_linha+1);
@@ -649,7 +663,7 @@ void pesquisar() {
             system("cls");
             cont_linha = 1;
             if(dicio_temp.pProx) {
-                cabecalhoExibir();
+                cabecalhoExibirReferecia();
                 pAux_dicio = &dicio_temp;
                 while(pAux_dicio->pProx) {
                     pAux_dicio = pAux_dicio->pProx;
@@ -657,12 +671,20 @@ void pesquisar() {
                     while(pAux_fruta->pProx) {
                         pAux_fruta = pAux_fruta->pProx;
                         gotoxy(0, cont_linha+1);
-                        cout << pAux_fruta->nome;
-                        gotoxy(20, cont_linha+1);
-                        cout << "| " << pAux_fruta->descricao;
-                        gotoxy(40, cont_linha+1);
-                        cout << "| " << pAux_fruta->relevancia;
-                        cont_linha++;
+                        cout << "|" << pAux_fruta->relevancia;
+                        gotoxy(6, cont_linha+1);
+                        cout << "|"<<pAux_fruta->nome;
+                        gotoxy(46, cont_linha+1);
+                        if(strlen(pAux_fruta->descricao)<65){
+                        cout << "|" << pAux_fruta->descricao;
+                        gotoxy(108, cont_linha+1);
+                        cout<<"|";
+                        }else{
+                            
+                        }
+                        gotoxy(0, cont_linha+2);
+                        cout << "-------------------------------------------------------------------------------------------------------------";
+                        cont_linha=cont_linha+2;
                     }
                 }
                 cout << "\n";
