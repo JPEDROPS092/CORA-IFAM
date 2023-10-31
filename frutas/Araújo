@@ -589,6 +589,8 @@ void ordenar_relevancia(){
 
 /****************** FUNCAO PESQUISAR POR RELEVÂNCIA ******************/
 void pesquisar() {
+    char aux[500];
+    int qual, quant, cont;
     if(inicio_dicio.pProx) {
         Fruta *pPesq_fruta;
         Dicionario *pPesq_dicio, *pAux_Temp_Dicio;
@@ -680,7 +682,29 @@ void pesquisar() {
                         gotoxy(108, cont_linha+1);
                         cout<<"|";
                         }else{
-                            
+                          strcpy(pAux_fruta->descricao,aux);
+                          qual=strlen(aux)%64;
+                          if(qual==0){
+                              for(quant=1;quant<strlen(aux)/64;quant++){
+                                gotoxy(46, cont_linha+1);
+                                cout << "|";
+                                for(cont=0;cont<=63;cont++){
+                                   cout<<aux[cont];
+                                }if(aux[64]=!" "){
+                                    cout<<"-";
+                                }
+                                cont_linha++;
+                            }
+                          }else{
+                            gotoxy(46, cont_linha+1);
+                                cout << "|";
+                                for(cont=0;cont<=63;cont++){
+                                   cout<<aux[cont];
+                                }if(aux[64]=!" "){
+                                    cout<<"-";
+                                }
+                                cont_linha++;
+                          }
                         }
                         gotoxy(0, cont_linha+2);
                         cout << "-------------------------------------------------------------------------------------------------------------";
