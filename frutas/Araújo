@@ -682,47 +682,36 @@ void pesquisar() {
                         cout << "|" << pAux_fruta->descricao;
                         gotoxy(108, cont_linha+1);
                         cout<<"|";
-                        }else{
+                        gotoxy(0, cont_linha+2);
+                        cout << "-------------------------------------------------------------------------------------------------------------";
+                        cont_linha=cont_linha+2;
+                        }
+                        else{
                           strcpy(aux,pAux_fruta->descricao);
-                          qual=strlen(aux)%64;
-                          if(qual==0){
-                              for(quant=1;quant<=strlen(aux)/64;quant++){
-                                gotoxy(46, cont_linha+1);
-                                cout << "|";
-                                for(cont=0;cont<63;cont++){
-                                   cout<<aux[cont];
-                                }if(aux[64]=!" "){
-                                    cout<<"-";
-                                }
-                                cont_linha++;
-                                cont2++;
-                            }
-                          }else{
+
                               for(quant=0;quant<=strlen(aux)/62;quant++){
                                 gotoxy(46, cont_linha+1);
                                 cout << "|";
                                 for(cont;cont<(62*cont2);cont++){
                                    cout<<aux[cont];
                                 }
-                                gotoxy(108, cont_linha+1);
-                                cout << "|";
-                                if(aux[63]=!" "){
+                                 if(aux[63]=!" "){
                                     cout<<"-";
                                 }
+                                gotoxy(108, cont_linha+1);
+                                cout << "|";
                                 cont_linha++;
                                 cont2++;
                            }
+                        gotoxy(0, cont_linha+1);
+                        cout << "-------------------------------------------------------------------------------------------------------------";
                           }
                           cont2=0;
                         }
-                        gotoxy(0, cont_linha+2);
-                        cout << "-------------------------------------------------------------------------------------------------------------";
-                        cont_linha=cont_linha+2;
                     }
                 }
                 cout << "\n";
             }
-        }
     } else {
         cout << "Não existem registros de frutas!\n";
     }
