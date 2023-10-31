@@ -590,7 +590,7 @@ void ordenar_relevancia(){
 /****************** FUNCAO PESQUISAR POR RELEVÂNCIA ******************/
 void pesquisar() {
     char aux[500];
-    int qual, cont=0, cont2;
+    int qual, cont=0, cont2=1;
     float quant;
     if(inicio_dicio.pProx) {
         Fruta *pPesq_fruta;
@@ -695,20 +695,25 @@ void pesquisar() {
                                     cout<<"-";
                                 }
                                 cont_linha++;
+                                cont2++;
                             }
                           }else{
-                              for(quant=0;quant<=strlen(aux)/64;quant++){
+                              for(quant=0;quant<=strlen(aux)/62;quant++){
                                 gotoxy(46, cont_linha+1);
                                 cout << "|";
-                                for(cont;cont<(63*cont2);cont++){
+                                for(cont;cont<(62*cont2);cont++){
                                    cout<<aux[cont];
-                                   cont2++;
-                                }if(aux[64]=!" "){
+                                }
+                                gotoxy(108, cont_linha+1);
+                                cout << "|";
+                                if(aux[63]=!" "){
                                     cout<<"-";
                                 }
                                 cont_linha++;
+                                cont2++;
                            }
                           }
+                          cont2=0;
                         }
                         gotoxy(0, cont_linha+2);
                         cout << "-------------------------------------------------------------------------------------------------------------";
