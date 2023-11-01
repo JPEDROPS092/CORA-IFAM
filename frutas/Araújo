@@ -20,9 +20,9 @@ struct Dicionario {
      Fruta inicio_fruta;
 } inicio_dicio, *pAux_dicio, *pSal, *pAnt_dicio, *pbuscarLetra, dicio_temp;
 
-//**********Variáveis globais
+//************************Variáveis globais
 char palavra[40], letra,elemento[40];
-int cont_linha = 1, cont_fruta;
+int cont_linha = 2, cont_fruta;
 
 HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 COORD CursorPosition;
@@ -33,7 +33,7 @@ void gotoxy(int x, int y){
  SetConsoleCursorPosition(console,CursorPosition); // Sets position for next thing to be printed
 }
 
-/****** FUNCAO VERIFICAR NODO ******/
+/****************** FUNCAO VERIFICAR NODO ******************/
 int inicial_existe(char let){//verificação da inicial para inserir
     pAux_dicio = &inicio_dicio;
     while((pAux_dicio->pProx) && (toupper(pAux_dicio->inicial) != toupper(let))){
@@ -47,7 +47,7 @@ int inicial_existe(char let){//verificação da inicial para inserir
     }
 }
 
-/****** FUNCAO CONTADOR DE OCORRÊNCIA ******/
+/****************** FUNCAO CONTADOR DE OCORRÊNCIA ******************/
 int existe(char *str1, char *str2, int id) { //Passa a string que pode conter a substring, a substring e a posição em que começa a verificação
     int i, j = 0;
     for(i = id; i < strlen(str1); i++){ //Percorre a string da posição id até o final
@@ -61,7 +61,7 @@ int existe(char *str1, char *str2, int id) { //Passa a string que pode conter a 
     return -1; //Não encontrou substring na string
 }
 
-/****** FUNCAO SALVAR ******/
+/****************** FUNCAO SALVAR ******************/
 void gravar(){
     FILE *pont_arq;
     pont_arq = fopen("dicionario.txt", "w");
@@ -87,7 +87,7 @@ void gravar(){
   pAux_fruta = NULL;
 }
 
-/****** FUNCAO LER ******/
+/****************** FUNCAO LER ******************/
 void ler(){
     char lido[500];
     int etapa=0;
@@ -142,7 +142,7 @@ void ler(){
 }//função onde devemos ordenar a partir do arquivo;
 
 
-/****** FUNCAO INSERIR ******/
+/****************** FUNCAO INSERIR ******************/
 void inserir_fruta(){
     pAux_dicio = &inicio_dicio;
     //Verifica inicial
@@ -187,7 +187,7 @@ void inserir_fruta(){
     pAux_fruta = NULL;
 }
 
-/****** FUNCAO BUSCAR ******/
+/****************** FUNCAO BUSCAR ******************/
 Fruta* buscar(){
 
     cout<<"Informe a fruta\n:";
@@ -213,18 +213,18 @@ Fruta* buscar(){
     }
 }
 
-/****** FUNCAO EXCLUIR INICIAL ******/
+/****************** FUNCAO EXCLUIR INICIAL ******************/
 void excluir_inicial(){
 
 }
 
 
-/****** FUNCAO EXCLUIR ******/
+/****************** FUNCAO EXCLUIR ******************/
 void menu_excluir(){
 
 }
 
-/****** FUNCAO ALTERAR ******/
+/****************** FUNCAO ALTERAR ******************/
 void alterar(Fruta *achada){
     if(inicio_dicio.pProx){
         pAux_fruta = achada;
@@ -237,44 +237,49 @@ void alterar(Fruta *achada){
     }
 }
 
-/****** FUNCAO CABEÇALHO DE EXIBIR ******/
+/****************** FUNCAO CABEÇALHO DE EXIBIR ******************/
 void cabecalhoExibir() {
+    cout<<"                       *******************FRUTAS DO DICIONÁRIO*********************";
     gotoxy(0, cont_linha);
-    cout << "Nome ";
-    gotoxy(20, cont_linha);
-    cout << "| Descrição ";
+    cout << "----------------------------------------------------------------------------------------------------------------";
     gotoxy(0, cont_linha+1);
-    cout << "-------------------------------------------------------";
-    cont_linha++;
+    cout << "|Nome ";
+    gotoxy(50, cont_linha+1);
+    cout << "| Descrição ";
+    gotoxy(111, cont_linha+1);
+    cout << "|";
+    gotoxy(0, cont_linha+2);
+    cout << "----------------------------------------------------------------------------------------------------------------";
+    cont_linha=cont_linha+2;
 }
 
 void cabecalhoExibirReferecia() {
+    cout<<"                         *******************BUSCAR POR RELEVÂNCIA*********************\n";
     cout << "----------------------------------------------------------------------------------------------------------------";
-    gotoxy(0, cont_linha);
-    cout << "|Qtd ";
-    gotoxy(6, cont_linha);
-    cout << "|Nome ";
-    gotoxy(50, cont_linha);
-    cout << "| Descrição";
-    gotoxy(111, cont_linha);
-    cout<<"|";
     gotoxy(0, cont_linha+1);
+    cout << "|Qtd ";
+    gotoxy(6, cont_linha+1);
+    cout << "|Nome ";
+    gotoxy(50, cont_linha+1);
+    cout << "| Descrição";
+    gotoxy(111, cont_linha+1);
+    cout<<"|";
+    gotoxy(0, cont_linha+2);
     cout << "----------------------------------------------------------------------------------------------------------------";
-    cont_linha++;
+    cont_linha=cont_linha+2;
 }
 
 void exibirReferencia(){
     char aux[500];
     int qual, cont=0, cont2=1;
     float quant;
-
-                        gotoxy(0, cont_linha+1);
-                        cout << "|" << pAux_fruta->relevancia;
-                        gotoxy(6, cont_linha+1);
-                        cout << "|"<<pAux_fruta->nome;
-                        if(strlen(pAux_fruta->descricao)<60){
-                        gotoxy(50, cont_linha+1);
-                        cout << "|" << pAux_fruta->descricao;
+            gotoxy(0, cont_linha+1);
+            cout << "|" << pAux_fruta->relevancia;
+            gotoxy(6, cont_linha+1);
+            cout << "|"<<pAux_fruta->nome;
+            if(strlen(pAux_fruta->descricao)<60){
+            gotoxy(50, cont_linha+1);
+            cout << "|" << pAux_fruta->descricao;
                         gotoxy(111, cont_linha+1);
                         cout<<"|";
                         cont_linha++;
@@ -306,16 +311,46 @@ void exibirReferencia(){
 }
 
 
-/****** FUNCAO EXIBIR FRUTA ******/
+/****************** FUNCAO EXIBIR FRUTA ******************/
 void exibir_fruta(Fruta *exibir){
+    char aux[500];
+    int qual, cont=0, cont2=1;
+    float quant;
+
     gotoxy(0, cont_linha+1);
-    cout << exibir->nome;
-    gotoxy(20, cont_linha+1);
-    cout << "| " << exibir->descricao;
-    cont_linha++;
+    cout << "|" << exibir->nome;
+     if(strlen(exibir->descricao)<60){
+            gotoxy(50, cont_linha+1);
+            cout << "|" <<exibir->descricao;
+            gotoxy(111, cont_linha+1);
+            cout<<"|";
+            cont_linha++;
+            gotoxy(0, cont_linha+1);
+            cout << "----------------------------------------------------------------------------------------------------------------";
+            cont_linha++;
+                }
+                else{
+                 strcpy(aux,exibir->descricao);
+                    for(quant=0;quant<=strlen(aux)/60;quant++){
+                    gotoxy(50, cont_linha+1);
+                    cout << "|";
+                    gotoxy(51, cont_linha+1);
+                        for(cont;cont<(59*cont2);cont++){
+                                cout<<aux[cont];
+                            }
+                            gotoxy(111, cont_linha+1);
+                            cout << "|";
+                            cont_linha++;
+                            cont2++;
+                           }
+                           cont2=0;
+                    gotoxy(0, cont_linha+1);
+                    cout << "----------------------------------------------------------------------------------------------------------------";
+                    cont_linha++;
+                    }
 }
 
-/****** FUNCAO EXIBIR INICIAL ******/
+/****************** FUNCAO EXIBIR INICIAL ******************/
  void exibir_inicial(){ //todas palavras de tal letra
     pAux_dicio = &inicio_dicio;
     cont_linha = 1;
@@ -359,7 +394,7 @@ void listar_tudo(Dicionario exibir){
     }
 }
 
-/****** FUNCAO EXCLUIR FRUTA ******/
+/****************** FUNCAO EXCLUIR FRUTA ******************/
 void excluir_fruta(){
     if(inicio_dicio.pProx){
         char elemento[40];
@@ -425,12 +460,12 @@ void excluir_fruta(){
     gravar();
 }
 
-/****** FUNCAO LISTAR REMISSO ******/
+/****************** FUNCAO LISTAR REMISSO ******************/
 void listar_remisso(){//exibir como tá no arquivo
     listar_tudo(inicio_dicio);
 }
 
-/****** FUNCAO MENU EXIBIR ******/
+/****************** FUNCAO MENU EXIBIR ******************/
 void menu_exibir(){
     if(inicio_dicio.pProx){
         int op=1;
@@ -478,7 +513,7 @@ void menu_exibir(){
     }
 }
 
-/****** FUNCAO ORDENAR ALFABÉTICO ******/
+/****************** FUNCAO ORDENAR ALFABÉTICO ******************/
 void ordenar_alfabetico() { //Ordenação por comparação
     //##########Precisa criar uma lista auxiliar e usar ela para ordenar
     pAux_dicio = inicio_dicio.pProx;
@@ -558,7 +593,7 @@ void ordenar_alfabetico() { //Ordenação por comparação
 }
 
 
-/****** FUNCAO MENU ORDENAR ******/
+/****************** FUNCAO MENU ORDENAR ******************/
 void ordenar(){//escolhe como serão ordenadas as palavras(alfabética, criação e randomica);
     if(inicio_dicio.pProx){
         int op = -1;
@@ -595,7 +630,7 @@ void ordenar(){//escolhe como serão ordenadas as palavras(alfabética, criaçã
     }
 }
 
-/****** FUNCAO ORDENAR POR RELEVÂNCIA ******/
+/****************** FUNCAO ORDENAR POR RELEVÂNCIA ******************/
 void ordenar_relevancia(){
     //Ordenando as sub-listas
     pAux_dicio = dicio_temp.pProx;
@@ -627,7 +662,7 @@ void ordenar_relevancia(){
     }
 }
 
-/****** FUNCAO PESQUISAR POR RELEVÂNCIA ******/
+/****************** FUNCAO PESQUISAR POR RELEVÂNCIA ******************/
 void pesquisar() {
     if(inicio_dicio.pProx) {
         Fruta *pPesq_fruta;
@@ -721,7 +756,7 @@ void pesquisar() {
     }
 }
 
-/****** FUNCAO MENU PRINCIPAL ******/
+/****************** FUNCAO MENU PRINCIPAL ******************/
 void menu(){
     int op=1;
     do{
@@ -776,7 +811,7 @@ void menu(){
     }while(op!=0);
 }
 
-/****** FUNCAO PRINCIPAL ******/
+/****************** FUNCAO PRINCIPAL ******************/
 int main() {
     setlocale(LC_ALL, "Portuguese");
     ler();
