@@ -290,6 +290,9 @@ void exibirReferencia(){
                         else{
                           strcpy(aux,pAux_fruta->descricao);
 
+
+
+
                               for(quant=0;quant<=strlen(aux)/60;quant++){
                                 gotoxy(50, cont_linha+1);
                                 cout << "|";
@@ -394,6 +397,8 @@ void listar_tudo(Dicionario exibir){
     }
 }
 
+
+
 /****************** FUNCAO EXCLUIR FRUTA ******************/
 void excluir_fruta(){
     if(inicio_dicio.pProx){
@@ -458,6 +463,41 @@ void excluir_fruta(){
     pAux_dicio = NULL;
     pAux_fruta = NULL;
     gravar();
+}
+
+void excluir_letra(){
+    if(inicio_dicio.pProx){
+        char elemento;
+        int encontrou;
+        cout<<"Informe a letra\n:";
+        fflush(stdin);
+        cin>>elemento;
+        pAux_dicio=&inicio_dicio;
+        if(pAux_dicio->pProx!=NULL){
+            pbuscarLetra=pAux_dicio->pProx;
+            while(pbuscarLetra){
+               pAnt_dicio = pbuscarLetra;
+               if(toupper(elemento)==toupper(pbuscarLetra->inicial)){
+                 encontrou=1;
+                 pAux_dicio = pbuscarLetra;
+                 pAnt_dicio = pAux_dicio;
+                 pAux_dicio = pbuscarLetra->pProx;
+                 delete pbuscarLetra;
+                 break;
+               }
+               pbuscarLetra=pbuscarLetra->pProx;
+            }
+            if(encontrou != 1) {
+                cout<<"\nNão existe fruta cadastrada na lista!\n";
+                system("pause");
+            }
+    }else {
+        cout << "Não existem registros de frutas!\n";
+    }
+    pAux_dicio = NULL;
+    pAux_fruta = NULL;
+    gravar();
+}
 }
 
 /****************** FUNCAO LISTAR REMISSO ******************/
@@ -781,7 +821,7 @@ void menu(){
        break;
        case 3:
            system("cls");
-           excluir_fruta();
+           excluir_letra();
            system("pause");
        break;
        case 4:
