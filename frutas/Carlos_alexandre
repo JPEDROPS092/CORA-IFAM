@@ -209,15 +209,68 @@ Fruta* buscar(){
     }
 }
 
-/****************** FUNCAO EXCLUIR INICIAL ******************/
-void excluir_inicial(){
-
+void excluir_inicial_parametro(Dicionario letra) {
+    if(pbuscarLetra->pProx) { //Não é o último da lista
+        if(pAnt_dicio != pbuscarLetra) { //Tem anterior
+            pAnt_dicio->pProx = pbuscarLetra->pProx;
+            delete pbuscarLetra;
+            pbuscarLetra = pAnt_dicio->pProx;
+            pbuscarLetra->pAnt = pAnt_dicio;
+        } else { //Não tem anterior
+            inicio_dicio.pProx = pbuscarLetra->pProx;
+            pbuscarLetra = inicio_dicio.pProx;
+            delete pAnt_dicio;
+            pbuscarLetra->pAnt = &inicio_dicio;
+        }
+    } else { //É o último da lista
+        if(inicio_dicio.pProx != pbuscarLetra) { // Tem anterior
+            pAnt_dicio->pProx = NULL;
+            pbuscarLetra = pAnt_dicio;
+        } else { //Não tem anterior
+            pbuscarLetra = &inicio_dicio;
+            pbuscarLetra->pProx = NULL;
+        }
+    }
 }
 
-
-/****************** FUNCAO MENU EXCLUIR ******************/
-void menu_excluir(){
-
+/****************** FUNCAO EXCLUIR INICIAL ******************/
+void excluir_inicial(){
+    pbuscarLetra = &inicio_dicio;
+    cont_linha = 1;
+    cout << "Inicial: ";
+    cin >> letra;
+    while((pbuscarLetra->pProx) && (toupper(pbuscarLetra->inicial) != toupper(letra))){
+        pAnt_dicio = pbuscarLetra;
+        pbuscarLetra = pbuscarLetra->pProx;
+    }
+    if(toupper(pbuscarLetra->inicial) != toupper(letra)) { //Inicial não encontrada
+        cout << "Essa inicial não existe!";
+        system("pause");
+    } else { //Inicial encontrada
+        if(pbuscarLetra->pProx) { //Não é o último da lista
+            if(pAnt_dicio != pbuscarLetra) { //Tem anterior
+                pAnt_dicio->pProx = pbuscarLetra->pProx;
+                delete pbuscarLetra;
+                pbuscarLetra = pAnt_dicio->pProx;
+                pbuscarLetra->pAnt = pAnt_dicio;
+            } else { //Não tem anterior
+                inicio_dicio.pProx = pbuscarLetra->pProx;
+                pbuscarLetra = inicio_dicio.pProx;
+                delete pAnt_dicio;
+                pbuscarLetra->pAnt = &inicio_dicio;
+            }
+        } else { //É o último da lista
+            if(inicio_dicio.pProx != pbuscarLetra) { // Tem anterior
+                pAnt_dicio->pProx = NULL;
+                pbuscarLetra = pAnt_dicio;
+            } else { //Não tem anterior
+                pbuscarLetra = &inicio_dicio;
+                pbuscarLetra->pProx = NULL;
+            }
+        }
+        cout << "Inicial excluída com sucesso!";
+        gravar();
+    }
 }
 
 /****************** FUNCAO ALTERAR ******************/
@@ -369,8 +422,7 @@ void exibir_fruta(Fruta *exibir){
     }
  }
 
-
-
+/****************** FUNCAO LISTAR TODAS AS FRUTAS ******************/
 void listar_tudo(Dicionario exibir){
     cont_linha = 1;
     if(exibir.pProx) {
@@ -416,7 +468,7 @@ void excluir_fruta(){
                             cont_fruta--;
                         }
                    }
-                   if(pbuscarLetra->inicio_fruta.pProx == NULL){
+                   if(pbuscarLetra->inicio_fruta.pProx == NULL){ //nodo ficou sem frutas
                         if(pbuscarLetra->pProx) { //Não é o último da lista
                             if(pAnt_dicio != pbuscarLetra) { //Tem anterior
                                 pAnt_dicio->pProx = pbuscarLetra->pProx;
@@ -460,6 +512,37 @@ void excluir_fruta(){
 /****************** FUNCAO LISTAR REMISSO ******************/
 void listar_remisso(){//exibir como tá no arquivo
     listar_tudo(inicio_dicio);
+}
+
+
+/****************** FUNCAO MENU EXCLUIR ******************/
+void menu_excluir(){
+    int op=1;
+    do{
+       system("cls");
+       cout<<"\t\tO QUE DESEJA FAZER?\n";
+       cout<<"SAIR-0\nEXCLUIR FRUTA-1\nEXCLUIR INICIAL-2\n:";
+       cin>>op;
+       switch(op){
+       case 0:
+
+       break;
+       case 1:
+           system("cls");
+           excluir_fruta();
+           system("pause");
+       break;
+       case 2:
+           system("cls");
+           excluir_inicial();
+           system("pause");
+       break;
+       default:
+        cout<<"\nOpção inválida, tente novamente!\n";
+        system("pause");
+       break;
+       }
+    }while(op!=0);
 }
 
 /****************** FUNCAO MENU EXIBIR ******************/
@@ -959,7 +1042,7 @@ void menu(){
        break;
        case 3:
            system("cls");
-           excluir_fruta();
+           menu_excluir();
            system("pause");
        break;
        case 4:
