@@ -318,85 +318,45 @@ void cabecalhoExibirReferecia() {
     cont_linha=cont_linha+2;
 }
 
-void exibirReferencia(){
-    char aux[500];
-    int qual, cont=0, cont2=1;
-    float quant;
-            gotoxy(0, cont_linha+1);
-            cout << "|" << pAux_fruta->relevancia;
-            gotoxy(6, cont_linha+1);
-            cout << "|"<<pAux_fruta->nome;
-            if(strlen(pAux_fruta->descricao)<60){
-            gotoxy(50, cont_linha+1);
-            cout << "|" << pAux_fruta->descricao;
-                        gotoxy(111, cont_linha+1);
-                        cout<<"|";
-                        cont_linha++;
-                        gotoxy(0, cont_linha+1);
-                        cout << "----------------------------------------------------------------------------------------------------------------";
-                        cont_linha++;
-                        }
-                        else{
-                          strcpy(aux,pAux_fruta->descricao);
-
-                              for(quant=0;quant<=strlen(aux)/60;quant++){
-                                gotoxy(50, cont_linha+1);
-                                cout << "|";
-                                gotoxy(51, cont_linha+1);
-                                for(cont;cont<(59*cont2);cont++){
-                                   cout<<aux[cont];
-                                }
-                                gotoxy(111, cont_linha+1);
-                                cout << "|";
-                                cont_linha++;
-                                cont2++;
-                           }
-                           cont2=0;
-                        gotoxy(0, cont_linha+1);
-                        cout << "----------------------------------------------------------------------------------------------------------------";
-                        cont_linha++;
-                          }
-
-}
-
-
 /****************** FUNCAO EXIBIR FRUTA ******************/
-void exibir_fruta(Fruta *exibir){
+void exibir_fruta(Fruta *exibir, int qnt = 0){
     char aux[500];
     int qual, cont=0, cont2=1;
     float quant;
-
-    gotoxy(0, cont_linha+1);
-    cout << "|" << exibir->nome;
-     if(strlen(exibir->descricao)<60){
-            gotoxy(50, cont_linha+1);
-            cout << "|" <<exibir->descricao;
-            gotoxy(111, cont_linha+1);
-            cout<<"|";
+    cont_linha++;
+    if(qnt != 0) {
+        gotoxy(0, cont_linha);
+        cout << "|" << pAux_fruta->relevancia;
+        gotoxy(6, cont_linha);
+        cout << "|" << exibir->nome;
+    } else {
+        gotoxy(0, cont_linha);
+        cout << "|" << exibir->nome;
+    }
+    gotoxy(111, cont_linha);
+    cout << "|";
+    gotoxy(50, cont_linha);
+    cout << "|";
+    for(cont = 0; cont < strlen(exibir->descricao); cont++) {
+        cout << exibir->descricao[cont];
+        if((cont % 59 == 0) && (cont > 0)) {
             cont_linha++;
-            gotoxy(0, cont_linha+1);
-            cout << "----------------------------------------------------------------------------------------------------------------";
-            cont_linha++;
-                }
-                else{
-                 strcpy(aux,exibir->descricao);
-                    for(quant=0;quant<=strlen(aux)/60;quant++){
-                    gotoxy(50, cont_linha+1);
-                    cout << "|";
-                    gotoxy(51, cont_linha+1);
-                        for(cont;cont<(59*cont2);cont++){
-                                cout<<aux[cont];
-                            }
-                            gotoxy(111, cont_linha+1);
-                            cout << "|";
-                            cont_linha++;
-                            cont2++;
-                           }
-                           cont2=0;
-                    gotoxy(0, cont_linha+1);
-                    cout << "----------------------------------------------------------------------------------------------------------------";
-                    cont_linha++;
-                    }
+            if(qnt != 0) {
+                gotoxy(6, cont_linha);
+                cout << "|";
+            }
+            gotoxy(111, cont_linha);
+            cout << "|";
+            gotoxy(0, cont_linha);
+            cout << "|";
+            gotoxy(50, cont_linha);
+            cout << "|";
+            gotoxy(51, cont_linha);
+        }
+    }
+    cont_linha++;
+    gotoxy(0, cont_linha);
+    cout << "----------------------------------------------------------------------------------------------------------------";
 }
 
 /****************** FUNCAO EXIBIR INICIAL ******************/
@@ -730,13 +690,13 @@ void ordenar_relevancia(){
 
 /****************** FUNCAO PESQUISAR POR RELEVÂNCIA ******************/
 void buscar_relevancia() {
-    if(inicio_dicio.pProx) {
+    if(inicio_dicio.pProx != NULL) {
         Fruta *pPesq_fruta;
         Dicionario *pPesq_dicio, *pAux_Temp_Dicio;
         dicio_temp.pProx = NULL;
         char pesquisa[40];
         int indice = 0, quantidade = 0;
-        cout<<"Informe o que quer pesquisar\n:";
+        cout<<"Informe o que quer pesquisar (mais de uma letra)\n:";
         fflush(stdin);
         gets(pesquisa);
         if(strlen(pesquisa) > 1) {
@@ -811,12 +771,12 @@ void buscar_relevancia() {
                     pAux_fruta = &pAux_dicio->inicio_fruta;
                     while(pAux_fruta->pProx) {
                         pAux_fruta = pAux_fruta->pProx;
-                        exibirReferencia();
-                        }
+                        exibir_fruta(pAux_fruta, 1);
                     }
                 }
-                cout << "\n";
             }
+                cout << "\n";
+        }
     } else {
         cout << "Não existem registros de frutas!\n";
     }
