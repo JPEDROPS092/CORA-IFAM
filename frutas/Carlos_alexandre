@@ -215,7 +215,7 @@ void excluir_inicial(){
 }
 
 
-/****************** FUNCAO EXCLUIR ******************/
+/****************** FUNCAO MENU EXCLUIR ******************/
 void menu_excluir(){
 
 }
@@ -842,17 +842,17 @@ void excluir_fruta_parametro(char fruta[40]) {
 
 /****************** FUNCAO ALTERAR FRUTA ******************/
 void alterar_fruta() {
-    tempFruta = buscar();
-    if(tempFruta) {
+    tempFruta = buscar(); //Fruta que deve ser alterada
+    if(tempFruta != NULL) { //Se encontrou no dicionario
         system("cls");
         gotoxy(0, 1);
         cout << "Informe o novo nome da fruta: ";
         gotoxy(0, 2);
         cout << "Nova escrição da fruta: ";
-        gotoxy(37, 1);
+        gotoxy(30, 1);
         fflush(stdin);
         gets(palavra);
-        gotoxy(25, 2);
+        gotoxy(24, 2);
         fflush(stdin);
         gets(descricao_fruta);
         if(palavra[0] != tempFruta->nome[0]){
@@ -877,20 +877,23 @@ void alterar_fruta() {
             if(strcmp(pAux_fruta->nome, palavra) == 0) { //Palavra já inserida
                 cout << "Fruta já inserida!";
             } else { //Cria espaço para nova fruta
-                pAux_fruta->pProx = new Fruta;
+                pAux_fruta->pProx = new Fruta; //Cria novo espaço para substituir fruta antiga
                 pAux_fruta = pAux_fruta->pProx;
                 strcpy(pAux_fruta->nome, palavra);
                 strcpy(pAux_fruta->descricao, descricao_fruta);
+                cout << "Excluir " << tempFruta->nome;
+                cout << "\nNova fruta " << pAux_fruta->nome;
+                system("pause");
                 //Excluir fruta alterada
                 excluir_fruta_parametro(tempFruta->nome);
             }
-            gravar();
             pAux_dicio = NULL;
             pAux_fruta = NULL;
-        } else{
+        } else{ //Palavra continua no mesmo nodo e só é modificada
             strcpy(tempFruta->nome, palavra);
             strcpy(tempFruta->descricao, descricao_fruta);
         }
+        gravar();
     } else {
         cout << "Fruta não encontrada!\n";
     }
