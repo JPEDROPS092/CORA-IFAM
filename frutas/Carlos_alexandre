@@ -114,9 +114,9 @@ void ler(){
                     pAux_fruta = pLer_fruta->pProx;
                     strcpy(pAux_fruta->nome, lido);
                 } else {
-                    pLer_fruta = &pAux_dicio->inicio_fruta;
-                    while(pLer_fruta->pProx){
-                        pLer_fruta = pLer_fruta->pProx;
+                    pAux_fruta = &pAux_dicio->inicio_fruta;
+                    while(pAux_fruta->pProx){
+                        pAux_fruta = pAux_fruta->pProx;
                     }
                     pAux_fruta->pProx = new Fruta;
                     pAux_fruta = pAux_fruta->pProx;
