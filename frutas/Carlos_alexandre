@@ -249,8 +249,7 @@ void excluir_inicial(){
         pbuscarLetra = pbuscarLetra->pProx;
     }
     if(toupper(pbuscarLetra->inicial) != toupper(letra)) { //Inicial não encontrada
-        cout << "Essa inicial não existe!";
-        system("pause");
+        cout << "Essa inicial não existe!\n";
     } else { //Inicial encontrada
         if(pbuscarLetra->pProx) { //Não é o último da lista
             if(pAnt_dicio != pbuscarLetra) { //Tem anterior
@@ -474,7 +473,7 @@ void menu_excluir(){
     do{
        system("cls");
        cout<<"\t\tO QUE DESEJA FAZER?\n";
-       cout<<"SAIR-0\nEXCLUIR FRUTA-1\nEXCLUIR INICIAL-2\n:";
+       cout<<"VOLTAR-0\nEXCLUIR FRUTA-1\nEXCLUIR INICIAL-2\n:";
        cin>>op;
        switch(op){
        case 0:
@@ -645,7 +644,7 @@ void menu_ordenar(){//escolhe como serão ordenadas as palavras(alfabética, cri
         int op = -1;
         do {
             system("cls");
-            cout << "SAIR [0]\nOrdenar por: \nALFABÉTICA [1] \nCRIAÇÃO [2]\n:";
+            cout << "VOLTAR - 0\nOrdenar por: \nALFABÉTICA - 1 \nCRIAÇÃO - 2\n:";
             cin >> op;
             switch(op) {
             case 0:
@@ -803,7 +802,7 @@ void menu_pesquisar(){
     do{
        system("cls");
        cout<<"\t\tO QUE DESEJA FAZER?\n";
-       cout<<"SAIR-0\nPESQUISAR FRUTA-1\nPESQUISAR POR RELEVÂNCIA-2\n:";
+       cout<<"VOLTAR-0\nPESQUISAR FRUTA-1\nPESQUISAR POR RELEVÂNCIA-2\n:";
        cin>>op;
        switch(op){
        case 0:
@@ -981,7 +980,7 @@ void menu_alterar() {
     do{
        system("cls");
        cout<<"\t\tO QUE DESEJA FAZER?\n";
-       cout<<"SAIR-0\nALTERAR DESCRIÇAO-1\nALTERAR NOME E DESCRIÇÃO-2\n:";
+       cout<<"VOLTAR-0\nALTERAR DESCRIÇAO-1\nALTERAR NOME E DESCRIÇÃO-2\n:";
        cin>>op;
        switch(op){
        case 0:
@@ -1015,9 +1014,33 @@ void menu(){
     int op=1;
     do{
        system("cls");
-       cout<<"\t\tO QUE DESEJA FAZER?\n";
-       cout<<"SAIR-0\nINSERIR FRUTA(S)-1\nEXIBIR DICIONÁRIO-2\nEXCLUIR FRUTA(S)-3\nALTERAR FRUTA(S)-4\nORDENAR DICIONÁRIO-5\nPESQUISAR-6\n:";
+       system("color B");
+       gotoxy(15,0);
+       cout << "----------------------------------------------------------------------------------------------------------------";
+       gotoxy(15,2);
+       cout <<"|                                    Bem vindo a dicionário da frutas!                                         |";
+       gotoxy(15,4);
+       cout <<"----------------------------------------------------------------------------------------------------------------";
+       gotoxy(15,6);
+       cout<< "|                                        O QUE DESEJA FAZER?                                                   |";
+       gotoxy(15,8);
+       cout<< "|                                              SAIR-0                                                          |";
+       gotoxy(15,10);
+       cout<< "|                                         INSERIR FRUTA(S)-1                                                   |";
+       gotoxy(15,12);
+       cout<< "|                                         EXIBIR DICIONÁRIO-2                                                  |";
+       gotoxy(15,14);
+       cout<< "|                                          EXCLUIR FRUTA(S)-3                                                  |";
+       gotoxy(15,16);
+       cout<< "|                                          ALTERAR FRUTA(S)-4                                                  |";
+       gotoxy(15,18);
+       cout<< "|                                         ORDENAR DICIONÁRIO-5                                                 |";
+       gotoxy(15,20);
+       cout<< "|                                            PESQUISAR-6                                                       |";
+       gotoxy(15,22);
+       cout <<"----------------------------------------------------------------------------------------------------------------";
        cin>>op;
+
        switch(op){
        case 0:
            system("cls");
@@ -1025,31 +1048,37 @@ void menu(){
        break;
        case 1:
            system("cls");
+           system("color 2");
            inserir_fruta();
            system("pause");
        break;
        case 2:
            system("cls");
+           system("color 3");
            menu_exibir();
            system("pause");
        break;
        case 3:
            system("cls");
+           system("color 4");
            menu_excluir();
            system("pause");
        break;
        case 4:
            system("cls");
+           system("color D");
            menu_alterar();
            system("pause");
        break;
        case 5:
            system("cls");
+           system("color 5");
            menu_ordenar();
            system("pause");
        break;
        case 6:
            system("cls");
+           system("color E");
            menu_pesquisar();
            system("pause");
        break;
