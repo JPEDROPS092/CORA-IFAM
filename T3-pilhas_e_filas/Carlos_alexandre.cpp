@@ -89,6 +89,15 @@ void listarPilha(Pilha *p) {
     }
 }
 
+/*
+int receberValor() {
+    int numero;
+    cout << "Número: ";
+    scanf("%d", &numero);
+    return numero;
+}
+*/
+
 //Retorna o número no topo
 int topoPilha(Pilha *p) {
     if(p->topo) {
@@ -114,7 +123,7 @@ void menu() {
            break;
            case 1:
                 system("cls");
-                //novo = receberNumero();
+                //novo = receberValor();
                 empilhar(&pilha, novo);
                 system("pause");
            break;
@@ -153,14 +162,6 @@ void menu() {
 }
 
 //Receber número
-/*
-int receberNumero() {
-    int numero;
-    cout << "Número: ";
-    scanf("%d", &numero);
-    return numero;
-}
-*/
 void receberNumero(Pilha *pilha) {
     char numeroStr[15];
     int num;
@@ -179,10 +180,10 @@ void receberNumero(Pilha *pilha) {
 
 //Soma pilhar
 void somar_pilhas(Pilha *pilha1, Pilha *pilha2, Pilha *soma) {
-    int num1, num2, somado, decimal;
-    Numero *aux1, *aux2;
+    int num1, num2, somado;
+    Numero *aux1, *aux2, *ultimo;
     //soma->topo->num = desempilhar(pilha1)->num + desempilhar(pilha2)->num;
-    while(pilha1->topo || pilha2->topo) {
+    while(pilha1->topo || pilha2->topo) { //Enquanto alguma pilha tiver valor desempilhar e somar
         if(aux1 = desempilhar(pilha1)) {
             num1 = aux1->num;
             //cout <<"\ntira 1 ";
@@ -200,25 +201,24 @@ void somar_pilhas(Pilha *pilha1, Pilha *pilha2, Pilha *soma) {
         }
         //cout << "\nnum2 " << num2;
         somado = num1 + num2;
-        if(somado > 9){
-            decimal = (somado / 10) - (somado % 10) / 10;
-            somado = somado % 10;
-            cout << "somado " << somado << " decimal " << decimal;
-        } else {
-            decimal = 0;
+        if(somado > 9){ //Soma sobe resto
+            somado -= 10;
+            //Adicionar 1 ao proximo
+            if(pilha1->topo) { //Pilha 1 tem numero
+                ultimo = topo(pilha1);
+                ultimo->num++;
+            } else { //acrescenta 1 a pilha1
+                empilhar(pilha1, 1);
+                ultimo = topo(pilha1);
+            }
+
         }
         //cout << "\nsoma " << somado;
-        empilhar(soma, somado);
+        empilhar(soma, somado); //Empilha o topo das pilhas em soma
+        //cout << "ultimo " << ultimo->num;
     }
     cout <<"\nResultado da soma = ";
     listarPilha(soma);
-    /*
-    listarPilha(pilha1);
-    cout << "\n";
-    listarPilha(pilha2);
-    cout << "\n topo";
-    cout << topoPilha(pilha1);
-    */
 }
 
 int main() {
