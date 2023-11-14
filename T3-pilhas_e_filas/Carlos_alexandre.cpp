@@ -29,10 +29,13 @@ void criarPilhar(Pilha *p) {
 
 //isEmpty() verifica se a pilha esta vazia
 int estaVazio(Pilha *p) {
-    if(p->tamanho > 0)
+    if(p->topo) {
+        cout << "Pilha não está vazia\n";
         return 0;
-    else
+    } else {
+        cout << "Pilha vazia\n";
         return 1;
+    }
 }
 
 //push(el) empilha no topo da lista
@@ -55,7 +58,7 @@ Numero* desempilhar(Pilha *p) {
         p->tamanho--;
         return removido;
     } else
-        cout << "\nPilha vazia!\n";
+        //cout << "\nPilha vazia!\n";
     return NULL;
 }
 
@@ -64,20 +67,18 @@ void limpar(Pilha *p) {
     while(p->topo) {
         desempilhar(p);
     }
+    cout << "Pilha vazia\n";
 }
 
 //topEl() retorna o mais alto sem removê-lo
 Numero* topo(Pilha *p) {
-    return p->topo;
+    if(p->topo)
+        return p->topo;
+    else
+        return NULL;
 }
 
-//Receber número
-int receberNumero() {
-    int numero;
-    cout << "Número: ";
-    scanf("%d", &numero);
-    return numero;
-}
+
 
 //Listar pilha
 void listarPilha(Pilha *p) {
@@ -86,6 +87,14 @@ void listarPilha(Pilha *p) {
         cout << exibir->num << " ";
         exibir = exibir->pProx_num;
     }
+}
+
+//Retorna o número no topo
+int topoPilha(Pilha *p) {
+    if(p->topo) {
+        return p->topo->num;
+    } else
+        return 0;
 }
 
 //Menu Principal
@@ -105,7 +114,7 @@ void menu() {
            break;
            case 1:
                 system("cls");
-                novo = receberNumero();
+                //novo = receberNumero();
                 empilhar(&pilha, novo);
                 system("pause");
            break;
@@ -121,15 +130,12 @@ void menu() {
            break;
            case 4:
                system("cls");
-               if(estaVazio(&pilha))
-                    cout << "Pilha vazia";
-                else
-                    cout << "Pilha não está vazia";
+               estaVazio(&pilha);
                system("pause");
            break;
            case 5:
                system("cls");
-               cout << topo(&pilha)->num;
+               cout << topoPilha(&pilha);
                system("pause");
            break;
            case 6:
@@ -146,8 +152,87 @@ void menu() {
 
 }
 
+//Receber número
+/*
+int receberNumero() {
+    int numero;
+    cout << "Número: ";
+    scanf("%d", &numero);
+    return numero;
+}
+*/
+void receberNumero(Pilha *pilha) {
+    char numeroStr[15];
+    int num;
+    cout << "Número: ";
+    scanf("%s", numeroStr);
+    //cout << numeroStr;
+    for(int i = 0; i < strlen(numeroStr); i++) {
+        //cout << numeroStr[i];
+        num =  numeroStr[i] - '0';
+        //cout << num;
+        empilhar(pilha, num);
+        pilha->tamanho++;
+    }
+    //listarPilha(pilha);
+}
+
+//Soma pilhar
+void somar_pilhas(Pilha *pilha1, Pilha *pilha2, Pilha *soma) {
+    int num1, num2, somado, decimal;
+    Numero *aux1, *aux2;
+    //soma->topo->num = desempilhar(pilha1)->num + desempilhar(pilha2)->num;
+    while(pilha1->topo || pilha2->topo) {
+        if(aux1 = desempilhar(pilha1)) {
+            num1 = aux1->num;
+            //cout <<"\ntira 1 ";
+        } else {
+            //cout <<"\nzera 1 ";
+            num1 = 0;
+        }
+        //cout << "\nnum1 " << num1;
+        if(aux2 = desempilhar(pilha2)) {
+            num2 = aux2->num;
+            //cout <<"\ntira 2 ";
+        } else {
+            //cout <<"\nzera 2 ";
+            num2 = 0;
+        }
+        //cout << "\nnum2 " << num2;
+        somado = num1 + num2;
+        if(somado > 9){
+            decimal = (somado / 10) - (somado % 10) / 10;
+            somado = somado % 10;
+            cout << "somado " << somado << " decimal " << decimal;
+        } else {
+            decimal = 0;
+        }
+        //cout << "\nsoma " << somado;
+        empilhar(soma, somado);
+    }
+    cout <<"\nResultado da soma = ";
+    listarPilha(soma);
+    /*
+    listarPilha(pilha1);
+    cout << "\n";
+    listarPilha(pilha2);
+    cout << "\n topo";
+    cout << topoPilha(pilha1);
+    */
+}
+
 int main() {
     setlocale(LC_ALL, "Portuguese");
-    menu();
+    Pilha pilhaNum1;
+    criarPilhar(&pilhaNum1);
+    Pilha pilhaNum2;
+    criarPilhar(&pilhaNum2);
+    //menu();
+    receberNumero(&pilhaNum1);
+    receberNumero(&pilhaNum2);
+    Pilha soma;
+    criarPilhar(&soma);
+    somar_pilhas(&pilhaNum1, &pilhaNum2, &soma);
+
     return 0;
 }
