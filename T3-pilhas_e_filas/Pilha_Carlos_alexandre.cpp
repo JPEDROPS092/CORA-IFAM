@@ -19,7 +19,7 @@ struct Pilha {
     int tamanho;
 } pilha;
 
-void criarPilhar(Pilha *p) {
+void criarPilha(Pilha *p) {
     p->topo = NULL;
     p->tamanho = 0;
 }
@@ -110,7 +110,7 @@ int topoPilha(Pilha *p) {
 void menu() {
     int op = 1, novo;
     Pilha pilha;
-    criarPilhar(&pilha);
+    criarPilha(&pilha);
     do{
        system("cls");
        cout << "\t\tO QUE DESEJA FAZER?\n";
@@ -224,14 +224,14 @@ void somar_pilhas(Pilha *pilha1, Pilha *pilha2, Pilha *soma) {
 int main() {
     setlocale(LC_ALL, "Portuguese");
     Pilha pilhaNum1;
-    criarPilhar(&pilhaNum1);
+    criarPilha(&pilhaNum1);
     Pilha pilhaNum2;
-    criarPilhar(&pilhaNum2);
+    criarPilha(&pilhaNum2);
     //menu();
     receberNumero(&pilhaNum1);
     receberNumero(&pilhaNum2);
     Pilha soma;
-    criarPilhar(&soma);
+    criarPilha(&soma);
     somar_pilhas(&pilhaNum1, &pilhaNum2, &soma);
 
     return 0;
