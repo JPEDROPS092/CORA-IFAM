@@ -1,0 +1,3 @@
+/home/jpcode092/projects/CORA-IFAM/build/CMakeFiles/cora.dir
+/home/jpcode092/projects/CORA-IFAM/build/CMakeFiles/edit_cache.dir
+/home/jpcode092/projects/CORA-IFAM/build/CMakeFiles/rebuild_cache.dir

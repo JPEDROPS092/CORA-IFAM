@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/cora.dir/link.d CMakeFiles/cora.dir/src/main.cpp.o CMakeFiles/cora.dir/src/ui/MainMenu.cpp.o -o cora  -lcurses -lform
